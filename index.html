@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UdiveBali - 图兰奔专业潜水中心</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ─── DESIGN TOKENS ───────────────────────────────────────────────────────────
+    const tokens = {
+      ocean:    "#0A2540",   // deep navy
+      abyss:    "#061A30",   // darkest bg
+      lagoon:   "#0E4D6B",   // mid ocean
+      current:  "#1A7A9A",   // accent teal
+      foam:     "#E8F4F8",   // light surface
+      pearl:    "#F7FAFB",
+      cta:      "#FF6B1A",   // high-impact orange
+      ctaHover: "#E85A0A",
+      gold:     "#C9A96E",   // premium accent
+      white:    "#FFFFFF",
+      gray400:  "#94A3B8",
+      gray600:  "#475569",
+    };
+
+    // ─── GLOBAL STYLES injected into <head> ──────────────────────────────────────
+    const GlobalStyle = () => (
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --ocean: ${tokens.ocean};
+          --abyss: ${tokens.abyss};
+          --lagoon: ${tokens.lagoon};
+          --current: ${tokens.current};
+          --foam: ${tokens.foam};
+          --pearl: ${tokens.pearl};
+          --cta: ${tokens.cta};
+          --cta-hover: ${tokens.ctaHover};
+          --gold: ${tokens.gold};
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+          font-family: 'DM Sans', sans-serif;
+          background: var(--abyss);
+          color: var(--white);
+          overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--abyss); }
+        ::-webkit-scrollbar-thumb { background: var(--lagoon); border-radius: 2px; }
+
+        /* Animations */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-8px); }
+        }
+        @keyframes pulse-ring {
+          0%   { transform: scale(0.8); opacity: 0.8; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes shimmer {
+          0%   { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes wave {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        .animate-fadeUp   { animation: fadeUp 0.8s ease forwards; }
+        .animate-fadeIn   { animation: fadeIn 0.6s ease forwards; }
+        .animate-float    { animation: float 4s ease-in-out infinite; }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* CTA Button */
+        .btn-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: var(--cta);
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 600;
+          font-size: 0.95rem;
+          padding: 14px 32px;
+          border-radius: 4px;
+          border: none;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+          text-decoration: none;
+          letter-spacing: 0.02em;
+          box-shadow: 0 4px 20px rgba(255,107,26,0.35);
+        }
+        .btn-cta:hover {
+          background: var(--cta-hover);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(255,107,26,0.45);
+        }
+
+        .btn-ghost {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 500;
+          font-size: 0.95rem;
+          padding: 13px 30px;
+          border-radius: 4px;
+          border: 1.5px solid rgba(255,255,255,0.4);
+          cursor: pointer;
+          transition: all 0.2s;
+          text-decoration: none;
+          letter-spacing: 0.02em;
+        }
+        .btn-ghost:hover {
+          border-color: rgba(255,255,255,0.9);
+          background: rgba(255,255,255,0.08);
+        }
+
+        /* Section */
+        .section { padding: 100px 0; }
+        .section-sm { padding: 60px 0; }
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+        }
+        .section-label {
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--gold);
+          display: block;
+          margin-bottom: 16px;
+        }
+        .section-title {
+          font-size: clamp(2rem, 4vw, 3.2rem);
+          line-height: 1.15;
+          color: var(--white);
+        }
+        .section-subtitle {
+          font-size: 1.05rem;
+          line-height: 1.7;
+          color: var(--gray400);
+          max-width: 560px;
+          margin-top: 16px;
+        }
+
+        /* Card */
+        .card {
+          background: rgba(14,77,107,0.18);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(201,169,110,0.3);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Nav */
+        .nav {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          z-index: 100;
+          transition: background 0.4s, backdrop-filter 0.4s;
+        }
+        .nav.scrolled {
+          background: rgba(6,26,48,0.95);
+          backdrop-filter: blur(12px);
+          box-shadow: 0 1px 0 rgba(255,255,255,0.07);
+        }
+        .nav-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+          height: 72px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .nav-links a {
+          color: rgba(255,255,255,0.75);
+          text-decoration: none;
+          font-size: 0.9rem;
+          font-weight: 500;
+          margin-left: 32px;
+          transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #fff; }
+
+        /* Hero */
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+        }
+        .hero-bg {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #051525 0%, #0A2540 40%, #0E4D6B 70%, #0A3550 100%);
+        }
+        .hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, rgba(6,26,48,0.3) 0%, rgba(6,26,48,0.6) 60%, rgba(6,26,48,0.95) 100%);
+        }
+        .hero-grid {
+          position: absolute;
+          inset: 0;
+          background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
+        .hero-bubbles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .bubble {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(26,122,154,0.3), transparent);
+          animation: float 6s ease-in-out infinite;
+        }
+
+        /* Wave decoration */
+        .wave-container {
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 120px;
+          overflow: hidden;
+        }
+        .wave-svg { width: 200%; animation: wave 12s linear infinite; }
+
+        /* Trust bar */
+        .trust-bar {
+          background: rgba(10,37,64,0.95);
+          border-top: 1px solid rgba(201,169,110,0.2);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          backdrop-filter: blur(8px);
+        }
+        .trust-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          text-align: center;
+          padding: 28px 16px;
+          border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .trust-item:last-child { border-right: none; }
+        .trust-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: rgba(26,122,154,0.2);
+          border: 1px solid rgba(26,122,154,0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+        }
+
+        /* Courses grid */
+        .course-card {
+          position: relative;
+          border-radius: 12px;
+          overflow: hidden;
+          background: linear-gradient(145deg, rgba(14,77,107,0.25), rgba(6,26,48,0.6));
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: all 0.35s;
+        }
+        .course-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+        .course-card-img {
+          height: 220px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 64px;
+          position: relative;
+          overflow: hidden;
+        }
+        .price-tag {
+          display: inline-flex;
+          align-items: baseline;
+          gap: 4px;
+          background: rgba(255,107,26,0.12);
+          border: 1px solid rgba(255,107,26,0.3);
+          border-radius: 999px;
+          padding: 6px 16px;
+          margin-bottom: 16px;
+        }
+
+        /* Team */
+        .team-card {
+          border-radius: 12px;
+          overflow: hidden;
+          background: rgba(14,77,107,0.15);
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: all 0.3s;
+          text-align: center;
+          padding-bottom: 20px;
+        }
+        .team-card:hover { border-color: rgba(201,169,110,0.3); transform: translateY(-4px); }
+        .team-avatar {
+          height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 56px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Social wall */
+        .social-tile {
+          border-radius: 10px;
+          overflow: hidden;
+          aspect-ratio: 1;
+          position: relative;
+          cursor: pointer;
+          transition: transform 0.3s;
+        }
+        .social-tile:hover { transform: scale(1.03); }
+        .social-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(6,26,48,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .social-tile:hover .social-overlay { opacity: 1; }
+
+        /* Form */
+        .form-input {
+          width: 100%;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 8px;
+          padding: 14px 18px;
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.95rem;
+          outline: none;
+          transition: border-color 0.2s, background 0.2s;
+        }
+        .form-input:focus {
+          border-color: var(--current);
+          background: rgba(26,122,154,0.1);
+        }
+        .form-input::placeholder { color: rgba(255,255,255,0.35); }
+        .form-label {
+          display: block;
+          font-size: 0.82rem;
+          font-weight: 500;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 8px;
+          letter-spacing: 0.05em;
+        }
+        select.form-input option { background: #0A2540; }
+
+        /* FAB */
+        .fab {
+          position: fixed;
+          bottom: 28px;
+          right: 28px;
+          z-index: 200;
+        }
+        .fab-main {
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          background: var(--cta);
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          box-shadow: 0 4px 24px rgba(255,107,26,0.5);
+          transition: transform 0.3s, box-shadow 0.3s;
+          position: relative;
+          z-index: 2;
+        }
+        .fab-main::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: var(--cta);
+          animation: pulse-ring 2s ease-out infinite;
+        }
+        .fab-main:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(255,107,26,0.6); }
+        .fab-menu {
+          position: absolute;
+          bottom: 72px;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          align-items: flex-end;
+        }
+        .fab-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(6,26,48,0.96);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 8px;
+          padding: 10px 16px;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: border-color 0.2s, transform 0.2s;
+          text-decoration: none;
+          color: #fff;
+        }
+        .fab-item:hover { border-color: rgba(255,255,255,0.3); transform: translateX(-4px); }
+
+        /* Divider */
+        .gold-divider {
+          width: 60px;
+          height: 2px;
+          background: linear-gradient(90deg, var(--gold), transparent);
+          margin: 20px 0 32px;
+        }
+
+        /* Scarcity */
+        .scarcity-bar {
+          background: linear-gradient(90deg, rgba(255,107,26,0.12), rgba(255,107,26,0.06));
+          border: 1px solid rgba(255,107,26,0.25);
+          border-radius: 8px;
+          padding: 14px 20px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 32px;
+        }
+
+        /* Room grid */
+        .room-card {
+          border-radius: 12px;
+          overflow: hidden;
+          background: rgba(14,77,107,0.15);
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: all 0.3s;
+        }
+        .room-card:hover { border-color: rgba(201,169,110,0.3); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .room-img {
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 52px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Stats */
+        .stat-card {
+          text-align: center;
+          padding: 40px 20px;
+          border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .stat-card:last-child { border-right: none; }
+        .stat-num {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 3.5rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #fff, var(--gold));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          line-height: 1;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+          .section { padding: 64px 0; }
+          .nav-links { display: none; }
+          .trust-bar-grid { grid-template-columns: 1fr 1fr; }
+          .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .hero-btns { flex-direction: column; gap: 12px; }
+          .hero-btns .btn-cta, .hero-btns .btn-ghost { width: 100%; justify-content: center; }
+          .fab { bottom: 20px; right: 20px; }
+        }
+      `}</style>
+    );
+
+    // ─── ICONS (inline SVG) ───────────────────────────────────────────────────────
+    const IconShield   = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
+    const IconHome     = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+    const IconBadge    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>;
+    const IconGlobe    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>;
+    const IconArrow    = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
+    const IconChat     = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>;
+    const IconX        = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+    const IconStar     = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+    const IconAlert    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
+    const IconCalendar = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+    const IconCheck    = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>;
+
+    // ─── NAV ──────────────────────────────────────────────────────────────────────
+    function Nav() {
+      const [scrolled, setScrolled] = useState(false);
+      useEffect(() => {
+        const h = () => setScrolled(window.scrollY > 60);
+        window.addEventListener("scroll", h);
+        return () => window.removeEventListener("scroll", h);
+      }, []);
+      return (
+        <nav className={`nav${scrolled ? " scrolled" : ""}`}>
+          <div className="nav-inner">
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ fontSize: 28 }}>🤿</div>
+              <div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 700, letterSpacing: "0.05em", lineHeight: 1 }}>UdiveBali</div>
+                <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.2em", textTransform: "uppercase" }}>Tulamben · Est. 2018</div>
+              </div>
+            </div>
+            <div className="nav-links" style={{ display: "flex" }}>
+              <a href="#courses">潜水课程</a>
+              <a href="#resort">度假村</a>
+              <a href="#team">师资团队</a>
+              <a href="#social">社区动态</a>
+              <a href="#booking" className="btn-cta" style={{ marginLeft: 32, padding: "10px 24px" }}>立即预订</a>
+            </div>
+          </div>
+        </nav>
+      );
+    }
+
+    // ─── HERO ─────────────────────────────────────────────────────────────────────
+    function Hero() {
+      return (
+        <section className="hero" id="hero">
+          <div className="hero-bg" />
+          <div className="hero-grid" />
+
+          {/* Decorative bubbles */}
+          <div className="hero-bubbles">
+            {[
+              { w:300, h:300, top:"10%", left:"5%", delay:"0s" },
+              { w:200, h:200, top:"60%", right:"8%", delay:"2s" },
+              { w:150, h:150, top:"30%", right:"20%", delay:"1s" },
+              { w:80,  h:80,  top:"70%", left:"20%", delay:"3s" },
+            ].map((b, i) => (
+              <div key={i} className="bubble" style={{ width: b.w, height: b.h, top: b.top, left: b.left, right: b.right, animationDelay: b.delay }} />
+            ))}
+          </div>
+
+          <div className="hero-overlay" />
+
+          <div className="container" style={{ position: "relative", zIndex: 2, paddingTop: 100 }}>
+            <div style={{ maxWidth: 700 }}>
+              <div className="animate-fadeUp" style={{ animationDelay: "0.1s", opacity: 0 }}>
+                <span style={{ fontFamily: "'DM Sans'", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.25em", textTransform: "uppercase", color: tokens.gold, display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24, background: "rgba(201,169,110,0.1)", border: "1px solid rgba(201,169,110,0.25)", borderRadius: 999, padding: "6px 16px" }}>
+                  ✦ 图兰奔 · Tulamben, Bali
+                </span>
+              </div>
+
+              <h1 className="animate-fadeUp delay-2" style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", lineHeight: 1.05, fontWeight: 300, color: "#fff", marginBottom: 24, opacity: 0 }}>
+                图兰奔
+                <br />
+                <span style={{ fontWeight: 700, background: "linear-gradient(135deg, #fff 30%, #C9A96E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>7年深蓝</span>
+                <br />
+                专业沉淀
+              </h1>
+
+              <p className="animate-fadeUp delay-3" style={{ fontSize: "1.15rem", lineHeight: 1.8, color: "rgba(255,255,255,0.7)", marginBottom: 40, maxWidth: 520, opacity: 0 }}>
+                在巴厘岛最纯净的海域，由资深教练团队陪伴您完成人生中第一次或第一百次的潜水旅程。小班精品教学 · 安全第一 · 吃住潜一体化体验。
+              </p>
+
+              <div className="animate-fadeUp delay-4 hero-btns" style={{ display: "flex", gap: 16, flexWrap: "wrap", opacity: 0 }}>
+                <a href="#booking" className="btn-cta">
+                  定制您的潜水假期 <IconArrow />
+                </a>
+                <a href="#courses" className="btn-ghost">
+                  了解课程
+                </a>
+              </div>
+
+              {/* Stars */}
+              <div className="animate-fadeUp delay-5" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 40, opacity: 0 }}>
+                <div style={{ display: "flex", gap: 2, color: tokens.gold }}>
+                  {[...Array(5)].map((_, i) => <IconStar key={i} />)}
+                </div>
+                <span style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.6)" }}>
+                  <strong style={{ color: "#fff" }}>4.9分</strong> · 来自 600+ 位学员的真实好评
+                </span>
+              </div>
+            </div>
+
+            {/* Floating badge */}
+            <div className="animate-float" style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", background: "rgba(10,37,64,0.8)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: 16, padding: "24px 28px", backdropFilter: "blur(12px)", display: "flex", flexDirection: "column", gap: 16, display: "none" }}>
+            </div>
+          </div>
+
+          {/* Wave */}
+          <div className="wave-container">
+            <svg className="wave-svg" viewBox="0 0 1200 80" preserveAspectRatio="none">
+              <path d="M0,40 C150,80 350,0 600,40 C850,80 1050,0 1200,40 L1200,80 L0,80 Z" fill="rgba(6,26,48,0.8)" />
+              <path d="M0,55 C200,90 400,20 600,55 C800,90 1000,20 1200,55 L1200,80 L0,80 Z" fill="rgba(6,26,48,1)" />
+            </svg>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── TRUST BAR ────────────────────────────────────────────────────────────────
+    function TrustBar() {
+      const items = [
+        { icon: "🛡️", title: "7年安全零事故", sub: "自2018年起持续安全运营" },
+        { icon: "🏡", title: "16间精品客房", sub: "吃住潜一体化无缝体验" },
+        { icon: "🎓", title: "PADI认证中心", sub: "国际权威潜水认证机构" },
+        { icon: "🌏", title: "中英马来多语教学", sub: "全中文服务团队随行" },
+      ];
+      return (
+        <div className="trust-bar">
+          <div className="container">
+            <div className="trust-bar-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+              {items.map((it, i) => (
+                <div key={i} className="trust-item">
+                  <div className="trust-icon" style={{ fontSize: 20 }}>{it.icon}</div>
+                  <div style={{ fontWeight: 600, fontSize: "0.92rem", color: "#fff" }}>{it.title}</div>
+                  <div style={{ fontSize: "0.78rem", color: tokens.gray400, lineHeight: 1.4 }}>{it.sub}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── STATS ────────────────────────────────────────────────────────────────────
+    function Stats() {
+      const stats = [
+        { num: "7+", label: "年安全运营" },
+        { num: "2000+", label: "成功认证学员" },
+        { num: "16", label: "精品客房" },
+        { num: "98%", label: "学员好评率" },
+      ];
+      return (
+        <section style={{ background: "rgba(10,37,64,0.5)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+              {stats.map((s, i) => (
+                <div key={i} className="stat-card">
+                  <div className="stat-num">{s.num}</div>
+                  <div style={{ fontSize: "0.85rem", color: tokens.gray400, marginTop: 8, fontFamily: "'DM Sans'" }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── COURSES ──────────────────────────────────────────────────────────────────
+    function Courses() {
+      const courses = [
+        {
+          emoji: "🐠",
+          badge: "最受欢迎",
+          badgeColor: tokens.cta,
+          title: "PADI 开放水域考证",
+          sub: "Open Water Diver",
+          desc: "从零基础到独立潜水员，4天密集小班课程（最多4人）。专属中文教练一对一跟进，理论+泳池+海洋实习完整配套。",
+          features: ["4天完整课程", "最多4人小班", "中文全程教学", "PADI国际认证"],
+          price: "¥3,800",
+          priceNote: "起/人（含住宿套餐另享优惠）",
+        },
+        {
+          emoji: "🦈",
+          badge: "进阶推荐",
+          badgeColor: tokens.lagoon,
+          title: "PADI 进阶开放水域",
+          sub: "Advanced Open Water",
+          desc: "5次专项潜水体验，突破30米深度，掌握导航、深潜等核心技能。适合已持OW证书的潜水爱好者。",
+          features: ["5次专项潜水", "深度突破30米", "导航与急流训练", "升级国际证书"],
+          price: "¥2,800",
+          priceNote: "起/人",
+        },
+        {
+          emoji: "🫁",
+          badge: "自由潜水",
+          badgeColor: "#4A90D9",
+          title: "自由潜水 Freediving",
+          sub: "AIDA / SSI 认证课程",
+          desc: "感受屏气入水的极致宁静。从入门到深潜认证，由持证自由潜教练小班授课。图兰奔平静海湾是国内最佳自由潜训练地之一。",
+          features: ["AIDA/SSI双认证", "平静内湾专属水域", "呼吸法专项训练", "小班最多3人"],
+          price: "¥2,200",
+          priceNote: "起/人",
+        },
+        {
+          emoji: "🐙",
+          badge: "体验项目",
+          badgeColor: "#7C5CBF",
+          title: "休闲体验潜水",
+          sub: "Discover Scuba Diving",
+          desc: "无需证书，只需年满10岁。在专业教练的全程陪同下，亲身体验水下世界的神奇。图兰奔自由号沉船等您探索。",
+          features: ["无需潜水经验", "教练全程陪同", "2-3次下水机会", "可升级考证课程"],
+          price: "¥680",
+          priceNote: "起/人",
+        },
+      ];
+
+      return (
+        <section className="section" id="courses" style={{ background: "var(--abyss)" }}>
+          <div className="container">
+            <span className="section-label">潜水课程 · COURSES</span>
+            <h2 className="section-title">不只是潜水，<br />是一次改变认知的深蓝体验</h2>
+            <div className="gold-divider" />
+            <p className="section-subtitle">我们的课程定价略高于市场均价，因为我们坚持最严格的小班制（最多4人）、配备最完整的装备，并由7年以上经验的专业教练全程陪伴。</p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, marginTop: 56 }}>
+              {courses.map((c, i) => (
+                <div key={i} className="course-card">
+                  {/* Image area */}
+                  <div className="course-card-img" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.4), rgba(6,26,48,0.8))` }}>
+                    <span style={{ fontSize: 72, filter: "drop-shadow(0 4px 16px rgba(0,0,0,0.4))" }}>{c.emoji}</span>
+                    <div style={{ position: "absolute", top: 16, left: 16, background: c.badgeColor, color: "#fff", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.08em", padding: "4px 12px", borderRadius: 999 }}>{c.badge}</div>
+                  </div>
+
+                  <div style={{ padding: "24px 24px 20px" }}>
+                    <div style={{ marginBottom: 12 }}>
+                      <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: 4 }}>{c.title}</h3>
+                      <div style={{ fontSize: "0.78rem", color: tokens.current, fontWeight: 500, letterSpacing: "0.05em" }}>{c.sub}</div>
+                    </div>
+
+                    <p style={{ fontSize: "0.88rem", color: tokens.gray400, lineHeight: 1.7, marginBottom: 18 }}>{c.desc}</p>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
+                      {c.features.map((f, j) => (
+                        <div key={j} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.83rem", color: "rgba(255,255,255,0.7)" }}>
+                          <span style={{ color: tokens.current, flexShrink: 0 }}><IconCheck /></span>
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="price-tag">
+                      <span style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.5rem", fontWeight: 700, color: tokens.cta }}>{c.price}</span>
+                      <span style={{ fontSize: "0.75rem", color: "rgba(255,107,26,0.7)" }}>{c.priceNote}</span>
+                    </div>
+
+                    <a href="#booking" className="btn-cta" style={{ width: "100%", justifyContent: "center", marginTop: 8 }}>
+                      了解套餐详情 <IconArrow />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── RESORT ───────────────────────────────────────────────────────────────────
+    function Resort() {
+      const rooms = [
+        { emoji: "🛏️", type: "单人精品房", guests: "1人", desc: "独立卫浴，海风穿堂，适合独行潜客安静放松", features: ["独立卫浴", "每日早餐", "免费潜水装备"], price: "¥380/晚" },
+        { emoji: "🛌", type: "双人标准房", guests: "2人", desc: "宽敞舒适，伴侣或好友同行首选，光线充足", features: ["双人大床/双床可选", "每日早餐", "免费装备使用"], price: "¥520/晚" },
+        { emoji: "🏠", type: "三人家庭房", guests: "3人", desc: "家庭或三人小组专属，空间充裕，配备独立起居区", features: ["三人独立睡眠区", "每日早餐", "专属潜导协调"], price: "¥720/晚" },
+      ];
+
+      return (
+        <section className="section" id="resort" style={{ background: "linear-gradient(180deg, var(--abyss) 0%, rgba(10,37,64,0.6) 100%)" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", marginBottom: 64 }}>
+              <div>
+                <span className="section-label">精品度假村 · RESORT</span>
+                <h2 className="section-title">吃、住、潜<br />一站式深度旅居</h2>
+                <div className="gold-divider" />
+                <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: tokens.gray400 }}>
+                  16间精品客房与潜水中心融为一体，晨起即可下海，潜后即刻归宿。搭配每日精心准备的餐食，让您将全部精力留给深蓝。
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 32 }}>
+                  {["海景早餐每日供应", "免费行李寄存与冲洗", "专业装备清洁服务", "免费潜水摄影咨询", "机场接送（可选）", "24h中文客服支持"].map((f, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.88rem", color: "rgba(255,255,255,0.75)" }}>
+                      <span style={{ color: tokens.gold }}>✦</span> {f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {["🌊", "🐠", "🌴", "🤿"].map((e, i) => (
+                  <div key={i} style={{ height: 150, borderRadius: 12, background: `linear-gradient(145deg, rgba(14,77,107,${0.2 + i * 0.1}), rgba(6,26,48,0.7))`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 52, border: "1px solid rgba(255,255,255,0.06)" }}>
+                    {e}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {rooms.map((r, i) => (
+                <div key={i} className="room-card">
+                  <div className="room-img" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.3), rgba(6,26,48,0.8))` }}>
+                    <span style={{ fontSize: 56 }}>{r.emoji}</span>
+                    <div style={{ position: "absolute", top: 16, right: 16, background: "rgba(6,26,48,0.8)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: 8, padding: "4px 12px", fontSize: "0.78rem", color: tokens.gold, fontWeight: 600 }}>
+                      最多 {r.guests}
+                    </div>
+                  </div>
+                  <div style={{ padding: "24px" }}>
+                    <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: 8 }}>{r.type}</h3>
+                    <p style={{ fontSize: "0.87rem", color: tokens.gray400, marginBottom: 16, lineHeight: 1.6 }}>{r.desc}</p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
+                      {r.features.map((f, j) => (
+                        <div key={j} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.83rem", color: "rgba(255,255,255,0.7)" }}>
+                          <span style={{ color: tokens.gold }}>✦</span>
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div>
+                        <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.4rem", fontWeight: 700, color: tokens.cta }}>{r.price}</div>
+                        <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>含早餐，潜水套餐另享折扣</div>
+                      </div>
+                      <a href="#booking" className="btn-cta" style={{ padding: "10px 20px", fontSize: "0.85rem" }}>预订</a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── TEAM ─────────────────────────────────────────────────────────────────────
+    function Team() {
+      const instructors = [
+        { emoji: "🤿", name: "Captain Wei", title: "首席潜水总监", cert: "PADI IDC Staff Instructor", lang: "中文/英文", spec: "自由潜·技术潜水" },
+        { emoji: "🌊", name: "Instructor Lin", title: "资深教练", cert: "PADI MSDT", lang: "中文/粤语", spec: "水下摄影·鱼类识别" },
+        { emoji: "🐬", name: "Coach Zara", title: "自由潜教练", cert: "AIDA 4 Instructor", lang: "中文/马来语", spec: "自由潜·冥想呼吸" },
+        { emoji: "🦀", name: "Instructor Budi", title: "本地资深教练", cert: "PADI MSDT", lang: "印尼语/英文", spec: "暗夜潜·水下生态" },
+        { emoji: "🐡", name: "Coach Maya", title: "初级教练", cert: "PADI Divemaster", lang: "中文/英文", spec: "初学者陪训·OW考证" },
+        { emoji: "🐙", name: "Instructor Chen", title: "进阶课程教练", cert: "PADI IDC Staff", lang: "中文/普通话", spec: "AOW·Rescue Diver" },
+        { emoji: "🌺", name: "Coach Sari", title: "水摄专项教练", cert: "PADI DM + UW Photo", lang: "印尼语/英文", spec: "水下摄影·珊瑚生态" },
+      ];
+
+      const [active, setActive] = useState(0);
+
+      return (
+        <section className="section" id="team" style={{ background: "var(--abyss)" }}>
+          <div className="container">
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <span className="section-label">专业师资 · TEAM</span>
+              <h2 className="section-title">7位专业教练<br />9位服务团队</h2>
+              <div className="gold-divider" style={{ margin: "20px auto 20px" }} />
+              <p style={{ color: tokens.gray400, maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>每位教练均持国际认证资格，平均潜水经验 8 年以上，致力于在安全环境中为您创造最难忘的水下体验。</p>
+            </div>
+
+            {/* Instructor grid */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 16, marginBottom: 56 }}>
+              {instructors.map((ins, i) => (
+                <div key={i} className="team-card" onClick={() => setActive(i)} style={{ cursor: "pointer", borderColor: active === i ? `rgba(201,169,110,0.5)` : undefined, background: active === i ? "rgba(14,77,107,0.35)" : undefined }}>
+                  <div className="team-avatar" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.4), rgba(6,26,48,0.8))` }}>
+                    <span style={{ fontSize: 52 }}>{ins.emoji}</span>
+                  </div>
+                  <div style={{ padding: "16px 12px 0" }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#fff" }}>{ins.name}</div>
+                    <div style={{ fontSize: "0.75rem", color: tokens.gold, marginTop: 2 }}>{ins.title}</div>
+                    <div style={{ fontSize: "0.72rem", color: tokens.gray400, marginTop: 6 }}>{ins.cert}</div>
+                    <div style={{ display: "inline-flex", marginTop: 8, background: "rgba(26,122,154,0.15)", borderRadius: 4, padding: "3px 8px", fontSize: "0.7rem", color: tokens.current }}>{ins.spec}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Service team note */}
+            <div style={{ background: "rgba(14,77,107,0.15)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "28px 32px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 48 }}>🏆</div>
+              <div>
+                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: 8 }}>9人精英服务团队</h3>
+                <p style={{ fontSize: "0.9rem", color: tokens.gray400, lineHeight: 1.7 }}>我们的地面服务团队包括：前台接待、厨房餐饮、装备管理、水下摄影后期、日常保洁及机场接送专员。中文客服全天候响应，让您从落地到离开毫无语言障碍。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── SOCIAL PROOF ─────────────────────────────────────────────────────────────
+    function Social() {
+      const tiles = [
+        { emoji: "📸", platform: "小红书", label: "水下摄影日记" },
+        { emoji: "🎬", platform: "抖音", label: "图兰奔沉船探索" },
+        { emoji: "🌊", platform: "Instagram", label: "晨潜日出实拍" },
+        { emoji: "🐠", platform: "小红书", label: "PADI考证实录" },
+        { emoji: "🤿", platform: "抖音", label: "教练带潜Vlog" },
+        { emoji: "🌺", platform: "Instagram", label: "度假村日常" },
+        { emoji: "🦈", platform: "小红书", label: "自由潜深潜挑战" },
+        { emoji: "🐙", platform: "抖音", label: "暗夜潜水合集" },
+      ];
+
+      const reviews = [
+        { name: "小花🌸", star: 5, platform: "小红书", text: "教练超级耐心，本来特别怕水，最后竟然爱上了！一对一教学真的很安心。" },
+        { name: "Kevin L.", star: 5, platform: "Google", text: "Excellent instructors, very professional and safe. The resort food was amazing too!" },
+        { name: "Amos Tan", star: 5, platform: "Trip", text: "Best diving experience in Bali. The WWII shipwreck dive was unforgettable." },
+      ];
+
+      return (
+        <section className="section" id="social" style={{ background: "linear-gradient(180deg, var(--abyss) 0%, rgba(10,37,64,0.4) 100%)" }}>
+          <div className="container">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 16 }}>
+              <div>
+                <span className="section-label">社区动态 · SOCIAL</span>
+                <h2 className="section-title">真实学员故事<br />来自深蓝的记录</h2>
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                {["小红书", "抖音", "Instagram"].map((p, i) => (
+                  <div key={i} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "8px 16px", fontSize: "0.82rem", color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>
+                    {p === "小红书" ? "📕" : p === "抖音" ? "🎵" : "📷"} {p}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Social wall */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 48 }}>
+              {tiles.map((t, i) => (
+                <div key={i} className="social-tile" style={{ background: `linear-gradient(145deg, rgba(14,77,107,${0.15 + (i % 3) * 0.1}), rgba(6,26,48,0.8))`, border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div style={{ width: "100%", paddingBottom: "100%", position: "relative" }}>
+                    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                      <span style={{ fontSize: 40 }}>{t.emoji}</span>
+                      <div style={{ fontSize: "0.72rem", color: tokens.gold, fontWeight: 600 }}>{t.platform}</div>
+                      <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.5)", textAlign: "center", padding: "0 8px" }}>{t.label}</div>
+                    </div>
+                  </div>
+                  <div className="social-overlay">
+                    <div style={{ fontSize: 28 }}>▶</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA follow */}
+            <div style={{ textAlign: "center", padding: "40px", background: "rgba(14,77,107,0.2)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, marginBottom: 56 }}>
+              <div style={{ fontSize: 36, marginBottom: 12 }}>📲</div>
+              <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 8 }}>关注我们，获取图兰奔最新潜水资讯</h3>
+              <p style={{ color: tokens.gray400, fontSize: "0.9rem", marginBottom: 24 }}>每周更新海况、生物目击报告、学员课程直播，以及限定早鸟优惠</p>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                {[{icon:"📕", label:"小红书 @UdiveBali"},{icon:"🎵", label:"抖音 @图兰奔UdiveBali"},{icon:"📷", label:"IG @udivebali"}].map((s, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "10px 20px", fontSize: "0.88rem", color: "#fff", cursor: "pointer" }}>
+                    {s.icon} {s.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Reviews */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+              {reviews.map((r, i) => (
+                <div key={i} style={{ background: "rgba(14,77,107,0.15)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "24px" }}>
+                  <div style={{ display: "flex", gap: 2, color: tokens.gold, marginBottom: 12 }}>
+                    {[...Array(r.star)].map((_, j) => <IconStar key={j} />)}
+                  </div>
+                  <p style={{ fontSize: "0.92rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginBottom: 16 }}>"{r.text}"</p>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.88rem", color: "#fff" }}>{r.name}</div>
+                    <div style={{ fontSize: "0.72rem", color: tokens.gray400, background: "rgba(255,255,255,0.06)", padding: "3px 10px", borderRadius: 999 }}>{r.platform}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── BOOKING FORM ─────────────────────────────────────────────────────────────
+    function Booking() {
+      const [form, setForm] = useState({ name: "", contact: "", date: "", intent: "", notes: "" });
+      const [submitted, setSubmitted] = useState(false);
+      const [submitting, setSubmitting] = useState(false);
+      const [error, setError] = useState("");
+
+      const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setError("");
+
+        // 提交到 Supabase
+        if (window.submitBooking) {
+          const result = await window.submitBooking(form);
+          if (result.success) {
+            setSubmitted(true);
+          } else {
+            setError("提交失败，请稍后重试或直接联系我们");
+            console.error(result.error);
+          }
+        } else {
+          // Fallback: 仅设置提交状态
+          setSubmitted(true);
+        }
+        setSubmitting(false);
+      };
+
+      return (
+        <section className="section" id="booking" style={{ background: "var(--ocean)" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+              {/* Left */}
+              <div>
+                <span className="section-label">立即预订 · BOOK NOW</span>
+                <h2 className="section-title">开启您的<br />深蓝旅程</h2>
+                <div className="gold-divider" />
+                <p style={{ color: tokens.gray400, lineHeight: 1.8, marginBottom: 36 }}>
+                  填写下方表单，我们的专属顾问将在<strong style={{ color: "#fff" }}>24小时内</strong>通过您偏好的方式与您取得联系，为您量身定制行程方案。
+                </p>
+                {/* Contact cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {[
+                    { icon: "💬", label: "微信客服", val: "UdiveBali_Official" },
+                    { icon: "📱", label: "WhatsApp", val: "+62 812 3456 7890" },
+                    { icon: "📧", label: "Email", val: "hello@udivebali.com" },
+                  ].map((c, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "14px 20px" }}>
+                      <span style={{ fontSize: 24 }}>{c.icon}</span>
+                      <div>
+                        <div style={{ fontSize: "0.75rem", color: tokens.gray400, marginBottom: 2 }}>{c.label}</div>
+                        <div style={{ fontWeight: 500, color: "#fff" }}>{c.val}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Form */}
+              <div>
+                {/* Scarcity */}
+                <div className="scarcity-bar">
+                  <span style={{ color: tokens.cta, flexShrink: 0 }}><IconAlert /></span>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#fff", marginBottom: 2 }}>中国节假日旺季排期告急</div>
+                    <div style={{ fontSize: "0.82rem", color: "rgba(255,107,26,0.8)" }}>五一、暑假及十一黄金周教练名额有限，建议提前60天锁定行程</div>
+                  </div>
+                </div>
+
+                {!submitted ? (
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    {error && (
+                      <div style={{ background: "rgba(255,82,82,0.15)", border: "1px solid rgba(255,82,82,0.3)", borderRadius: 8, padding: "12px 16px", color: "#ff5252", fontSize: "0.85rem" }}>
+                        {error}
+                      </div>
+                    )}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                      <div>
+                        <label className="form-label">您的姓名 *</label>
+                        <input name="name" className="form-input" placeholder="姓名 / Name" value={form.name} onChange={handleChange} required />
+                      </div>
+                      <div>
+                        <label className="form-label">联系方式 *</label>
+                        <input name="contact" className="form-input" placeholder="微信号 或 WhatsApp" value={form.contact} onChange={handleChange} required />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="form-label"><span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconCalendar /> 计划出行日期 *</span></label>
+                      <input name="date" type="date" className="form-input" value={form.date} onChange={handleChange} required />
+                    </div>
+
+                    <div>
+                      <label className="form-label">意向需求 *</label>
+                      <select name="intent" className="form-input" value={form.intent} onChange={handleChange} required>
+                        <option value="">请选择您的需求 / Select Interest</option>
+                        <option value="ow">PADI开放水域考证（OW）</option>
+                        <option value="aow">PADI进阶开放水域（AOW）</option>
+                        <option value="free">自由潜水课程（Freediving）</option>
+                        <option value="dsd">休闲体验潜水（无需经验）</option>
+                        <option value="resort">仅住宿预订</option>
+                        <option value="package">潜水+住宿一体套餐</option>
+                        <option value="group">团队/企业定制</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="form-label">备注信息（人数、特殊需求等）</label>
+                      <textarea name="notes" className="form-input" placeholder="例如：两人同行，其中一人已持有OW证书..." value={form.notes} onChange={handleChange} rows={3} style={{ resize: "vertical" }} />
+                    </div>
+
+                    <button type="submit" className="btn-cta" style={{ justifyContent: "center", padding: "16px", fontSize: "1rem" }} disabled={submitting}>
+                      {submitting ? "提交中..." : "提交询价 · 24小时内回复"} <IconArrow />
+                    </button>
+
+                    <p style={{ fontSize: "0.75rem", color: tokens.gray400, textAlign: "center" }}>
+                      您的信息将严格保密，仅用于行程咨询。我们承诺不向第三方共享。
+                    </p>
+                  </form>
+                ) : (
+                  <div style={{ textAlign: "center", padding: "60px 40px", background: "rgba(26,122,154,0.1)", border: "1px solid rgba(26,122,154,0.3)", borderRadius: 12 }}>
+                    <div style={{ fontSize: 64, marginBottom: 20 }}>🎉</div>
+                    <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 12 }}>询价成功！</h3>
+                    <p style={{ color: tokens.gray400, lineHeight: 1.7 }}>我们已收到您的信息。专属顾问将在 <strong style={{ color: "#fff" }}>24小时内</strong> 通过您留下的联系方式与您取得联系。</p>
+                    <div style={{ marginTop: 24, fontSize: "0.88rem", color: tokens.current }}>感谢您选择 UdiveBali 🤿</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── FOOTER ───────────────────────────────────────────────────────────────────
+    function Footer() {
+      return (
+        <footer style={{ background: "var(--abyss)", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "48px 0 24px" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 40 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                  <span style={{ fontSize: 28 }}>🤿</span>
+                  <div>
+                    <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.3rem", fontWeight: 700 }}>UdiveBali</div>
+                    <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.15em" }}>TULAMBEN · BALI</div>
+                  </div>
+                </div>
+                <p style={{ fontSize: "0.85rem", color: tokens.gray400, lineHeight: 1.8, maxWidth: 280 }}>图兰奔最值得信赖的潜水中心与精品度假村，7年专注为每一位潜水爱好者创造安全、难忘的深蓝体验。</p>
+              </div>
+              {[
+                { title: "课程服务", items: ["PADI开放水域 OW", "PADI进阶 AOW", "自由潜水 Freediving", "体验潜水 DSD"] },
+                { title: "度假村", items: ["单人精品房", "双人标准房", "三人家庭房", "餐饮服务"] },
+                { title: "关于我们", items: ["师资团队", "社区动态", "联系我们", "预订须知"] },
+              ].map((col, i) => (
+                <div key={i}>
+                  <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "#fff", marginBottom: 16, letterSpacing: "0.05em" }}>{col.title}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    {col.items.map((item, j) => (
+                      <a key={j} href="#" style={{ fontSize: "0.83rem", color: tokens.gray400, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color=tokens.gray400}>{item}</a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+              <div style={{ fontSize: "0.78rem", color: tokens.gray400 }}>© 2025 UdiveBali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Bali 80852</div>
+              <div style={{ fontSize: "0.78rem", color: tokens.gray400 }}>PADI Dive Center · AIDA Partner · SSI Affiliate</div>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    // ─── FAB ──────────────────────────────────────────────────────────────────────
+    function FAB() {
+      const [open, setOpen] = useState(false);
+      return (
+        <div className="fab">
+          {open && (
+            <div className="fab-menu">
+              <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="fab-item">
+                <span style={{ fontSize: 20 }}>📱</span>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>WhatsApp 直接对话</div>
+                  <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>+62 812 3456 7890</div>
+                </div>
+              </a>
+              <div className="fab-item">
+                <span style={{ fontSize: 20 }}>💬</span>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>微信扫码咨询</div>
+                  <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>扫码添加客服微信</div>
+                </div>
+              </div>
+            </div>
+          )}
+          <button className="fab-main" onClick={() => setOpen(!open)}>
+            {open ? <IconX /> : <IconChat />}
+          </button>
+        </div>
+      );
+    }
+
+    // ─── APP ──────────────────────────────────────────────────────────────────────
+    function UdiveBali() {
+      return (
+        <>
+          <GlobalStyle />
+          <Nav />
+          <main>
+            <Hero />
+            <TrustBar />
+            <Stats />
+            <Courses />
+            <Resort />
+            <Team />
+            <Social />
+            <Booking />
+          </main>
+          <Footer />
+          <FAB />
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<UdiveBali />);
+  </script>
+</body>
+</html>
