@@ -564,11 +564,11 @@
               </div>
             </div>
             <div className="nav-links" style={{ display: "flex" }}>
-              <a href="#courses">潜水课程</a>
-              <a href="#resort">度假村</a>
-              <a href="#team">师资团队</a>
-              <a href="#social">社区动态</a>
-              <a href="#booking" className="btn-cta" style={{ marginLeft: 32, padding: "10px 24px" }}>立即预订</a>
+              <a href="#courses">Courses</a>
+              <a href="#resort">Resort</a>
+              <a href="#team">Our Team</a>
+              <a href="#social">Social</a>
+              <a href="#booking" className="btn-cta" style={{ marginLeft: 32, padding: "10px 24px" }}>Book Now</a>
             </div>
           </div>
         </nav>
@@ -600,28 +600,28 @@
             <div style={{ maxWidth: 700 }}>
               <div className="animate-fadeUp" style={{ animationDelay: "0.1s", opacity: 0 }}>
                 <span style={{ fontFamily: "'DM Sans'", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.25em", textTransform: "uppercase", color: tokens.gold, display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24, background: "rgba(201,169,110,0.1)", border: "1px solid rgba(201,169,110,0.25)", borderRadius: 999, padding: "6px 16px" }}>
-                  ✦ 图兰奔 · Tulamben, Bali
+                  ✦ Tulamben, Bali
                 </span>
               </div>
 
               <h1 className="animate-fadeUp delay-2" style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", lineHeight: 1.05, fontWeight: 300, color: "#fff", marginBottom: 24, opacity: 0 }}>
-                图兰奔
+                Tulamben
                 <br />
-                <span style={{ fontWeight: 700, background: "linear-gradient(135deg, #fff 30%, #C9A96E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>7年深蓝</span>
+                <span style={{ fontWeight: 700, background: "linear-gradient(135deg, #fff 30%, #C9A96E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>7 Years of</span>
                 <br />
-                专业沉淀
+                Deep Blue Excellence
               </h1>
 
               <p className="animate-fadeUp delay-3" style={{ fontSize: "1.15rem", lineHeight: 1.8, color: "rgba(255,255,255,0.7)", marginBottom: 40, maxWidth: 520, opacity: 0 }}>
-                在巴厘岛最纯净的海域，由资深教练团队陪伴您完成人生中第一次或第一百次的潜水旅程。小班精品教学 · 安全第一 · 吃住潜一体化体验。
+                Experience Bali's pristine waters with our expert instructor team. From your first dive to your hundredth, we provide small group classes, safety first, and an integrated stay-dive experience.
               </p>
 
               <div className="animate-fadeUp delay-4 hero-btns" style={{ display: "flex", gap: 16, flexWrap: "wrap", opacity: 0 }}>
                 <a href="#booking" className="btn-cta">
-                  定制您的潜水假期 <IconArrow />
+                  Customize Your Dive Trip <IconArrow />
                 </a>
                 <a href="#courses" className="btn-ghost">
-                  了解课程
+                  View Courses
                 </a>
               </div>
 
@@ -631,7 +631,7 @@
                   {[...Array(5)].map((_, i) => <IconStar key={i} />)}
                 </div>
                 <span style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.6)" }}>
-                  <strong style={{ color: "#fff" }}>4.9分</strong> · 来自 600+ 位学员的真实好评
+                  <strong style={{ color: "#fff" }}>4.9</strong> · From 600+ verified reviews
                 </span>
               </div>
             </div>
@@ -655,10 +655,10 @@
     // ─── TRUST BAR ────────────────────────────────────────────────────────────────
     function TrustBar() {
       const items = [
-        { icon: "🛡️", title: "7年安全零事故", sub: "自2018年起持续安全运营" },
-        { icon: "🏡", title: "16间精品客房", sub: "吃住潜一体化无缝体验" },
-        { icon: "🎓", title: "PADI认证中心", sub: "国际权威潜水认证机构" },
-        { icon: "🌏", title: "中英马来多语教学", sub: "全中文服务团队随行" },
+        { icon: "🛡️", title: "7 Years Zero Accidents", sub: "Safe operations since 2018" },
+        { icon: "🏡", title: "16 Boutique Rooms", sub: "Integrated stay-dive experience" },
+        { icon: "🎓", title: "PADI Certified Center", sub: "Internationally recognized" },
+        { icon: "🌏", title: "Multi-language Team", sub: "English, Chinese, Bahasa" },
       ];
       return (
         <div className="trust-bar">
@@ -680,10 +680,10 @@
     // ─── STATS ────────────────────────────────────────────────────────────────────
     function Stats() {
       const stats = [
-        { num: "7+", label: "年安全运营" },
-        { num: "2000+", label: "成功认证学员" },
-        { num: "16", label: "精品客房" },
-        { num: "98%", label: "学员好评率" },
+        { num: "7+", label: "Years Safe Operations" },
+        { num: "2000+", label: "Certified Divers" },
+        { num: "16", label: "Boutique Rooms" },
+        { num: "98%", label: "Satisfaction Rate" },
       ];
       return (
         <section style={{ background: "rgba(10,37,64,0.5)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
@@ -706,57 +706,57 @@
       const courses = [
         {
           emoji: "🐠",
-          badge: "最受欢迎",
+          badge: "Most Popular",
           badgeColor: tokens.cta,
-          title: "PADI 开放水域考证",
-          sub: "Open Water Diver",
-          desc: "从零基础到独立潜水员，4天密集小班课程（最多4人）。专属中文教练一对一跟进，理论+泳池+海洋实习完整配套。",
-          features: ["4天完整课程", "最多4人小班", "中文全程教学", "PADI国际认证"],
+          title: "PADI Open Water Diver",
+          sub: "Beginner Certification",
+          desc: "From zero to certified diver in 4 intensive days with small classes (max 4). Dedicated instructor guidance with complete theory, pool, and ocean training.",
+          features: ["4-Day Complete Course", "Max 4 per Class", "English Instruction", "PADI International Certificate"],
           price: "¥3,800",
-          priceNote: "起/人（含住宿套餐另享优惠）",
+          priceNote: "per person (discount with accommodation)",
         },
         {
           emoji: "🦈",
-          badge: "进阶推荐",
+          badge: "Advanced",
           badgeColor: tokens.lagoon,
-          title: "PADI 进阶开放水域",
-          sub: "Advanced Open Water",
-          desc: "5次专项潜水体验，突破30米深度，掌握导航、深潜等核心技能。适合已持OW证书的潜水爱好者。",
-          features: ["5次专项潜水", "深度突破30米", "导航与急流训练", "升级国际证书"],
+          title: "PADI Advanced Open Water",
+          sub: "Level Up Your Skills",
+          desc: "5 specialty dives reaching 30m depth. Master navigation, deep diving, and more. Perfect for OW certified divers.",
+          features: ["5 Specialty Dives", "30m Depth Limit", "Navigation Training", "Upgrade Certificate"],
           price: "¥2,800",
-          priceNote: "起/人",
+          priceNote: "per person",
         },
         {
           emoji: "🫁",
-          badge: "自由潜水",
+          badge: "Freediving",
           badgeColor: "#4A90D9",
-          title: "自由潜水 Freediving",
-          sub: "AIDA / SSI 认证课程",
-          desc: "感受屏气入水的极致宁静。从入门到深潜认证，由持证自由潜教练小班授课。图兰奔平静海湾是国内最佳自由潜训练地之一。",
-          features: ["AIDA/SSI双认证", "平静内湾专属水域", "呼吸法专项训练", "小班最多3人"],
+          title: "Freediving Course",
+          sub: "AIDA / SSI Certification",
+          desc: "Experience the silence of breath-hold diving. From beginner to advanced with certified instructors. Tulamben's calm bay is ideal for training.",
+          features: ["AIDA/SSI Dual Cert", "Protected Bay Training", "Breathing Techniques", "Max 3 per Class"],
           price: "¥2,200",
-          priceNote: "起/人",
+          priceNote: "per person",
         },
         {
           emoji: "🐙",
-          badge: "体验项目",
+          badge: "Experience",
           badgeColor: "#7C5CBF",
-          title: "休闲体验潜水",
+          title: "Discover Scuba Diving",
           sub: "Discover Scuba Diving",
-          desc: "无需证书，只需年满10岁。在专业教练的全程陪同下，亲身体验水下世界的神奇。图兰奔自由号沉船等您探索。",
-          features: ["无需潜水经验", "教练全程陪同", "2-3次下水机会", "可升级考证课程"],
+          desc: "No certification needed, age 10+. Experience the underwater world with professional instructor guidance. Explore the famous USAT Liberty Shipwreck.",
+          features: ["No Experience Required", "Full Instructor Support", "2-3 Dives", "Upgrade to Certification"],
           price: "¥680",
-          priceNote: "起/人",
+          priceNote: "per person",
         },
       ];
 
       return (
         <section className="section" id="courses" style={{ background: "var(--abyss)" }}>
           <div className="container">
-            <span className="section-label">潜水课程 · COURSES</span>
-            <h2 className="section-title">不只是潜水，<br />是一次改变认知的深蓝体验</h2>
+            <span className="section-label">Diving Courses</span>
+            <h2 className="section-title">More Than Diving,<br />A Life-Changing Experience</h2>
             <div className="gold-divider" />
-            <p className="section-subtitle">我们的课程定价略高于市场均价，因为我们坚持最严格的小班制（最多4人）、配备最完整的装备，并由7年以上经验的专业教练全程陪伴。</p>
+            <p className="section-subtitle">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, marginTop: 56 }}>
               {courses.map((c, i) => (
@@ -804,9 +804,9 @@
     // ─── RESORT ───────────────────────────────────────────────────────────────────
     function Resort() {
       const rooms = [
-        { emoji: "🛏️", type: "单人精品房", guests: "1人", desc: "独立卫浴，海风穿堂，适合独行潜客安静放松", features: ["独立卫浴", "每日早餐", "免费潜水装备"], price: "¥380/晚" },
-        { emoji: "🛌", type: "双人标准房", guests: "2人", desc: "宽敞舒适，伴侣或好友同行首选，光线充足", features: ["双人大床/双床可选", "每日早餐", "免费装备使用"], price: "¥520/晚" },
-        { emoji: "🏠", type: "三人家庭房", guests: "3人", desc: "家庭或三人小组专属，空间充裕，配备独立起居区", features: ["三人独立睡眠区", "每日早餐", "专属潜导协调"], price: "¥720/晚" },
+        { emoji: "🛏️", type: "Single Deluxe", guests: "1 Person", desc: "Private bathroom, sea breeze, perfect for solo divers", features: ["Private Bathroom", "Daily Breakfast", "Free Gear"], price: "¥380/night" },
+        { emoji: "🛌", type: "Double Standard", guests: "2 People", desc: "Spacious and comfortable, ideal for couples or friends", features: ["Queen/Twin Beds", "Daily Breakfast", "Free Equipment"], price: "¥520/night" },
+        { emoji: "🏠", type: "Triple Family", guests: "3 People", desc: "Family or group room with independent living area", features: ["3 Separate Beds", "Daily Breakfast", "Private Guide"], price: "¥720/night" },
       ];
 
       return (
@@ -814,14 +814,14 @@
           <div className="container">
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", marginBottom: 64 }}>
               <div>
-                <span className="section-label">精品度假村 · RESORT</span>
-                <h2 className="section-title">吃、住、潜<br />一站式深度旅居</h2>
+                <span className="section-label">Boutique Resort</span>
+                <h2 className="section-title">Eat, Stay, Dive<br />Integrated Experience</h2>
                 <div className="gold-divider" />
                 <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: tokens.gray400 }}>
-                  16间精品客房与潜水中心融为一体，晨起即可下海，潜后即刻归宿。搭配每日精心准备的餐食，让您将全部精力留给深蓝。
+                  16 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue.
                 </p>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 32 }}>
-                  {["海景早餐每日供应", "免费行李寄存与冲洗", "专业装备清洁服务", "免费潜水摄影咨询", "机场接送（可选）", "24h中文客服支持"].map((f, i) => (
+                  {["Daily Ocean View Breakfast", "Free Luggage Storage & Rinse", "Gear Cleaning Service", "Free Photo Consultation", "Airport Transfer (Optional)", "24h English Support"].map((f, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.88rem", color: "rgba(255,255,255,0.75)" }}>
                       <span style={{ color: tokens.gold }}>✦</span> {f}
                     </div>
@@ -843,7 +843,7 @@
                   <div className="room-img" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.3), rgba(6,26,48,0.8))` }}>
                     <span style={{ fontSize: 56 }}>{r.emoji}</span>
                     <div style={{ position: "absolute", top: 16, right: 16, background: "rgba(6,26,48,0.8)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: 8, padding: "4px 12px", fontSize: "0.78rem", color: tokens.gold, fontWeight: 600 }}>
-                      最多 {r.guests}
+                      Max {r.guests}
                     </div>
                   </div>
                   <div style={{ padding: "24px" }}>
@@ -860,9 +860,9 @@
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <div>
                         <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.4rem", fontWeight: 700, color: tokens.cta }}>{r.price}</div>
-                        <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>含早餐，潜水套餐另享折扣</div>
+                        <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>Includes breakfast, dive packages discounted</div>
                       </div>
-                      <a href="#booking" className="btn-cta" style={{ padding: "10px 20px", fontSize: "0.85rem" }}>预订</a>
+                      <a href="#booking" className="btn-cta" style={{ padding: "10px 20px", fontSize: "0.85rem" }}>Book</a>
                     </div>
                   </div>
                 </div>
@@ -876,13 +876,13 @@
     // ─── TEAM ─────────────────────────────────────────────────────────────────────
     function Team() {
       const instructors = [
-        { emoji: "🤿", name: "Captain Wei", title: "首席潜水总监", cert: "PADI IDC Staff Instructor", lang: "中文/英文", spec: "自由潜·技术潜水" },
-        { emoji: "🌊", name: "Instructor Lin", title: "资深教练", cert: "PADI MSDT", lang: "中文/粤语", spec: "水下摄影·鱼类识别" },
-        { emoji: "🐬", name: "Coach Zara", title: "自由潜教练", cert: "AIDA 4 Instructor", lang: "中文/马来语", spec: "自由潜·冥想呼吸" },
-        { emoji: "🦀", name: "Instructor Budi", title: "本地资深教练", cert: "PADI MSDT", lang: "印尼语/英文", spec: "暗夜潜·水下生态" },
-        { emoji: "🐡", name: "Coach Maya", title: "初级教练", cert: "PADI Divemaster", lang: "中文/英文", spec: "初学者陪训·OW考证" },
-        { emoji: "🐙", name: "Instructor Chen", title: "进阶课程教练", cert: "PADI IDC Staff", lang: "中文/普通话", spec: "AOW·Rescue Diver" },
-        { emoji: "🌺", name: "Coach Sari", title: "水摄专项教练", cert: "PADI DM + UW Photo", lang: "印尼语/英文", spec: "水下摄影·珊瑚生态" },
+        { emoji: "🤿", name: "Captain Wei", title: "Dive Director", cert: "PADI IDC Staff Instructor", lang: "English/Chinese", spec: "Freediving·Tech" },
+        { emoji: "🌊", name: "Instructor Lin", title: "Senior Instructor", cert: "PADI MSDT", lang: "English/Cantonese", spec: "UW Photography·Fish ID" },
+        { emoji: "🐬", name: "Coach Zara", title: "Freediving Instructor", cert: "AIDA 4 Instructor", lang: "Chinese/Bahasa", spec: "Freediving·Meditation" },
+        { emoji: "🦀", name: "Instructor Budi", title: "Local Senior Instructor", cert: "PADI MSDT", lang: "Bahasa/English", spec: "Night Dive·Marine Life" },
+        { emoji: "🐡", name: "Coach Maya", title: "Instructor", cert: "PADI Divemaster", lang: "English/Chinese", spec: "Beginner Training·OW" },
+        { emoji: "🐙", name: "Instructor Chen", title: "Advanced Instructor", cert: "PADI IDC Staff", lang: "English/Mandarin", spec: "AOW·Rescue Diver" },
+        { emoji: "🌺", name: "Coach Sari", title: "Photo Specialist", cert: "PADI DM + UW Photo", lang: "Bahasa/English", spec: "UW Photo·Coral Reef" },
       ];
 
       const [active, setActive] = useState(0);
@@ -891,10 +891,10 @@
         <section className="section" id="team" style={{ background: "var(--abyss)" }}>
           <div className="container">
             <div style={{ textAlign: "center", marginBottom: 56 }}>
-              <span className="section-label">专业师资 · TEAM</span>
-              <h2 className="section-title">7位专业教练<br />9位服务团队</h2>
+              <span className="section-label">Professional Team</span>
+              <h2 className="section-title">7 Professional Instructors<br />9 Service Staff</h2>
               <div className="gold-divider" style={{ margin: "20px auto 20px" }} />
-              <p style={{ color: tokens.gray400, maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>每位教练均持国际认证资格，平均潜水经验 8 年以上，致力于在安全环境中为您创造最难忘的水下体验。</p>
+              <p style={{ color: tokens.gray400, maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>Each instructor holds international certification with 8+ years average experience, dedicated to creating unforgettable underwater experiences in a safe environment.</p>
             </div>
 
             {/* Instructor grid */}
@@ -918,8 +918,8 @@
             <div style={{ background: "rgba(14,77,107,0.15)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "28px 32px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
               <div style={{ fontSize: 48 }}>🏆</div>
               <div>
-                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: 8 }}>9人精英服务团队</h3>
-                <p style={{ fontSize: "0.9rem", color: tokens.gray400, lineHeight: 1.7 }}>我们的地面服务团队包括：前台接待、厨房餐饮、装备管理、水下摄影后期、日常保洁及机场接送专员。中文客服全天候响应，让您从落地到离开毫无语言障碍。</p>
+                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: 8 }}>9 Elite Service Staff</h3>
+                <p style={{ fontSize: "0.9rem", color: tokens.gray400, lineHeight: 1.7 }}>Our support team includes: front desk reception, kitchen & dining, equipment management, photo editing, housekeeping, and airport transfer specialists. English-speaking support available 24/7.</p>
               </div>
             </div>
           </div>
@@ -930,18 +930,18 @@
     // ─── SOCIAL PROOF ─────────────────────────────────────────────────────────────
     function Social() {
       const tiles = [
-        { emoji: "📸", platform: "小红书", label: "水下摄影日记" },
-        { emoji: "🎬", platform: "抖音", label: "图兰奔沉船探索" },
-        { emoji: "🌊", platform: "Instagram", label: "晨潜日出实拍" },
-        { emoji: "🐠", platform: "小红书", label: "PADI考证实录" },
-        { emoji: "🤿", platform: "抖音", label: "教练带潜Vlog" },
-        { emoji: "🌺", platform: "Instagram", label: "度假村日常" },
-        { emoji: "🦈", platform: "小红书", label: "自由潜深潜挑战" },
-        { emoji: "🐙", platform: "抖音", label: "暗夜潜水合集" },
+        { emoji: "📸", platform: "Instagram", label: "Underwater Photos" },
+        { emoji: "🎬", platform: "Instagram", label: "Shipwreck Dive" },
+        { emoji: "🌊", platform: "Instagram", label: "Morning Dive" },
+        { emoji: "🐠", platform: "Instagram", label: "PADI Certification" },
+        { emoji: "🤿", platform: "Instagram", label: "Instructor Vlog" },
+        { emoji: "🌺", platform: "Instagram", label: "Resort Life" },
+        { emoji: "🦈", platform: "Instagram", label: "Deep Freediving" },
+        { emoji: "🐙", platform: "Instagram", label: "Night Diving" },
       ];
 
       const reviews = [
-        { name: "小花🌸", star: 5, platform: "小红书", text: "教练超级耐心，本来特别怕水，最后竟然爱上了！一对一教学真的很安心。" },
+        { name: "Sarah Chen", star: 5, platform: "Instagram", text: "The instructor was incredibly patient! I was afraid of water at first but fell in love with diving. The one-on-one guidance made me feel completely safe." },
         { name: "Kevin L.", star: 5, platform: "Google", text: "Excellent instructors, very professional and safe. The resort food was amazing too!" },
         { name: "Amos Tan", star: 5, platform: "Trip", text: "Best diving experience in Bali. The WWII shipwreck dive was unforgettable." },
       ];
@@ -951,8 +951,8 @@
           <div className="container">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 16 }}>
               <div>
-                <span className="section-label">社区动态 · SOCIAL</span>
-                <h2 className="section-title">真实学员故事<br />来自深蓝的记录</h2>
+                <span className="section-label">Community</span>
+                <h2 className="section-title">Real Student Stories<br />From the Deep Blue</h2>
               </div>
               <div style={{ display: "flex", gap: 12 }}>
                 {["小红书", "抖音", "Instagram"].map((p, i) => (
@@ -984,10 +984,10 @@
             {/* CTA follow */}
             <div style={{ textAlign: "center", padding: "40px", background: "rgba(14,77,107,0.2)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, marginBottom: 56 }}>
               <div style={{ fontSize: 36, marginBottom: 12 }}>📲</div>
-              <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 8 }}>关注我们，获取图兰奔最新潜水资讯</h3>
-              <p style={{ color: tokens.gray400, fontSize: "0.9rem", marginBottom: 24 }}>每周更新海况、生物目击报告、学员课程直播，以及限定早鸟优惠</p>
+              <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 8 }}>Follow Us for Latest Updates</h3>
+              <p style={{ color: tokens.gray400, fontSize: "0.9rem", marginBottom: 24 }}>Weekly updates on sea conditions, marine sightings, live sessions, and exclusive early bird offers</p>
               <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-                {[{icon:"📕", label:"小红书 @UdiveBali"},{icon:"🎵", label:"抖音 @图兰奔UdiveBali"},{icon:"📷", label:"IG @udivebali"}].map((s, i) => (
+                {[{icon:"📷", label:"IG @udivebali"},{icon:"📘", label:"Facebook @udivebali"},{icon:"🎵", label:"TikTok @udivebali"}].map((s, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "10px 20px", fontSize: "0.88rem", color: "#fff", cursor: "pointer" }}>
                     {s.icon} {s.label}
                   </div>
@@ -1050,16 +1050,16 @@
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
               {/* Left */}
               <div>
-                <span className="section-label">立即预订 · BOOK NOW</span>
-                <h2 className="section-title">开启您的<br />深蓝旅程</h2>
+                <span className="section-label">Book Now</span>
+                <h2 className="section-title">Start Your<br />Deep Blue Journey</h2>
                 <div className="gold-divider" />
                 <p style={{ color: tokens.gray400, lineHeight: 1.8, marginBottom: 36 }}>
-                  填写下方表单，我们的专属顾问将在<strong style={{ color: "#fff" }}>24小时内</strong>通过您偏好的方式与您取得联系，为您量身定制行程方案。
+                  Fill out the form below and our dedicated consultant will contact you within <strong style={{ color: "#fff" }}>24 hours</strong> to customize your diving itinerary.
                 </p>
                 {/* Contact cards */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {[
-                    { icon: "💬", label: "微信客服", val: "UdiveBali_Official" },
+                    { icon: "💬", label: "WeChat", val: "UdiveBali_Official" },
                     { icon: "📱", label: "WhatsApp", val: "+62 812 3456 7890" },
                     { icon: "📧", label: "Email", val: "hello@udivebali.com" },
                   ].map((c, i) => (
@@ -1080,8 +1080,8 @@
                 <div className="scarcity-bar">
                   <span style={{ color: tokens.cta, flexShrink: 0 }}><IconAlert /></span>
                   <div>
-                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#fff", marginBottom: 2 }}>中国节假日旺季排期告急</div>
-                    <div style={{ fontSize: "0.82rem", color: "rgba(255,107,26,0.8)" }}>五一、暑假及十一黄金周教练名额有限，建议提前60天锁定行程</div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#fff", marginBottom: 2 }}>Peak Season Availability Limited</div>
+                    <div style={{ fontSize: "0.82rem", color: "rgba(255,107,26,0.8)" }}>Holiday and summer slots filling fast. Book 60 days in advance to secure your spot.</div>
                   </div>
                 </div>
 
@@ -1094,53 +1094,53 @@
                     )}
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                       <div>
-                        <label className="form-label">您的姓名 *</label>
-                        <input name="name" className="form-input" placeholder="姓名 / Name" value={form.name} onChange={handleChange} required />
+                        <label className="form-label">Your Name *</label>
+                        <input name="name" className="form-input" placeholder="Name" value={form.name} onChange={handleChange} required />
                       </div>
                       <div>
-                        <label className="form-label">联系方式 *</label>
-                        <input name="contact" className="form-input" placeholder="微信号 或 WhatsApp" value={form.contact} onChange={handleChange} required />
+                        <label className="form-label">Contact *</label>
+                        <input name="contact" className="form-input" placeholder="WeChat or WhatsApp" value={form.contact} onChange={handleChange} required />
                       </div>
                     </div>
 
                     <div>
-                      <label className="form-label"><span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconCalendar /> 计划出行日期 *</span></label>
+                      <label className="form-label"><span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconCalendar /> Planned Travel Date *</span></label>
                       <input name="date" type="date" className="form-input" value={form.date} onChange={handleChange} required />
                     </div>
 
                     <div>
-                      <label className="form-label">意向需求 *</label>
+                      <label className="form-label">Interest *</label>
                       <select name="intent" className="form-input" value={form.intent} onChange={handleChange} required>
-                        <option value="">请选择您的需求 / Select Interest</option>
-                        <option value="ow">PADI开放水域考证（OW）</option>
-                        <option value="aow">PADI进阶开放水域（AOW）</option>
-                        <option value="free">自由潜水课程（Freediving）</option>
-                        <option value="dsd">休闲体验潜水（无需经验）</option>
-                        <option value="resort">仅住宿预订</option>
-                        <option value="package">潜水+住宿一体套餐</option>
-                        <option value="group">团队/企业定制</option>
+                        <option value="">Select Your Interest</option>
+                        <option value="ow">PADI Open Water Diver (OW)</option>
+                        <option value="aow">PADI Advanced Open Water (AOW)</option>
+                        <option value="free">Freediving Course</option>
+                        <option value="dsd">Discover Scuba Diving (No Experience)</option>
+                        <option value="resort">Accommodation Only</option>
+                        <option value="package">Diving + Accommodation Package</option>
+                        <option value="group">Group/Corporate Custom</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="form-label">备注信息（人数、特殊需求等）</label>
-                      <textarea name="notes" className="form-input" placeholder="例如：两人同行，其中一人已持有OW证书..." value={form.notes} onChange={handleChange} rows={3} style={{ resize: "vertical" }} />
+                      <label className="form-label">Additional Notes (group size, special requests, etc.)</label>
+                      <textarea name="notes" className="form-input" placeholder="e.g., Two people traveling, one holds OW certificate..." value={form.notes} onChange={handleChange} rows={3} style={{ resize: "vertical" }} />
                     </div>
 
                     <button type="submit" className="btn-cta" style={{ justifyContent: "center", padding: "16px", fontSize: "1rem" }} disabled={submitting}>
-                      {submitting ? "提交中..." : "提交询价 · 24小时内回复"} <IconArrow />
+                      {submitting ? "Submitting..." : "Get Quote · 24 Hour Response"} <IconArrow />
                     </button>
 
                     <p style={{ fontSize: "0.75rem", color: tokens.gray400, textAlign: "center" }}>
-                      您的信息将严格保密，仅用于行程咨询。我们承诺不向第三方共享。
+                      Your information is kept confidential and used only for travel consultation. We do not share with third parties.
                     </p>
                   </form>
                 ) : (
                   <div style={{ textAlign: "center", padding: "60px 40px", background: "rgba(26,122,154,0.1)", border: "1px solid rgba(26,122,154,0.3)", borderRadius: 12 }}>
                     <div style={{ fontSize: 64, marginBottom: 20 }}>🎉</div>
-                    <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 12 }}>询价成功！</h3>
-                    <p style={{ color: tokens.gray400, lineHeight: 1.7 }}>我们已收到您的信息。专属顾问将在 <strong style={{ color: "#fff" }}>24小时内</strong> 通过您留下的联系方式与您取得联系。</p>
-                    <div style={{ marginTop: 24, fontSize: "0.88rem", color: tokens.current }}>感谢您选择 UdiveBali 🤿</div>
+                    <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 12 }}>Request Submitted!</h3>
+                    <p style={{ color: tokens.gray400, lineHeight: 1.7 }}>We've received your information. Our dedicated consultant will contact you within <strong style={{ color: "#fff" }}>24 hours</strong> via your preferred contact method.</p>
+                    <div style={{ marginTop: 24, fontSize: "0.88rem", color: tokens.current }}>Thank you for choosing UdiveBali 🤿</div>
                   </div>
                 )}
               </div>
@@ -1164,12 +1164,12 @@
                     <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.15em" }}>TULAMBEN · BALI</div>
                   </div>
                 </div>
-                <p style={{ fontSize: "0.85rem", color: tokens.gray400, lineHeight: 1.8, maxWidth: 280 }}>图兰奔最值得信赖的潜水中心与精品度假村，7年专注为每一位潜水爱好者创造安全、难忘的深蓝体验。</p>
+                <p style={{ fontSize: "0.85rem", color: tokens.gray400, lineHeight: 1.8, maxWidth: 280 }}>Tulamben's most trusted diving center and boutique resort. 7 years dedicated to creating safe, unforgettable deep blue experiences for every diver.</p>
               </div>
               {[
-                { title: "课程服务", items: ["PADI开放水域 OW", "PADI进阶 AOW", "自由潜水 Freediving", "体验潜水 DSD"] },
-                { title: "度假村", items: ["单人精品房", "双人标准房", "三人家庭房", "餐饮服务"] },
-                { title: "关于我们", items: ["师资团队", "社区动态", "联系我们", "预订须知"] },
+                { title: "Courses", items: ["PADI Open Water OW", "PADI Advanced AOW", "Freediving", "Discover Scuba DSD"] },
+                { title: "Resort", items: ["Single Room", "Double Room", "Triple Room", "Dining"] },
+                { title: "About Us", items: ["Our Team", "Community", "Contact Us", "Booking Info"] },
               ].map((col, i) => (
                 <div key={i}>
                   <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "#fff", marginBottom: 16, letterSpacing: "0.05em" }}>{col.title}</div>
@@ -1200,15 +1200,15 @@
               <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="fab-item">
                 <span style={{ fontSize: 20 }}>📱</span>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>WhatsApp 直接对话</div>
+                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>WhatsApp Chat</div>
                   <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>+62 812 3456 7890</div>
                 </div>
               </a>
               <div className="fab-item">
                 <span style={{ fontSize: 20 }}>💬</span>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>微信扫码咨询</div>
-                  <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>扫码添加客服微信</div>
+                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>WeChat QR</div>
+                  <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>Scan to add WeChat</div>
                 </div>
               </div>
             </div>
