@@ -29,6 +29,10 @@
       white:    "#FFFFFF",
       gray400:  "#94A3B8",
       gray600:  "#475569",
+      brandRed: "#FF4444",  // brand red
+      textGradient1: "#FFFFFF",
+      textGradient2: "#FFB4B4",
+      textGradient3: "#FFD9D9",
     };
 
     // ─── GLOBAL STYLES injected into <head> ──────────────────────────────────────
@@ -559,14 +563,13 @@
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ fontSize: 28 }}>🤿</div>
               <div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 700, letterSpacing: "0.05em", lineHeight: 1 }}>UdiveBali</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 700, letterSpacing: "0.05em", lineHeight: 1, background: "linear-gradient(135deg, #FF4444 0%, #FF6666 50%, #FF8888 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>UdiveBali</div>
                 <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.2em", textTransform: "uppercase" }}>Tulamben · Est. 2018</div>
               </div>
             </div>
             <div className="nav-links" style={{ display: "flex" }}>
               <a href="#courses">Courses</a>
               <a href="#resort">Resort</a>
-              <a href="#team">Our Team</a>
               <a href="#social">Social</a>
               <a href="#booking" className="btn-cta" style={{ marginLeft: 32, padding: "10px 24px" }}>Book Now</a>
             </div>
@@ -604,10 +607,10 @@
                 </span>
               </div>
 
-              <h1 className="animate-fadeUp delay-2" style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", lineHeight: 1.05, fontWeight: 300, color: "#fff", marginBottom: 24, opacity: 0 }}>
+              <h1 className="animate-fadeUp delay-2" style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", lineHeight: 1.05, fontWeight: 700, marginBottom: 24, opacity: 0, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 50%, #FFD9D9 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                 Tulamben
                 <br />
-                <span style={{ fontWeight: 700, background: "linear-gradient(135deg, #fff 30%, #C9A96E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>7 Years of</span>
+                7 Years of
                 <br />
                 Deep Blue Excellence
               </h1>
@@ -631,7 +634,7 @@
                   {[...Array(5)].map((_, i) => <IconStar key={i} />)}
                 </div>
                 <span style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.6)" }}>
-                  <strong style={{ color: "#fff" }}>4.9</strong> · From 600+ verified reviews
+                  <strong style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>4.9</strong> · From 600+ verified reviews
                 </span>
               </div>
             </div>
@@ -667,7 +670,7 @@
               {items.map((it, i) => (
                 <div key={i} className="trust-item">
                   <div className="trust-icon" style={{ fontSize: 20 }}>{it.icon}</div>
-                  <div style={{ fontWeight: 600, fontSize: "0.92rem", color: "#fff" }}>{it.title}</div>
+                  <div style={{ fontWeight: 600, fontSize: "0.92rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{it.title}</div>
                   <div style={{ fontSize: "0.78rem", color: tokens.gray400, lineHeight: 1.4 }}>{it.sub}</div>
                 </div>
               ))}
@@ -712,7 +715,7 @@
           sub: "Beginner Certification",
           desc: "From zero to certified diver in 4 intensive days with small classes (max 4). Dedicated instructor guidance with complete theory, pool, and ocean training.",
           features: ["4-Day Complete Course", "Max 4 per Class", "English Instruction", "PADI International Certificate"],
-          price: "¥3,800",
+          price: "$550",
           priceNote: "per person (discount with accommodation)",
         },
         {
@@ -723,7 +726,7 @@
           sub: "Level Up Your Skills",
           desc: "5 specialty dives reaching 30m depth. Master navigation, deep diving, and more. Perfect for OW certified divers.",
           features: ["5 Specialty Dives", "30m Depth Limit", "Navigation Training", "Upgrade Certificate"],
-          price: "¥2,800",
+          price: "$400",
           priceNote: "per person",
         },
         {
@@ -734,7 +737,7 @@
           sub: "AIDA / SSI Certification",
           desc: "Experience the silence of breath-hold diving. From beginner to advanced with certified instructors. Tulamben's calm bay is ideal for training.",
           features: ["AIDA/SSI Dual Cert", "Protected Bay Training", "Breathing Techniques", "Max 3 per Class"],
-          price: "¥2,200",
+          price: "$320",
           priceNote: "per person",
         },
         {
@@ -745,7 +748,7 @@
           sub: "Discover Scuba Diving",
           desc: "No certification needed, age 10+. Experience the underwater world with professional instructor guidance. Explore the famous USAT Liberty Shipwreck.",
           features: ["No Experience Required", "Full Instructor Support", "2-3 Dives", "Upgrade to Certification"],
-          price: "¥680",
+          price: "$98",
           priceNote: "per person",
         },
       ];
@@ -754,9 +757,9 @@
         <section className="section" id="courses" style={{ background: "var(--abyss)" }}>
           <div className="container">
             <span className="section-label">Diving Courses</span>
-            <h2 className="section-title">More Than Diving,<br />A Life-Changing Experience</h2>
+            <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>More Than Diving,<br />A Life-Changing Experience</h2>
             <div className="gold-divider" />
-            <p className="section-subtitle">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
+            <p className="section-subtitle" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, marginTop: 56 }}>
               {courses.map((c, i) => (
@@ -769,7 +772,7 @@
 
                   <div style={{ padding: "24px 24px 20px" }}>
                     <div style={{ marginBottom: 12 }}>
-                      <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: 4 }}>{c.title}</h3>
+                      <h3 style={{ fontSize: "1.3rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 4 }}>{c.title}</h3>
                       <div style={{ fontSize: "0.78rem", color: tokens.current, fontWeight: 500, letterSpacing: "0.05em" }}>{c.sub}</div>
                     </div>
 
@@ -790,7 +793,7 @@
                     </div>
 
                     <a href="#booking" className="btn-cta" style={{ width: "100%", justifyContent: "center", marginTop: 8 }}>
-                      了解套餐详情 <IconArrow />
+                      View Package Details <IconArrow />
                     </a>
                   </div>
                 </div>
@@ -804,9 +807,9 @@
     // ─── RESORT ───────────────────────────────────────────────────────────────────
     function Resort() {
       const rooms = [
-        { emoji: "🛏️", type: "Single Deluxe", guests: "1 Person", desc: "Private bathroom, sea breeze, perfect for solo divers", features: ["Private Bathroom", "Daily Breakfast", "Free Gear"], price: "¥380/night" },
-        { emoji: "🛌", type: "Double Standard", guests: "2 People", desc: "Spacious and comfortable, ideal for couples or friends", features: ["Queen/Twin Beds", "Daily Breakfast", "Free Equipment"], price: "¥520/night" },
-        { emoji: "🏠", type: "Triple Family", guests: "3 People", desc: "Family or group room with independent living area", features: ["3 Separate Beds", "Daily Breakfast", "Private Guide"], price: "¥720/night" },
+        { emoji: "🛏️", type: "Single Deluxe", guests: "1 Person", desc: "Private bathroom, sea breeze, perfect for solo divers", features: ["Private Bathroom", "Daily Breakfast", "Free Gear"], price: "$55/night" },
+        { emoji: "🛌", type: "Double Standard", guests: "2 People", desc: "Spacious and comfortable, ideal for couples or friends", features: ["Queen/Twin Beds", "Daily Breakfast", "Free Equipment"], price: "$75/night" },
+        { emoji: "🏠", type: "Triple Family", guests: "3 People", desc: "Family or group room with independent living area", features: ["3 Separate Beds", "Daily Breakfast", "Private Guide"], price: "$105/night" },
       ];
 
       return (
@@ -815,7 +818,7 @@
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", marginBottom: 64 }}>
               <div>
                 <span className="section-label">Boutique Resort</span>
-                <h2 className="section-title">Eat, Stay, Dive<br />Integrated Experience</h2>
+                <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Eat, Stay, Dive<br />Integrated Experience</h2>
                 <div className="gold-divider" />
                 <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: tokens.gray400 }}>
                   16 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue.
@@ -847,7 +850,7 @@
                     </div>
                   </div>
                   <div style={{ padding: "24px" }}>
-                    <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: 8 }}>{r.type}</h3>
+                    <h3 style={{ fontSize: "1.2rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 8 }}>{r.type}</h3>
                     <p style={{ fontSize: "0.87rem", color: tokens.gray400, marginBottom: 16, lineHeight: 1.6 }}>{r.desc}</p>
                     <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
                       {r.features.map((f, j) => (
@@ -905,7 +908,7 @@
                     <span style={{ fontSize: 52 }}>{ins.emoji}</span>
                   </div>
                   <div style={{ padding: "16px 12px 0" }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#fff" }}>{ins.name}</div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{ins.name}</div>
                     <div style={{ fontSize: "0.75rem", color: tokens.gold, marginTop: 2 }}>{ins.title}</div>
                     <div style={{ fontSize: "0.72rem", color: tokens.gray400, marginTop: 6 }}>{ins.cert}</div>
                     <div style={{ display: "inline-flex", marginTop: 8, background: "rgba(26,122,154,0.15)", borderRadius: 4, padding: "3px 8px", fontSize: "0.7rem", color: tokens.current }}>{ins.spec}</div>
@@ -918,7 +921,7 @@
             <div style={{ background: "rgba(14,77,107,0.15)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "28px 32px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
               <div style={{ fontSize: 48 }}>🏆</div>
               <div>
-                <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: 8 }}>9 Elite Service Staff</h3>
+                <h3 style={{ fontSize: "1.2rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 8 }}>9 Elite Service Staff</h3>
                 <p style={{ fontSize: "0.9rem", color: tokens.gray400, lineHeight: 1.7 }}>Our support team includes: front desk reception, kitchen & dining, equipment management, photo editing, housekeeping, and airport transfer specialists. English-speaking support available 24/7.</p>
               </div>
             </div>
@@ -952,7 +955,7 @@
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 16 }}>
               <div>
                 <span className="section-label">Community</span>
-                <h2 className="section-title">Real Student Stories<br />From the Deep Blue</h2>
+                <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Real Student Stories<br />From the Deep Blue</h2>
               </div>
               <div style={{ display: "flex", gap: 12 }}>
                 {["小红书", "抖音", "Instagram"].map((p, i) => (
@@ -984,7 +987,7 @@
             {/* CTA follow */}
             <div style={{ textAlign: "center", padding: "40px", background: "rgba(14,77,107,0.2)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, marginBottom: 56 }}>
               <div style={{ fontSize: 36, marginBottom: 12 }}>📲</div>
-              <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 8 }}>Follow Us for Latest Updates</h3>
+              <h3 style={{ fontSize: "1.5rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 8 }}>Follow Us for Latest Updates</h3>
               <p style={{ color: tokens.gray400, fontSize: "0.9rem", marginBottom: 24 }}>Weekly updates on sea conditions, marine sightings, live sessions, and exclusive early bird offers</p>
               <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
                 {[{icon:"📷", label:"IG @udivebali"},{icon:"📘", label:"Facebook @udivebali"},{icon:"🎵", label:"TikTok @udivebali"}].map((s, i) => (
@@ -1004,7 +1007,7 @@
                   </div>
                   <p style={{ fontSize: "0.92rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginBottom: 16 }}>"{r.text}"</p>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.88rem", color: "#fff" }}>{r.name}</div>
+                    <div style={{ fontWeight: 600, fontSize: "0.88rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{r.name}</div>
                     <div style={{ fontSize: "0.72rem", color: tokens.gray400, background: "rgba(255,255,255,0.06)", padding: "3px 10px", borderRadius: 999 }}>{r.platform}</div>
                   </div>
                 </div>
@@ -1051,10 +1054,10 @@
               {/* Left */}
               <div>
                 <span className="section-label">Book Now</span>
-                <h2 className="section-title">Start Your<br />Deep Blue Journey</h2>
+                <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Start Your<br />Deep Blue Journey</h2>
                 <div className="gold-divider" />
                 <p style={{ color: tokens.gray400, lineHeight: 1.8, marginBottom: 36 }}>
-                  Fill out the form below and our dedicated consultant will contact you within <strong style={{ color: "#fff" }}>24 hours</strong> to customize your diving itinerary.
+                  Fill out the form below and our dedicated consultant will contact you within <strong style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>24 hours</strong> to customize your diving itinerary.
                 </p>
                 {/* Contact cards */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -1067,7 +1070,7 @@
                       <span style={{ fontSize: 24 }}>{c.icon}</span>
                       <div>
                         <div style={{ fontSize: "0.75rem", color: tokens.gray400, marginBottom: 2 }}>{c.label}</div>
-                        <div style={{ fontWeight: 500, color: "#fff" }}>{c.val}</div>
+                        <div style={{ fontWeight: 500, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{c.val}</div>
                       </div>
                     </div>
                   ))}
@@ -1138,8 +1141,8 @@
                 ) : (
                   <div style={{ textAlign: "center", padding: "60px 40px", background: "rgba(26,122,154,0.1)", border: "1px solid rgba(26,122,154,0.3)", borderRadius: 12 }}>
                     <div style={{ fontSize: 64, marginBottom: 20 }}>🎉</div>
-                    <h3 style={{ fontSize: "1.5rem", color: "#fff", marginBottom: 12 }}>Request Submitted!</h3>
-                    <p style={{ color: tokens.gray400, lineHeight: 1.7 }}>We've received your information. Our dedicated consultant will contact you within <strong style={{ color: "#fff" }}>24 hours</strong> via your preferred contact method.</p>
+                    <h3 style={{ fontSize: "1.5rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 12 }}>Request Submitted!</h3>
+                    <p style={{ color: tokens.gray400, lineHeight: 1.7 }}>We've received your information. Our dedicated consultant will contact you within <strong style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>24 hours</strong> via your preferred contact method.</p>
                     <div style={{ marginTop: 24, fontSize: "0.88rem", color: tokens.current }}>Thank you for choosing UdiveBali 🤿</div>
                   </div>
                 )}
@@ -1160,7 +1163,7 @@
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                   <span style={{ fontSize: 28 }}>🤿</span>
                   <div>
-                    <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.3rem", fontWeight: 700 }}>UdiveBali</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 700, background: "linear-gradient(135deg, #FF4444 0%, #FF6666 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>UdiveBali</div>
                     <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.15em" }}>TULAMBEN · BALI</div>
                   </div>
                 </div>
@@ -1172,7 +1175,7 @@
                 { title: "About Us", items: ["Our Team", "Community", "Contact Us", "Booking Info"] },
               ].map((col, i) => (
                 <div key={i}>
-                  <div style={{ fontWeight: 600, fontSize: "0.85rem", color: "#fff", marginBottom: 16, letterSpacing: "0.05em" }}>{col.title}</div>
+                  <div style={{ fontWeight: 600, fontSize: "0.85rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 16, letterSpacing: "0.05em" }}>{col.title}</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {col.items.map((item, j) => (
                       <a key={j} href="#" style={{ fontSize: "0.83rem", color: tokens.gray400, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color=tokens.gray400}>{item}</a>
@@ -1229,12 +1232,11 @@
           <main>
             <Hero />
             <TrustBar />
-            <Stats />
-            <Courses />
-            <Resort />
-            <Team />
-            <Social />
-            <Booking />
+          <Stats />
+          <Courses />
+          <Resort />
+          <Social />
+          <Booking />
           </main>
           <Footer />
           <FAB />
