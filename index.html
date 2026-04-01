@@ -527,11 +527,92 @@
         @media (max-width: 768px) {
           .section { padding: 64px 0; }
           .nav-links { display: none; }
+          .container { padding: 0 16px; }
           .trust-bar-grid { grid-template-columns: 1fr 1fr; }
           .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
           .hero-btns { flex-direction: column; gap: 12px; }
           .hero-btns .btn-cta, .hero-btns .btn-ghost { width: 100%; justify-content: center; }
           .fab { bottom: 20px; right: 20px; }
+          
+          /* Course cards */
+          .course-card { overflow: hidden; }
+          .course-card-img { height: 180px; }
+          
+          /* Room cards */
+          .room-card { overflow: hidden; }
+          .room-img { height: 160px; }
+          
+          /* Form */
+          form { gap: 16px !important; }
+          .form-input { padding: 12px 14px !important; font-size: 16px !important; }
+          
+          /* Stats */
+          .stat-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          
+          /* Footer */
+          footer { padding: 32px 0 20px; }
+          
+          /* Titles */
+          .section-title { font-size: clamp(1.8rem, 6vw, 2.5rem) !important; }
+          
+          /* Grid layouts */
+          [style*="grid-template-columns: 1fr 1fr"] {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 480px) {
+          .section { padding: 48px 0; }
+          .section-title { font-size: clamp(1.6rem, 8vw, 2rem) !important; }
+          .trust-bar-grid { grid-template-columns: 1fr; }
+          .trust-item { border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .social-tile-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .stat-card { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 32px 16px; }
+          
+          /* Footer grid */
+          footer [style*="grid-template-columns: 2fr 1fr 1fr 1fr"] {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          
+          /* Footer bottom section */
+          footer div[style*="justifyContent: space-between"] {
+            flexDirection: column !important;
+            alignItems: center !important;
+            text-align: center !important;
+          }
+          
+          /* Booking form grid */
+          .form-input { padding: 14px 16px !important; }
+          
+          /* Contact cards */
+          div[style*="flexDirection: column"][style*="gap: 16"] {
+            gap: 12px !important;
+          }
+          
+          /* Scarcity bar */
+          .scarcity-bar {
+            flex-direction: column !important;
+            text-align: left !important;
+            padding: 16px !important;
+          }
+          
+          /* Hero content */
+          .container div[style*="maxWidth: 700px"] {
+            max-width: 100% !important;
+          }
+        }
+        
+        /* Prevent overflow and horizontal scroll */
+        html, body {
+          overflow-x: hidden;
+          max-width: 100vw;
+        }
+        
+        * {
+          box-sizing: border-box;
         }
       `}</style>
     );
