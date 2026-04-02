@@ -1,791 +1,1520 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>UdiveBali – Tulamben Dive Resort</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --ocean:#0A2540;--abyss:#061A30;--lagoon:#0E4D6B;--current:#1A7A9A;
-  --cta:#FF6B1A;--cta-hover:#E85A0A;--gold:#C9A96E;
-  --gray400:#94A3B8;--gray600:#475569;
-}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--abyss);color:#fff;overflow-x:hidden}
-h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:-0.01em}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--abyss)}::-webkit-scrollbar-thumb{background:var(--lagoon);border-radius:2px}
-a{text-decoration:none;color:inherit}
-
-/* grad text util */
-.gt{background:linear-gradient(135deg,#fff 0%,#FFB4B4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.gt-red{background:linear-gradient(135deg,#FF4444 0%,#FF6666 50%,#FF8888 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-/* Animations */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes pulse-ring{0%{transform:scale(.8);opacity:.8}100%{transform:scale(1.6);opacity:0}}
-@keyframes wave{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.au{animation:fadeUp .8s ease forwards}
-.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}
-.af{animation:float 4s ease-in-out infinite}
-
-/* Buttons */
-.btn-cta{display:inline-flex;align-items:center;gap:8px;background:var(--cta);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.95rem;padding:14px 32px;border-radius:4px;border:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;text-decoration:none;letter-spacing:.02em;box-shadow:0 4px 20px rgba(255,107,26,.35)}
-.btn-cta:hover{background:var(--cta-hover);transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,107,26,.45)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.95rem;padding:13px 30px;border-radius:4px;border:1.5px solid rgba(255,255,255,.4);cursor:pointer;transition:all .2s;text-decoration:none}
-.btn-ghost:hover{border-color:rgba(255,255,255,.9);background:rgba(255,255,255,.08)}
-
-/* Layout */
-.section{padding:100px 0}.section-sm{padding:60px 0}
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
-.section-label{font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px}
-.section-title{font-size:clamp(2rem,4vw,3.2rem);line-height:1.15;color:#fff}
-.gold-divider{width:60px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin:20px 0 32px}
-
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,backdrop-filter .4s}
-.nav.scrolled{background:rgba(6,26,48,.95);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(255,255,255,.07)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:72px;display:flex;align-items:center;justify-content:space-between}
-.nav-links{display:flex;align-items:center}
-.nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.9rem;font-weight:500;margin-left:32px;transition:color .2s}
-.nav-links a:hover{color:#fff}
-
-/* Hero */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#051525 0%,#0A2540 40%,#0E4D6B 70%,#0A3550 100%)}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,26,48,.3) 0%,rgba(6,26,48,.6) 60%,rgba(6,26,48,.95) 100%)}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px}
-.bubble{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(26,122,154,.3),transparent);animation:float 6s ease-in-out infinite}
-.wave-container{position:absolute;bottom:0;left:0;right:0;height:120px;overflow:hidden}
-.wave-svg{width:200%;animation:wave 12s linear infinite}
-
-/* Trust */
-.trust-bar{background:rgba(10,37,64,.95);border-top:1px solid rgba(201,169,110,.2);border-bottom:1px solid rgba(255,255,255,.06);backdrop-filter:blur(8px)}
-.trust-bar-grid{display:grid;grid-template-columns:repeat(4,1fr)}
-.trust-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:28px 16px;border-right:1px solid rgba(255,255,255,.06)}
-.trust-item:last-child{border-right:none}
-.trust-icon{width:40px;height:40px;border-radius:50%;background:rgba(26,122,154,.2);border:1px solid rgba(26,122,154,.4);display:flex;align-items:center;justify-content:center;font-size:18px}
-
-/* Stats */
-.stat-card{text-align:center;padding:40px 20px;border-right:1px solid rgba(255,255,255,.06)}
-.stat-card:last-child{border-right:none}
-.stat-num{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-
-/* Course cards */
-.course-card{position:relative;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,rgba(14,77,107,.25),rgba(6,26,48,.6));border:1px solid rgba(255,255,255,.07);transition:all .35s}
-.course-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,.5)}
-.course-card-img{height:220px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(14,77,107,.4),rgba(6,26,48,.8))}
-.price-tag{display:inline-flex;align-items:baseline;gap:4px;background:rgba(255,107,26,.12);border:1px solid rgba(255,107,26,.3);border-radius:999px;padding:6px 16px;margin-bottom:16px}
-
-/* Fundive calculator */
-.fundive-calc{margin-top:64px;background:rgba(14,77,107,.12);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden}
-.fundive-header{padding:28px 32px 24px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.fundive-body{display:grid;grid-template-columns:1fr 1fr}
-.fundive-left{padding:28px 32px;border-right:1px solid rgba(255,255,255,.07)}
-.fundive-right{padding:28px 32px;display:flex;flex-direction:column;gap:24px}
-.calc-section-label{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gray400);margin-bottom:10px}
-.loc-btn{flex:1;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:.83rem;font-weight:500;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--gray400);transition:all .18s;font-family:'DM Sans',sans-serif}
-.loc-btn.active{border:2px solid var(--current);background:rgba(26,122,154,.18);color:var(--current)}
-.dive-btn{padding:12px 8px;border-radius:8px;cursor:pointer;text-align:center;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);transition:all .18s;font-family:'DM Sans',sans-serif}
-.dive-btn.active{border:2px solid var(--cta);background:rgba(255,107,26,.12)}
-.dive-btn .dlabel{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:#fff}
-.dive-btn.active .dlabel{color:var(--cta)}
-.dive-btn .dprice{font-size:.7rem;color:var(--gray400);margin-top:2px}
-.dive-btn.active .dprice{color:rgba(255,107,26,.8)}
-.addon-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.cnt-btn{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;line-height:1}
-.price-summary{background:rgba(6,26,48,.6);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px}
-.fx-badge{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px}
-
-/* Room */
-.room-card{border-radius:12px;overflow:hidden;background:rgba(14,77,107,.15);border:1px solid rgba(255,255,255,.07);transition:all .3s}
-.room-card:hover{border-color:rgba(201,169,110,.3);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4)}
-.room-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(14,77,107,.3),rgba(6,26,48,.8))}
-
-/* Social */
-.social-tile{border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:transform .3s;border:1px solid rgba(255,255,255,.06)}
-.social-tile:hover{transform:scale(1.03)}
-.social-overlay{position:absolute;inset:0;background:rgba(6,26,48,.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
-.social-tile:hover .social-overlay{opacity:1}
-
-/* Form */
-.form-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:14px 18px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s,background .2s}
-.form-input:focus{border-color:var(--current);background:rgba(26,122,154,.1)}
-.form-input::placeholder{color:rgba(255,255,255,.35)}
-select.form-input option{background:#0A2540}
-.form-label{display:block;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.6);margin-bottom:8px;letter-spacing:.05em}
-.scarcity-bar{background:linear-gradient(90deg,rgba(255,107,26,.12),rgba(255,107,26,.06));border:1px solid rgba(255,107,26,.25);border-radius:8px;padding:14px 20px;display:flex;align-items:center;gap:12px;margin-bottom:32px}
-
-/* FAB */
-.fab{position:fixed;bottom:28px;right:28px;z-index:200}
-.fab-main{width:58px;height:58px;border-radius:50%;background:var(--cta);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(255,107,26,.5);transition:transform .3s,box-shadow .3s;position:relative;z-index:2}
-.fab-main::before{content:'';position:absolute;inset:0;border-radius:50%;background:var(--cta);animation:pulse-ring 2s ease-out infinite}
-.fab-main:hover{transform:scale(1.08)}
-.fab-menu{position:absolute;bottom:72px;right:0;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
-.fab-item{display:flex;align-items:center;gap:10px;background:rgba(6,26,48,.96);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 16px;cursor:pointer;white-space:nowrap;transition:border-color .2s,transform .2s;text-decoration:none;color:#fff}
-.fab-item:hover{border-color:rgba(255,255,255,.3);transform:translateX(-4px)}
-
-/* Check icon */
-.ico-check{display:inline-block;width:16px;height:16px;vertical-align:middle;flex-shrink:0}
-
-@media(max-width:900px){
-  .fundive-body{grid-template-columns:1fr}
-  .fundive-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
-  .trust-bar-grid{grid-template-columns:1fr 1fr}
-  .trust-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
-}
-@media(max-width:768px){
-  .section{padding:64px 0}
-  .nav-links{display:none}
-  .hero-btns{flex-direction:column;gap:12px}
-  .fundive-body{grid-template-columns:1fr}
-  .fab{bottom:20px;right:20px}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .booking-grid{grid-template-columns:1fr}
-  .resort-intro{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr 1fr}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UdiveBali - 图兰奔专业潜水中心</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
 </head>
 <body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
 
-<!-- NAV -->
-<nav class="nav" id="mainNav">
-  <div class="nav-inner">
-    <div style="display:flex;align-items:center;gap:12px">
-      <div style="font-size:28px">🤿</div>
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;letter-spacing:.05em;line-height:1" class="gt-red">UdiveBali</div>
-        <div style="font-size:.65rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase">Tulamben · Est. 2018</div>
-      </div>
-    </div>
-    <div class="nav-links">
-      <a href="#courses">Courses</a>
-      <a href="#fundive">Fundive</a>
-      <a href="#resort">Resort</a>
-      <a href="#social">Social</a>
-      <a href="#booking" class="btn-cta" style="margin-left:32px;padding:10px 24px">Book Now</a>
-    </div>
-  </div>
-</nav>
+    // ─── DESIGN TOKENS ───────────────────────────────────────────────────────────
+    const tokens = {
+      ocean:    "#0A2540",   // deep navy
+      abyss:    "#061A30",   // darkest bg
+      lagoon:   "#0E4D6B",   // mid ocean
+      current:  "#1A7A9A",   // accent teal
+      foam:     "#E8F4F8",   // light surface
+      pearl:    "#F7FAFB",
+      cta:      "#FF6B1A",   // high-impact orange
+      ctaHover: "#E85A0A",
+      gold:     "#C9A96E",   // premium accent
+      white:    "#FFFFFF",
+      gray400:  "#94A3B8",
+      gray600:  "#475569",
+      brandRed: "#FF4444",  // brand red
+      textGradient1: "#FFFFFF",
+      textGradient2: "#FFB4B4",
+      textGradient3: "#FFD9D9",
+    };
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-overlay"></div>
-  <div style="position:absolute;inset:0;pointer-events:none">
-    <div class="bubble" style="width:300px;height:300px;top:10%;left:5%;animation-delay:0s"></div>
-    <div class="bubble" style="width:200px;height:200px;top:60%;right:8%;animation-delay:2s"></div>
-    <div class="bubble" style="width:150px;height:150px;top:30%;right:20%;animation-delay:1s"></div>
-    <div class="bubble" style="width:80px;height:80px;top:70%;left:20%;animation-delay:3s"></div>
-  </div>
-  <div class="container" style="position:relative;z-index:2;padding-top:100px">
-    <div style="max-width:700px">
-      <div class="au d1" style="opacity:0">
-        <span style="font-size:.72rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.25);border-radius:999px;padding:6px 16px">
-          ✦ Tulamben, Bali
-        </span>
-      </div>
-      <h1 class="au d2 gt" style="font-size:clamp(2.8rem,7vw,5.5rem);line-height:1.05;font-weight:700;margin-bottom:24px;opacity:0">
-        Tulamben<br>7 Years of<br>Deep Blue Excellence
-      </h1>
-      <p class="au d3" style="font-size:1.15rem;line-height:1.8;color:rgba(255,255,255,.7);margin-bottom:40px;max-width:520px;opacity:0">
-        Experience Bali's pristine waters with our expert instructor team. From your first dive to your hundredth, we provide small group classes, safety first, and an integrated stay-dive experience.
-      </p>
-      <div class="au d4 hero-btns" style="display:flex;gap:16px;flex-wrap:wrap;opacity:0">
-        <a href="#booking" class="btn-cta">Customize Your Dive Trip →</a>
-        <a href="#courses" class="btn-ghost">View Courses</a>
-      </div>
-      <div class="au d5" style="display:flex;align-items:center;gap:10px;margin-top:40px;opacity:0">
-        <span style="color:var(--gold)">★★★★★</span>
-        <span style="font-size:.88rem;color:rgba(255,255,255,.6)"><strong class="gt">4.9</strong> · From 600+ verified reviews</span>
-      </div>
-    </div>
-  </div>
-  <div class="wave-container">
-    <svg class="wave-svg" viewBox="0 0 1200 80" preserveAspectRatio="none">
-      <path d="M0,40 C150,80 350,0 600,40 C850,80 1050,0 1200,40 L1200,80 L0,80 Z" fill="rgba(6,26,48,0.8)"/>
-      <path d="M0,55 C200,90 400,20 600,55 C800,90 1000,20 1200,55 L1200,80 L0,80 Z" fill="rgba(6,26,48,1)"/>
-    </svg>
-  </div>
-</section>
+    // ─── GLOBAL STYLES injected into <head> ──────────────────────────────────────
+    const GlobalStyle = () => (
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="container">
-    <div class="trust-bar-grid">
-      <div class="trust-item"><div class="trust-icon">🛡️</div><div style="font-weight:600;font-size:.92rem" class="gt">7 Years Zero Accidents</div><div style="font-size:.78rem;color:var(--gray400)">Safe operations since 2018</div></div>
-      <div class="trust-item"><div class="trust-icon">🏡</div><div style="font-weight:600;font-size:.92rem" class="gt">16 Boutique Rooms</div><div style="font-size:.78rem;color:var(--gray400)">Integrated stay-dive experience</div></div>
-      <div class="trust-item"><div class="trust-icon">🎓</div><div style="font-weight:600;font-size:.92rem" class="gt">PADI Certified Center</div><div style="font-size:.78rem;color:var(--gray400)">Internationally recognized</div></div>
-      <div class="trust-item"><div class="trust-icon">🌏</div><div style="font-weight:600;font-size:.92rem" class="gt">Multi-language Team</div><div style="font-size:.78rem;color:var(--gray400)">English, Chinese, Bahasa</div></div>
-    </div>
-  </div>
-</div>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<!-- STATS -->
-<section style="background:rgba(10,37,64,.5);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)">
-  <div class="container">
-    <div class="stats-grid" style="display:grid;grid-template-columns:repeat(4,1fr)">
-      <div class="stat-card"><div class="stat-num">7+</div><div style="font-size:.85rem;color:var(--gray400);margin-top:8px">Years Safe Operations</div></div>
-      <div class="stat-card"><div class="stat-num">2000+</div><div style="font-size:.85rem;color:var(--gray400);margin-top:8px">Certified Divers</div></div>
-      <div class="stat-card"><div class="stat-num">16</div><div style="font-size:.85rem;color:var(--gray400);margin-top:8px">Boutique Rooms</div></div>
-      <div class="stat-card"><div class="stat-num">98%</div><div style="font-size:.85rem;color:var(--gray400);margin-top:8px">Satisfaction Rate</div></div>
-    </div>
-  </div>
-</section>
+        :root {
+          --ocean: ${tokens.ocean};
+          --abyss: ${tokens.abyss};
+          --lagoon: ${tokens.lagoon};
+          --current: ${tokens.current};
+          --foam: ${tokens.foam};
+          --pearl: ${tokens.pearl};
+          --cta: ${tokens.cta};
+          --cta-hover: ${tokens.ctaHover};
+          --gold: ${tokens.gold};
+        }
 
-<!-- COURSES -->
-<section class="section" id="courses" style="background:var(--abyss)">
-  <div class="container">
-    <span class="section-label">Diving Courses</span>
-    <h2 class="section-title gt">More Than Diving,<br>A Life-Changing Experience</h2>
-    <div class="gold-divider"></div>
-    <p style="font-size:1.05rem;line-height:1.7;color:var(--gray400);max-width:560px;margin-top:16px" class="gt">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
+        html { scroll-behavior: smooth; }
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:56px">
-      <!-- Course 1 -->
-      <div class="course-card">
-        <div class="course-card-img">
-          <span style="font-size:72px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))">🐠</span>
-          <div style="position:absolute;top:16px;left:16px;background:var(--cta);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:999px">Most Popular</div>
-        </div>
-        <div style="padding:24px 24px 20px">
-          <h3 style="font-size:1.3rem;margin-bottom:4px" class="gt">PADI Open Water Diver</h3>
-          <div style="font-size:.78rem;color:var(--current);font-weight:500;letter-spacing:.05em;margin-bottom:12px">Beginner Certification</div>
-          <p style="font-size:.88rem;color:var(--gray400);line-height:1.7;margin-bottom:18px">From zero to certified diver in 4 intensive days with small classes (max 4). Dedicated instructor guidance with complete theory, pool, and ocean training.</p>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>4-Day Complete Course</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Max 4 per Class</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>English Instruction</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PADI International Certificate</div>
-          </div>
-          <div class="price-tag"><span style="font-family:'Cormorant Garamond';font-size:1.5rem;font-weight:700;color:var(--cta)">$550</span><span style="font-size:.75rem;color:rgba(255,107,26,.7)">per person</span></div>
-          <a href="#booking" class="btn-cta" style="width:100%;justify-content:center;margin-top:8px">View Package Details →</a>
-        </div>
-      </div>
-      <!-- Course 2 -->
-      <div class="course-card">
-        <div class="course-card-img">
-          <span style="font-size:72px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))">🦈</span>
-          <div style="position:absolute;top:16px;left:16px;background:#0E4D6B;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:999px">Advanced</div>
-        </div>
-        <div style="padding:24px 24px 20px">
-          <h3 style="font-size:1.3rem;margin-bottom:4px" class="gt">PADI Advanced Open Water</h3>
-          <div style="font-size:.78rem;color:var(--current);font-weight:500;letter-spacing:.05em;margin-bottom:12px">Level Up Your Skills</div>
-          <p style="font-size:.88rem;color:var(--gray400);line-height:1.7;margin-bottom:18px">5 specialty dives reaching 30m depth. Master navigation, deep diving, and more. Perfect for OW certified divers.</p>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>5 Specialty Dives</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>30m Depth Limit</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Navigation Training</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Upgrade Certificate</div>
-          </div>
-          <div class="price-tag"><span style="font-family:'Cormorant Garamond';font-size:1.5rem;font-weight:700;color:var(--cta)">$400</span><span style="font-size:.75rem;color:rgba(255,107,26,.7)">per person</span></div>
-          <a href="#booking" class="btn-cta" style="width:100%;justify-content:center;margin-top:8px">View Package Details →</a>
-        </div>
-      </div>
-      <!-- Course 3 -->
-      <div class="course-card">
-        <div class="course-card-img">
-          <span style="font-size:72px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))">🫁</span>
-          <div style="position:absolute;top:16px;left:16px;background:#4A90D9;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:999px">Freediving</div>
-        </div>
-        <div style="padding:24px 24px 20px">
-          <h3 style="font-size:1.3rem;margin-bottom:4px" class="gt">Freediving Course</h3>
-          <div style="font-size:.78rem;color:var(--current);font-weight:500;letter-spacing:.05em;margin-bottom:12px">AIDA / SSI Certification</div>
-          <p style="font-size:.88rem;color:var(--gray400);line-height:1.7;margin-bottom:18px">Experience the silence of breath-hold diving. From beginner to advanced with certified instructors. Tulamben's calm bay is ideal for training.</p>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>AIDA/SSI Dual Cert</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Protected Bay Training</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Breathing Techniques</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Max 3 per Class</div>
-          </div>
-          <div class="price-tag"><span style="font-family:'Cormorant Garamond';font-size:1.5rem;font-weight:700;color:var(--cta)">$320</span><span style="font-size:.75rem;color:rgba(255,107,26,.7)">per person</span></div>
-          <a href="#booking" class="btn-cta" style="width:100%;justify-content:center;margin-top:8px">View Package Details →</a>
-        </div>
-      </div>
-      <!-- Course 4 -->
-      <div class="course-card">
-        <div class="course-card-img">
-          <span style="font-size:72px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))">🐙</span>
-          <div style="position:absolute;top:16px;left:16px;background:#7C5CBF;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:999px">Experience</div>
-        </div>
-        <div style="padding:24px 24px 20px">
-          <h3 style="font-size:1.3rem;margin-bottom:4px" class="gt">Discover Scuba Diving</h3>
-          <div style="font-size:.78rem;color:var(--current);font-weight:500;letter-spacing:.05em;margin-bottom:12px">No Certification Needed</div>
-          <p style="font-size:.88rem;color:var(--gray400);line-height:1.7;margin-bottom:18px">No certification needed, age 10+. Experience the underwater world with professional instructor guidance. Explore the famous USAT Liberty Shipwreck.</p>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>No Experience Required</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Full Instructor Support</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>2–3 Dives</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Upgrade to Certification</div>
-          </div>
-          <div class="price-tag"><span style="font-family:'Cormorant Garamond';font-size:1.5rem;font-weight:700;color:var(--cta)">$98</span><span style="font-size:.75rem;color:rgba(255,107,26,.7)">per person</span></div>
-          <a href="#booking" class="btn-cta" style="width:100%;justify-content:center;margin-top:8px">View Package Details →</a>
-        </div>
-      </div>
-    </div>
+        body {
+          font-family: 'DM Sans', sans-serif;
+          background: var(--abyss);
+          color: var(--white);
+          overflow-x: hidden;
+        }
 
-    <!-- ═══ FUNDIVE CALCULATOR ═══ -->
-    <div class="fundive-calc" id="fundive">
-      <div class="fundive-header">
-        <div>
-          <span class="section-label">Fun Diving · Price Calculator</span>
-          <h3 style="font-size:1.6rem;margin-top:6px" class="gt">Fun Dive Instant Quote</h3>
-          <p style="font-size:.85rem;color:var(--gray400);margin-top:4px">Select your dives and add-ons — see live pricing in IDR, MYR &amp; CNY</p>
-        </div>
-        <div style="background:rgba(255,107,26,.1);border:1px solid rgba(255,107,26,.25);border-radius:8px;padding:8px 16px;font-size:.78rem;color:rgba(255,107,26,.9)">
-          ⚠ +5% govt tax · 50% deposit to confirm
-        </div>
-      </div>
+        h1, h2, h3, h4 {
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+        }
 
-      <div class="fundive-body">
-        <!-- LEFT -->
-        <div class="fundive-left">
-          <!-- Location -->
-          <div style="margin-bottom:24px">
-            <div class="calc-section-label">Location</div>
-            <div style="display:flex;gap:8px">
-              <button class="loc-btn active" id="btn-loc-tulamben" onclick="setLocation('tulamben')">🏝 Tulamben</button>
-              <button class="loc-btn" id="btn-loc-penida" onclick="setLocation('penida')">🚤 Nusa Penida / Others</button>
-            </div>
-            <div id="penida-note" style="display:none;margin-top:10px;font-size:.8rem;color:var(--gray400);background:rgba(255,255,255,.04);border-radius:6px;padding:8px 12px">
-              Fixed 3-dive package · IDR 2,600,000 (Nusa Penida / Padang Bai / Pemuteran / Menjangan)
-            </div>
-          </div>
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--abyss); }
+        ::-webkit-scrollbar-thumb { background: var(--lagoon); border-radius: 2px; }
 
-          <!-- Dive count -->
-          <div style="margin-bottom:24px" id="dive-count-section">
-            <div class="calc-section-label">Number of Dives</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="dive-grid">
-              <button class="dive-btn active" onclick="setDive(0,550000,'1 Dive')"><div class="dlabel">1 Dive</div><div class="dprice">550K</div></button>
-              <button class="dive-btn" onclick="setDive(1,1000000,'2 Dives')"><div class="dlabel">2 Dives</div><div class="dprice">1,000K</div></button>
-              <button class="dive-btn" onclick="setDive(2,1450000,'3 Dives')"><div class="dlabel">3 Dives</div><div class="dprice">1,450K</div></button>
-              <button class="dive-btn" onclick="setDive(3,2360000,'5 Dives')"><div class="dlabel">5 Dives</div><div class="dprice">2,360K</div></button>
-              <button class="dive-btn" onclick="setDive(4,3250000,'7 Dives')"><div class="dlabel">7 Dives</div><div class="dprice">3,250K</div></button>
-              <button class="dive-btn" onclick="setDive(5,4050000,'9 Dives')"><div class="dlabel">9 Dives</div><div class="dprice">4,050K</div></button>
-            </div>
-          </div>
+        /* Animations */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-8px); }
+        }
+        @keyframes pulse-ring {
+          0%   { transform: scale(0.8); opacity: 0.8; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes shimmer {
+          0%   { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes wave {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
 
-          <!-- Add-ons -->
-          <div>
-            <div class="calc-section-label">Add-ons</div>
-            <div class="addon-row">
-              <div><div style="font-size:.87rem;color:#fff">Out-of-Tulamben Area</div><div style="font-size:.72rem;color:var(--gray400)">+50,000 / 2 dives</div></div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <button class="cnt-btn" onclick="changeAddon('out',-1)">−</button>
-                <span style="font-size:.95rem;font-weight:600;color:#fff;min-width:18px;text-align:center" id="cnt-out">0</span>
-                <button class="cnt-btn" onclick="changeAddon('out',1)">+</button>
+        .animate-fadeUp   { animation: fadeUp 0.8s ease forwards; }
+        .animate-fadeIn   { animation: fadeIn 0.6s ease forwards; }
+        .animate-float    { animation: float 4s ease-in-out infinite; }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* CTA Button */
+        .btn-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: var(--cta);
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 600;
+          font-size: 0.95rem;
+          padding: 14px 32px;
+          border-radius: 4px;
+          border: none;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+          text-decoration: none;
+          letter-spacing: 0.02em;
+          box-shadow: 0 4px 20px rgba(255,107,26,0.35);
+        }
+        .btn-cta:hover {
+          background: var(--cta-hover);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(255,107,26,0.45);
+        }
+
+        .btn-ghost {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 500;
+          font-size: 0.95rem;
+          padding: 13px 30px;
+          border-radius: 4px;
+          border: 1.5px solid rgba(255,255,255,0.4);
+          cursor: pointer;
+          transition: all 0.2s;
+          text-decoration: none;
+          letter-spacing: 0.02em;
+        }
+        .btn-ghost:hover {
+          border-color: rgba(255,255,255,0.9);
+          background: rgba(255,255,255,0.08);
+        }
+
+        /* Section */
+        .section { padding: 100px 0; }
+        .section-sm { padding: 60px 0; }
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+        }
+        .section-label {
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--gold);
+          display: block;
+          margin-bottom: 16px;
+        }
+        .section-title {
+          font-size: clamp(2rem, 4vw, 3.2rem);
+          line-height: 1.15;
+          color: var(--white);
+        }
+        .section-subtitle {
+          font-size: 1.05rem;
+          line-height: 1.7;
+          color: var(--gray400);
+          max-width: 560px;
+          margin-top: 16px;
+        }
+
+        /* Card */
+        .card {
+          background: rgba(14,77,107,0.18);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(201,169,110,0.3);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Nav */
+        .nav {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          z-index: 100;
+          transition: background 0.4s, backdrop-filter 0.4s;
+        }
+        .nav.scrolled {
+          background: rgba(6,26,48,0.95);
+          backdrop-filter: blur(12px);
+          box-shadow: 0 1px 0 rgba(255,255,255,0.07);
+        }
+        .nav-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 24px;
+          height: 72px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .nav-links a {
+          color: rgba(255,255,255,0.75);
+          text-decoration: none;
+          font-size: 0.9rem;
+          font-weight: 500;
+          margin-left: 32px;
+          transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #fff; }
+
+        /* Hero */
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+        }
+        .hero-bg {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #051525 0%, #0A2540 40%, #0E4D6B 70%, #0A3550 100%);
+        }
+        .hero-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, rgba(6,26,48,0.3) 0%, rgba(6,26,48,0.6) 60%, rgba(6,26,48,0.95) 100%);
+        }
+        .hero-grid {
+          position: absolute;
+          inset: 0;
+          background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+          background-size: 60px 60px;
+        }
+        .hero-bubbles {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .bubble {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(26,122,154,0.3), transparent);
+          animation: float 6s ease-in-out infinite;
+        }
+
+        /* Wave decoration */
+        .wave-container {
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 120px;
+          overflow: hidden;
+        }
+        .wave-svg { width: 200%; animation: wave 12s linear infinite; }
+
+        /* Trust bar */
+        .trust-bar {
+          background: rgba(10,37,64,0.95);
+          border-top: 1px solid rgba(201,169,110,0.2);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          backdrop-filter: blur(8px);
+        }
+        .trust-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          text-align: center;
+          padding: 28px 16px;
+          border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .trust-item:last-child { border-right: none; }
+        .trust-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: rgba(26,122,154,0.2);
+          border: 1px solid rgba(26,122,154,0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+        }
+
+        /* Courses grid */
+        .course-card {
+          position: relative;
+          border-radius: 12px;
+          overflow: hidden;
+          background: linear-gradient(145deg, rgba(14,77,107,0.25), rgba(6,26,48,0.6));
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: all 0.35s;
+        }
+        .course-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+        .course-card-img {
+          height: 220px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 64px;
+          position: relative;
+          overflow: hidden;
+        }
+        .price-tag {
+          display: inline-flex;
+          align-items: baseline;
+          gap: 4px;
+          background: rgba(255,107,26,0.12);
+          border: 1px solid rgba(255,107,26,0.3);
+          border-radius: 999px;
+          padding: 6px 16px;
+          margin-bottom: 16px;
+        }
+
+        /* Team */
+        .team-card {
+          border-radius: 12px;
+          overflow: hidden;
+          background: rgba(14,77,107,0.15);
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: all 0.3s;
+          text-align: center;
+          padding-bottom: 20px;
+        }
+        .team-card:hover { border-color: rgba(201,169,110,0.3); transform: translateY(-4px); }
+        .team-avatar {
+          height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 56px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Social wall */
+        .social-tile {
+          border-radius: 10px;
+          overflow: hidden;
+          aspect-ratio: 1;
+          position: relative;
+          cursor: pointer;
+          transition: transform 0.3s;
+        }
+        .social-tile:hover { transform: scale(1.03); }
+        .social-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(6,26,48,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .social-tile:hover .social-overlay { opacity: 1; }
+
+        /* Form */
+        .form-input {
+          width: 100%;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 8px;
+          padding: 14px 18px;
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.95rem;
+          outline: none;
+          transition: border-color 0.2s, background 0.2s;
+        }
+        .form-input:focus {
+          border-color: var(--current);
+          background: rgba(26,122,154,0.1);
+        }
+        .form-input::placeholder { color: rgba(255,255,255,0.35); }
+        .form-label {
+          display: block;
+          font-size: 0.82rem;
+          font-weight: 500;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 8px;
+          letter-spacing: 0.05em;
+        }
+        select.form-input option { background: #0A2540; }
+
+        /* FAB */
+        .fab {
+          position: fixed;
+          bottom: 28px;
+          right: 28px;
+          z-index: 200;
+        }
+        .fab-main {
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          background: var(--cta);
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          box-shadow: 0 4px 24px rgba(255,107,26,0.5);
+          transition: transform 0.3s, box-shadow 0.3s;
+          position: relative;
+          z-index: 2;
+        }
+        .fab-main::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: var(--cta);
+          animation: pulse-ring 2s ease-out infinite;
+        }
+        .fab-main:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(255,107,26,0.6); }
+        .fab-menu {
+          position: absolute;
+          bottom: 72px;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          align-items: flex-end;
+        }
+        .fab-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(6,26,48,0.96);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 8px;
+          padding: 10px 16px;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: border-color 0.2s, transform 0.2s;
+          text-decoration: none;
+          color: #fff;
+        }
+        .fab-item:hover { border-color: rgba(255,255,255,0.3); transform: translateX(-4px); }
+
+        /* Divider */
+        .gold-divider {
+          width: 60px;
+          height: 2px;
+          background: linear-gradient(90deg, var(--gold), transparent);
+          margin: 20px 0 32px;
+        }
+
+        /* Scarcity */
+        .scarcity-bar {
+          background: linear-gradient(90deg, rgba(255,107,26,0.12), rgba(255,107,26,0.06));
+          border: 1px solid rgba(255,107,26,0.25);
+          border-radius: 8px;
+          padding: 14px 20px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 32px;
+        }
+
+        /* Room grid */
+        .room-card {
+          border-radius: 12px;
+          overflow: hidden;
+          background: rgba(14,77,107,0.15);
+          border: 1px solid rgba(255,255,255,0.07);
+          transition: all 0.3s;
+        }
+        .room-card:hover { border-color: rgba(201,169,110,0.3); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+        .room-img {
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 52px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Stats */
+        .stat-card {
+          text-align: center;
+          padding: 40px 20px;
+          border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .stat-card:last-child { border-right: none; }
+        .stat-num {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 3.5rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #fff, var(--gold));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          line-height: 1;
+        }
+
+        /* Fundive calculator */
+        .fundive-calc {
+          background: rgba(14,77,107,0.12);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px;
+          overflow: hidden;
+        }
+        .fundive-body {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+        @media (max-width: 900px) {
+          .fundive-body { grid-template-columns: 1fr; }
+        }
+        .loc-btn {
+          flex: 1;
+          padding: 10px 12px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 0.83rem;
+          font-weight: 500;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: transparent;
+          color: #94A3B8;
+          transition: all 0.18s;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .loc-btn:hover {
+          border-color: rgba(255,255,255,0.3);
+          background: rgba(255,255,255,0.05);
+        }
+        .dive-btn {
+          padding: 12px 8px;
+          border-radius: 8px;
+          cursor: pointer;
+          text-align: center;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.03);
+          transition: all 0.18s;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .dive-btn:hover {
+          border-color: rgba(255,107,26,0.3);
+          background: rgba(255,107,26,0.08);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+          .section { padding: 64px 0; }
+          .nav-links { display: none; }
+          .container { padding: 0 16px; }
+          .trust-bar-grid { grid-template-columns: 1fr 1fr; }
+          .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .hero-btns { flex-direction: column; gap: 12px; }
+          .hero-btns .btn-cta, .hero-btns .btn-ghost { width: 100%; justify-content: center; }
+          .fab { bottom: 20px; right: 20px; }
+          
+          /* Course cards */
+          .course-card { overflow: hidden; }
+          .course-card-img { height: 180px; }
+          
+          /* Room cards */
+          .room-card { overflow: hidden; }
+          .room-img { height: 160px; }
+          
+          /* Form */
+          form { gap: 16px !important; }
+          .form-input { padding: 12px 14px !important; font-size: 16px !important; }
+          
+          /* Stats */
+          .stat-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          
+          /* Footer */
+          footer { padding: 32px 0 20px; }
+          
+          /* Titles */
+          .section-title { font-size: clamp(1.8rem, 6vw, 2.5rem) !important; }
+          
+          /* Grid layouts */
+          [style*="grid-template-columns: 1fr 1fr"] {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 480px) {
+          .section { padding: 48px 0; }
+          .section-title { font-size: clamp(1.6rem, 8vw, 2rem) !important; }
+          .trust-bar-grid { grid-template-columns: 1fr; }
+          .trust-item { border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .social-tile-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .stat-card { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 32px 16px; }
+          
+          /* Footer grid */
+          footer [style*="grid-template-columns: 2fr 1fr 1fr 1fr"] {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          
+          /* Footer bottom section */
+          footer div[style*="justifyContent: space-between"] {
+            flexDirection: column !important;
+            alignItems: center !important;
+            text-align: center !important;
+          }
+          
+          /* Booking form grid */
+          .form-input { padding: 14px 16px !important; }
+          
+          /* Contact cards */
+          div[style*="flexDirection: column"][style*="gap: 16"] {
+            gap: 12px !important;
+          }
+          
+          /* Scarcity bar */
+          .scarcity-bar {
+            flex-direction: column !important;
+            text-align: left !important;
+            padding: 16px !important;
+          }
+          
+          /* Hero content */
+          .container div[style*="maxWidth: 700px"] {
+            max-width: 100% !important;
+          }
+        }
+        
+        /* Prevent overflow and horizontal scroll */
+        html, body {
+          overflow-x: hidden;
+          max-width: 100vw;
+        }
+        
+        * {
+          box-sizing: border-box;
+        }
+      `}</style>
+    );
+
+    // ─── ICONS (inline SVG) ───────────────────────────────────────────────────────
+    const IconShield   = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
+    const IconHome     = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+    const IconBadge    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>;
+    const IconGlobe    = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>;
+    const IconArrow    = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
+    const IconChat     = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>;
+    const IconX        = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+    const IconStar     = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+    const IconAlert    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
+    const IconCalendar = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+    const IconCheck    = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>;
+
+    // ─── NAV ──────────────────────────────────────────────────────────────────────
+    function Nav() {
+      const [scrolled, setScrolled] = useState(false);
+      useEffect(() => {
+        const h = () => setScrolled(window.scrollY > 60);
+        window.addEventListener("scroll", h);
+        return () => window.removeEventListener("scroll", h);
+      }, []);
+      return (
+        <nav className={`nav${scrolled ? " scrolled" : ""}`}>
+          <div className="nav-inner">
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ fontSize: 28 }}>🤿</div>
+              <div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 700, letterSpacing: "0.05em", lineHeight: 1, background: "linear-gradient(135deg, #FF4444 0%, #FF6666 50%, #FF8888 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>UdiveBali</div>
+                <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.2em", textTransform: "uppercase" }}>Tulamben · Est. 2018</div>
               </div>
             </div>
-            <div class="addon-row">
-              <div><div style="font-size:.87rem;color:#fff">Night Dive</div><div style="font-size:.72rem;color:var(--gray400)">+100,000 / dive</div></div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <button class="cnt-btn" onclick="changeAddon('night',-1)">−</button>
-                <span style="font-size:.95rem;font-weight:600;color:#fff;min-width:18px;text-align:center" id="cnt-night">0</span>
-                <button class="cnt-btn" onclick="changeAddon('night',1)">+</button>
+            <div className="nav-links" style={{ display: "flex" }}>
+              <a href="#courses">Courses</a>
+              <a href="#fundive">Fundive</a>
+              <a href="#resort">Resort</a>
+              <a href="#social">Social</a>
+              <a href="#booking" className="btn-cta" style={{ marginLeft: 32, padding: "10px 24px" }}>Book Now</a>
+            </div>
+          </div>
+        </nav>
+      );
+    }
+
+    // ─── HERO ─────────────────────────────────────────────────────────────────────
+    function Hero() {
+      return (
+        <section className="hero" id="hero">
+          <div className="hero-bg" />
+          <div className="hero-grid" />
+
+          {/* Decorative bubbles */}
+          <div className="hero-bubbles">
+            {[
+              { w:300, h:300, top:"10%", left:"5%", delay:"0s" },
+              { w:200, h:200, top:"60%", right:"8%", delay:"2s" },
+              { w:150, h:150, top:"30%", right:"20%", delay:"1s" },
+              { w:80,  h:80,  top:"70%", left:"20%", delay:"3s" },
+            ].map((b, i) => (
+              <div key={i} className="bubble" style={{ width: b.w, height: b.h, top: b.top, left: b.left, right: b.right, animationDelay: b.delay }} />
+            ))}
+          </div>
+
+          <div className="hero-overlay" />
+
+          <div className="container" style={{ position: "relative", zIndex: 2, paddingTop: 100 }}>
+            <div style={{ maxWidth: 700 }}>
+              <div className="animate-fadeUp" style={{ animationDelay: "0.1s", opacity: 0 }}>
+                <span style={{ fontFamily: "'DM Sans'", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.25em", textTransform: "uppercase", color: tokens.gold, display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24, background: "rgba(201,169,110,0.1)", border: "1px solid rgba(201,169,110,0.25)", borderRadius: 999, padding: "6px 16px" }}>
+                  ✦ Tulamben, Bali
+                </span>
+              </div>
+
+              <h1 className="animate-fadeUp delay-2" style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)", lineHeight: 1.05, fontWeight: 700, marginBottom: 24, opacity: 0, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 50%, #FFD9D9 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                Tulamben
+                <br />
+                7 Years of
+                <br />
+                Deep Blue Excellence
+              </h1>
+
+              <p className="animate-fadeUp delay-3" style={{ fontSize: "1.15rem", lineHeight: 1.8, color: "rgba(255,255,255,0.7)", marginBottom: 40, maxWidth: 520, opacity: 0 }}>
+                Experience Bali's pristine waters with our expert instructor team. From your first dive to your hundredth, we provide small group classes, safety first, and an integrated stay-dive experience.
+              </p>
+
+              <div className="animate-fadeUp delay-4 hero-btns" style={{ display: "flex", gap: 16, flexWrap: "wrap", opacity: 0 }}>
+                <a href="#booking" className="btn-cta">
+                  Customize Your Dive Trip <IconArrow />
+                </a>
+                <a href="#courses" className="btn-ghost">
+                  View Courses
+                </a>
+              </div>
+
+              {/* Stars */}
+              <div className="animate-fadeUp delay-5" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 40, opacity: 0 }}>
+                <div style={{ display: "flex", gap: 2, color: tokens.gold }}>
+                  {[...Array(5)].map((_, i) => <IconStar key={i} />)}
+                </div>
+                <span style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.6)" }}>
+                  <strong style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>4.9</strong> · From 600+ verified reviews
+                </span>
               </div>
             </div>
-            <div class="addon-row">
-              <div><div style="font-size:.87rem;color:#fff">Nitrox Tank</div><div style="font-size:.72rem;color:var(--gray400)">+30,000 / dive</div></div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <button class="cnt-btn" onclick="changeAddon('nitrox',-1)">−</button>
-                <span style="font-size:.95rem;font-weight:600;color:#fff;min-width:18px;text-align:center" id="cnt-nitrox">0</span>
-                <button class="cnt-btn" onclick="changeAddon('nitrox',1)">+</button>
-              </div>
+
+            {/* Floating badge */}
+            <div className="animate-float" style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", background: "rgba(10,37,64,0.8)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: 16, padding: "24px 28px", backdropFilter: "blur(12px)", display: "flex", flexDirection: "column", gap: 16, display: "none" }}>
             </div>
-            <div class="addon-row" style="border-bottom:none">
-              <div><div style="font-size:.87rem;color:#fff">Boat Dive</div><div style="font-size:.72rem;color:var(--gray400)">+300,000 / 2 dives · max 2 pax/boat</div></div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <button class="cnt-btn" onclick="changeAddon('boat',-1)">−</button>
-                <span style="font-size:.95rem;font-weight:600;color:#fff;min-width:18px;text-align:center" id="cnt-boat">0</span>
-                <button class="cnt-btn" onclick="changeAddon('boat',1)">+</button>
-              </div>
+          </div>
+
+          {/* Wave */}
+          <div className="wave-container">
+            <svg className="wave-svg" viewBox="0 0 1200 80" preserveAspectRatio="none">
+              <path d="M0,40 C150,80 350,0 600,40 C850,80 1050,0 1200,40 L1200,80 L0,80 Z" fill="rgba(6,26,48,0.8)" />
+              <path d="M0,55 C200,90 400,20 600,55 C800,90 1000,20 1200,55 L1200,80 L0,80 Z" fill="rgba(6,26,48,1)" />
+            </svg>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── TRUST BAR ────────────────────────────────────────────────────────────────
+    function TrustBar() {
+      const items = [
+        { icon: "🛡️", title: "7 Years Zero Accidents", sub: "Safe operations since 2018" },
+        { icon: "🏡", title: "16 Boutique Rooms", sub: "Integrated stay-dive experience" },
+        { icon: "🎓", title: "PADI Certified Center", sub: "Internationally recognized" },
+        { icon: "🌏", title: "Multi-language Team", sub: "English, Chinese, Bahasa" },
+      ];
+      return (
+        <div className="trust-bar">
+          <div className="container">
+            <div className="trust-bar-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+              {items.map((it, i) => (
+                <div key={i} className="trust-item">
+                  <div className="trust-icon" style={{ fontSize: 20 }}>{it.icon}</div>
+                  <div style={{ fontWeight: 600, fontSize: "0.92rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{it.title}</div>
+                  <div style={{ fontSize: "0.78rem", color: tokens.gray400, lineHeight: 1.4 }}>{it.sub}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+      );
+    }
 
-        <!-- RIGHT -->
-        <div class="fundive-right">
-          <!-- Price summary -->
-          <div class="price-summary">
-            <div class="calc-section-label" style="margin-bottom:16px">Price Summary</div>
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div style="display:flex;justify-content:space-between;font-size:.88rem">
-                <span style="color:var(--gray400)">Dive package</span>
-                <span id="s-base" style="color:#fff">IDR 550,000</span>
+    // ─── STATS ────────────────────────────────────────────────────────────────────
+    function Stats() {
+      const stats = [
+        { num: "7+", label: "Years Safe Operations" },
+        { num: "2000+", label: "Certified Divers" },
+        { num: "16", label: "Boutique Rooms" },
+        { num: "98%", label: "Satisfaction Rate" },
+      ];
+      return (
+        <section style={{ background: "rgba(10,37,64,0.5)", borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+              {stats.map((s, i) => (
+                <div key={i} className="stat-card">
+                  <div className="stat-num">{s.num}</div>
+                  <div style={{ fontSize: "0.85rem", color: tokens.gray400, marginTop: 8, fontFamily: "'DM Sans'" }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── COURSES ──────────────────────────────────────────────────────────────────
+    function Courses() {
+      const courses = [
+        {
+          emoji: "🐠",
+          badge: "Most Popular",
+          badgeColor: tokens.cta,
+          title: "PADI Open Water Diver",
+          sub: "Beginner Certification",
+          desc: "From zero to certified diver in 4 intensive days with small classes (max 4). Dedicated instructor guidance with complete theory, pool, and ocean training.",
+          features: ["4-Day Complete Course", "Max 4 per Class", "English Instruction", "PADI International Certificate"],
+          price: "$550",
+          priceNote: "per person (discount with accommodation)",
+        },
+        {
+          emoji: "🦈",
+          badge: "Advanced",
+          badgeColor: tokens.lagoon,
+          title: "PADI Advanced Open Water",
+          sub: "Level Up Your Skills",
+          desc: "5 specialty dives reaching 30m depth. Master navigation, deep diving, and more. Perfect for OW certified divers.",
+          features: ["5 Specialty Dives", "30m Depth Limit", "Navigation Training", "Upgrade Certificate"],
+          price: "$400",
+          priceNote: "per person",
+        },
+
+        {
+          emoji: "🐙",
+          badge: "Experience",
+          badgeColor: "#7C5CBF",
+          title: "Discover Scuba Diving",
+          sub: "Discover Scuba Diving",
+          desc: "No certification needed, age 10+. Experience the underwater world with professional instructor guidance. Explore the famous USAT Liberty Shipwreck.",
+          features: ["No Experience Required", "Full Instructor Support", "2-3 Dives", "Upgrade to Certification"],
+          price: "$98",
+          priceNote: "per person",
+        },
+      ];
+
+      return (
+        <section className="section" id="courses" style={{ background: "var(--abyss)" }}>
+          <div className="container">
+            <span className="section-label">Diving Courses</span>
+            <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>More Than Diving,<br />A Life-Changing Experience</h2>
+            <div className="gold-divider" />
+            <p className="section-subtitle" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, marginTop: 56 }}>
+              {courses.map((c, i) => (
+                <div key={i} className="course-card">
+                  {/* Image area */}
+                  <div className="course-card-img" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.4), rgba(6,26,48,0.8))` }}>
+                    <span style={{ fontSize: 72, filter: "drop-shadow(0 4px 16px rgba(0,0,0,0.4))" }}>{c.emoji}</span>
+                    <div style={{ position: "absolute", top: 16, left: 16, background: c.badgeColor, color: "#fff", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.08em", padding: "4px 12px", borderRadius: 999 }}>{c.badge}</div>
+                  </div>
+
+                  <div style={{ padding: "24px 24px 20px" }}>
+                    <div style={{ marginBottom: 12 }}>
+                      <h3 style={{ fontSize: "1.3rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 4 }}>{c.title}</h3>
+                      <div style={{ fontSize: "0.78rem", color: tokens.current, fontWeight: 500, letterSpacing: "0.05em" }}>{c.sub}</div>
+                    </div>
+
+                    <p style={{ fontSize: "0.88rem", color: tokens.gray400, lineHeight: 1.7, marginBottom: 18 }}>{c.desc}</p>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
+                      {c.features.map((f, j) => (
+                        <div key={j} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.83rem", color: "rgba(255,255,255,0.7)" }}>
+                          <span style={{ color: tokens.current, flexShrink: 0 }}><IconCheck /></span>
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="price-tag">
+                      <span style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.5rem", fontWeight: 700, color: tokens.cta }}>{c.price}</span>
+                      <span style={{ fontSize: "0.75rem", color: "rgba(255,107,26,0.7)" }}>{c.priceNote}</span>
+                    </div>
+
+                    <a href="#booking" className="btn-cta" style={{ width: "100%", justifyContent: "center", marginTop: 8 }}>
+                      View Package Details <IconArrow />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* ═══ FUNDIVE CALCULATOR ═══ */}
+            <FundiveCalc />
+          </div>
+        </section>
+      );
+    }
+
+    // ─── FUNDIVE CALCULATOR ─────────────────────────────────────────────────────────
+    function FundiveCalc() {
+      const [location, setLocation] = useState("tulamben");
+      const [diveIdx, setDiveIdx] = useState(0);
+      const [addons, setAddons] = useState({ out: 0, night: 0, nitrox: 0, boat: 0 });
+
+      const divePackages = [
+        { label: "1 Dive", price: 550000 },
+        { label: "2 Dives", price: 1000000 },
+        { label: "3 Dives", price: 1450000 },
+        { label: "5 Dives", price: 2360000 },
+        { label: "7 Dives", price: 3250000 },
+        { label: "9 Dives", price: 4050000 },
+      ];
+
+      const addonPrices = { out: 50000, night: 100000, nitrox: 30000, boat: 300000 };
+
+      const currentPrice = location === "penida" ? 2600000 : divePackages[diveIdx].price;
+      const addonTotal = addons.out * addonPrices.out + addons.night * addonPrices.night + addons.nitrox * addonPrices.nitrox + addons.boat * addonPrices.boat;
+      const total = currentPrice + addonTotal;
+      const deposit = total * 0.5;
+
+      const formatIDR = (n) => "IDR " + Math.round(n).toLocaleString();
+
+      return (
+        <div className="fundive-calc" id="fundive" style={{ marginTop: 64 }}>
+          <div className="fundive-header" style={{ padding: "28px 32px 24px", borderBottom: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+            <div>
+              <span className="section-label">Fun Diving · Price Calculator</span>
+              <h3 style={{ fontSize: "1.6rem", marginTop: 6, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Fun Dive Instant Quote</h3>
+              <p style={{ fontSize: "0.85rem", color: tokens.gray400, marginTop: 4 }}>Select your dives and add-ons — see live pricing in IDR, MYR & CNY</p>
+            </div>
+            <div style={{ background: "rgba(255,107,26,0.1)", border: "1px solid rgba(255,107,26,0.25)", borderRadius: 8, padding: "8px 16px", fontSize: "0.78rem", color: "rgba(255,107,26,0.9)" }}>⚠ +5% govt tax · 50% deposit to confirm</div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }} className="fundive-body">
+            {/* LEFT */}
+            <div style={{ padding: "28px 32px", borderRight: "1px solid rgba(255,255,255,0.07)" }} className="fundive-left">
+              {/* Location */}
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: tokens.gray400, marginBottom: 10 }}>Location</div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button className="loc-btn active" style={location === "tulamben" ? { borderColor: tokens.current, background: "rgba(26,122,154,0.18)", color: tokens.current } : {}} onClick={() => setLocation("tulamben")}>🏝 Tulamben</button>
+                  <button className="loc-btn" style={location === "penida" ? { borderColor: tokens.current, background: "rgba(26,122,154,0.18)", color: tokens.current } : {}} onClick={() => setLocation("penida")}>🚤 Nusa Penida / Others</button>
+                </div>
+                {location === "penida" && (
+                  <div style={{ marginTop: 10, fontSize: "0.8rem", color: tokens.gray400, background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "8px 12px" }}>Fixed 3-dive package · IDR 2,600,000 (Nusa Penida / Padang Bai / Pemuteran / Menjangan)</div>
+                )}
               </div>
-              <div style="display:flex;justify-content:space-between;font-size:.88rem" id="s-addon-row" style="display:none">
-                <span style="color:var(--gray400)">Add-ons</span>
-                <span id="s-addon" style="color:#fff">—</span>
+
+              {/* Dive count */}
+              {location === "tulamben" && (
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: tokens.gray400, marginBottom: 10 }}>Number of Dives</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8 }}>
+                    {divePackages.map((pkg, i) => (
+                      <button key={i} className="dive-btn" style={diveIdx === i ? { border: "2px solid var(--cta)", background: "rgba(255,107,26,0.12)" } : {}} onClick={() => setDiveIdx(i)}>
+                        <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.25rem", fontWeight: 700, color: diveIdx === i ? "var(--cta)" : "#fff" }}>{pkg.label}</div>
+                        <div style={{ fontSize: "0.7rem", color: tokens.gray400, marginTop: 2 }}>{formatIDR(pkg.price).replace("IDR ", "") + "K"}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Add-ons */}
+              <div>
+                <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: tokens.gray400, marginBottom: 10 }}>Add-ons</div>
+                {[
+                  { key: "out", title: "Out-of-Tulamben Area", desc: "+50,000 / 2 dives" },
+                  { key: "night", title: "Night Dive", desc: "+100,000 / dive" },
+                  { key: "nitrox", title: "Nitrox Tank", desc: "+30,000 / dive" },
+                  { key: "boat", title: "Boat Dive", desc: "+300,000 / 2 dives · max 2 pax/boat" },
+                ].map((addon) => (
+                  <div key={addon.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div>
+                      <div style={{ fontSize: "0.87rem", color: "#fff" }}>{addon.title}</div>
+                      <div style={{ fontSize: "0.72rem", color: tokens.gray400 }}>{addon.desc}</div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <button style={{ width: 28, height: 28, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.2)", background: "transparent", color: "#fff", cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'DM Sans'", lineHeight: 1 }} onClick={() => setAddons({ ...addons, [addon.key]: Math.max(0, addons[addon.key] - 1) })}>−</button>
+                      <span style={{ fontSize: "0.95rem", fontWeight: 600, color: "#fff", minWidth: 18, textAlign: "center" }}>{addons[addon.key]}</span>
+                      <button style={{ width: 28, height: 28, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.2)", background: "transparent", color: "#fff", cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'DM Sans'", lineHeight: 1 }} onClick={() => setAddons({ ...addons, [addon.key]: addons[addon.key] + 1 })}>+</button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
-              <div style="display:flex;justify-content:space-between;align-items:flex-end">
-                <span style="font-size:.85rem;color:var(--gray400)">Total (excl. tax)</span>
-                <div style="text-align:right">
-                  <div style="font-family:'Cormorant Garamond';font-size:2rem;font-weight:700;color:var(--cta);line-height:1" id="total-idr">IDR 550,000</div>
-                  <div style="font-size:.7rem;color:var(--gray400);margin-top:2px">excl. 5% govt tax</div>
+            </div>
+
+            {/* RIGHT */}
+            <div style={{ padding: "28px 32px", display: "flex", flexDirection: "column", gap: 24 }} className="fundive-right">
+              {/* Price summary */}
+              <div className="price-summary" style={{ background: "rgba(6,26,48,0.6)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 24 }}>
+                <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: tokens.gray400, marginBottom: 16 }}>Price Summary</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
+                    <span style={{ color: tokens.gray400 }}>Dive package</span>
+                    <span style={{ color: "#fff" }}>{formatIDR(currentPrice)}</span>
+                  </div>
+                  {addonTotal > 0 && (
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
+                      <span style={{ color: tokens.gray400 }}>Add-ons</span>
+                      <span style={{ color: "#fff" }}>{formatIDR(addonTotal)}</span>
+                    </div>
+                  )}
+                  <div style={{ height: 1, background: "rgba(255,255,255,0.08)", margin: "4px 0" }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <span style={{ fontSize: "0.85rem", color: tokens.gray400 }}>Total (excl. tax)</span>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "2rem", fontWeight: 700, color: tokens.cta, lineHeight: 1 }}>{formatIDR(total)}</div>
+                      <div style={{ fontSize: "0.7rem", color: tokens.gray400, marginTop: 2 }}>excl. 5% govt tax</div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+                  <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, padding: "10px 12px" }}>
+                    <div style={{ fontSize: "0.68rem", color: tokens.gray400, marginBottom: 2 }}>MYR (×3,600)</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.25rem", fontWeight: 700, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>MYR {Math.round(total / 3600).toLocaleString()}</div>
+                  </div>
+                  <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, padding: "10px 12px" }}>
+                    <div style={{ fontSize: "0.68rem", color: tokens.gray400, marginBottom: 2 }}>CNY (×2,100)</div>
+                    <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.25rem", fontWeight: 700, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>CNY {Math.round(total / 2100).toLocaleString()}</div>
+                  </div>
+                </div>
+                <div style={{ marginTop: 14, fontSize: "0.8rem", color: tokens.gray400, borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 12 }}>
+                  50% deposit to confirm: <span style={{ color: tokens.gold, fontWeight: 600 }}>{formatIDR(deposit)}</span>
+                </div>
+              </div>
+
+              {/* Included */}
+              <div>
+                <div style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: tokens.gray400, marginBottom: 10 }}>What's Included ✅</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                  {["Full scuba equipment set", "Lunch", "DM ratio 1:3", "Buggy transfer service", "Dive site fee & porter", "Coffee, tea & water", "Towel + free WiFi"].map((item, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.84rem", color: "rgba(255,255,255,0.75)" }}>
+                      <span style={{ color: tokens.current }}><IconCheck /></span>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <a href="#booking" className="btn-cta" style={{ justifyContent: "center" }}>Book at This Price <IconArrow /></a>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── RESORT ───────────────────────────────────────────────────────────────────
+    function Resort() {
+      const rooms = [
+        { emoji: "🛏️", type: "Single Deluxe", guests: "1 Person", desc: "Private bathroom, sea breeze, perfect for solo divers", features: ["Private Bathroom", "Daily Breakfast", "Free Gear"], price: "$55/night" },
+        { emoji: "🛌", type: "Double Standard", guests: "2 People", desc: "Spacious and comfortable, ideal for couples or friends", features: ["Queen/Twin Beds", "Daily Breakfast", "Free Equipment"], price: "$75/night" },
+        { emoji: "🏠", type: "Triple Family", guests: "3 People", desc: "Family or group room with independent living area", features: ["3 Separate Beds", "Daily Breakfast", "Private Guide"], price: "$105/night" },
+      ];
+
+      return (
+        <section className="section" id="resort" style={{ background: "linear-gradient(180deg, var(--abyss) 0%, rgba(10,37,64,0.6) 100%)" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center", marginBottom: 64 }}>
+              <div>
+                <span className="section-label">Boutique Resort</span>
+                <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Eat, Stay, Dive<br />Integrated Experience</h2>
+                <div className="gold-divider" />
+                <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: tokens.gray400 }}>
+                  16 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue.
+                </p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 32 }}>
+                  {["Daily Ocean View Breakfast", "Free Luggage Storage & Rinse", "Gear Cleaning Service", "Free Photo Consultation", "Airport Transfer (Optional)", "24h English Support"].map((f, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.88rem", color: "rgba(255,255,255,0.75)" }}>
+                      <span style={{ color: tokens.gold }}>✦</span> {f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {["🌊", "🐠", "🌴", "🤿"].map((e, i) => (
+                  <div key={i} style={{ height: 150, borderRadius: 12, background: `linear-gradient(145deg, rgba(14,77,107,${0.2 + i * 0.1}), rgba(6,26,48,0.7))`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 52, border: "1px solid rgba(255,255,255,0.06)" }}>
+                    {e}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+              {rooms.map((r, i) => (
+                <div key={i} className="room-card">
+                  <div className="room-img" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.3), rgba(6,26,48,0.8))` }}>
+                    <span style={{ fontSize: 56 }}>{r.emoji}</span>
+                    <div style={{ position: "absolute", top: 16, right: 16, background: "rgba(6,26,48,0.8)", border: "1px solid rgba(201,169,110,0.3)", borderRadius: 8, padding: "4px 12px", fontSize: "0.78rem", color: tokens.gold, fontWeight: 600 }}>
+                      Max {r.guests}
+                    </div>
+                  </div>
+                  <div style={{ padding: "24px" }}>
+                    <h3 style={{ fontSize: "1.2rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 8 }}>{r.type}</h3>
+                    <p style={{ fontSize: "0.87rem", color: tokens.gray400, marginBottom: 16, lineHeight: 1.6 }}>{r.desc}</p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20 }}>
+                      {r.features.map((f, j) => (
+                        <div key={j} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.83rem", color: "rgba(255,255,255,0.7)" }}>
+                          <span style={{ color: tokens.gold }}>✦</span>
+                          {f}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div>
+                        <div style={{ fontFamily: "'Cormorant Garamond'", fontSize: "1.4rem", fontWeight: 700, color: tokens.cta }}>{r.price}</div>
+                        <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>Includes breakfast, dive packages discounted</div>
+                      </div>
+                      <a href="#booking" className="btn-cta" style={{ padding: "10px 20px", fontSize: "0.85rem" }}>Book</a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── TEAM ─────────────────────────────────────────────────────────────────────
+    function Team() {
+      const instructors = [
+        { emoji: "🤿", name: "Captain Wei", title: "Dive Director", cert: "PADI IDC Staff Instructor", lang: "English/Chinese", spec: "Freediving·Tech" },
+        { emoji: "🌊", name: "Instructor Lin", title: "Senior Instructor", cert: "PADI MSDT", lang: "English/Cantonese", spec: "UW Photography·Fish ID" },
+        { emoji: "🐬", name: "Coach Zara", title: "Freediving Instructor", cert: "AIDA 4 Instructor", lang: "Chinese/Bahasa", spec: "Freediving·Meditation" },
+        { emoji: "🦀", name: "Instructor Budi", title: "Local Senior Instructor", cert: "PADI MSDT", lang: "Bahasa/English", spec: "Night Dive·Marine Life" },
+        { emoji: "🐡", name: "Coach Maya", title: "Instructor", cert: "PADI Divemaster", lang: "English/Chinese", spec: "Beginner Training·OW" },
+        { emoji: "🐙", name: "Instructor Chen", title: "Advanced Instructor", cert: "PADI IDC Staff", lang: "English/Mandarin", spec: "AOW·Rescue Diver" },
+        { emoji: "🌺", name: "Coach Sari", title: "Photo Specialist", cert: "PADI DM + UW Photo", lang: "Bahasa/English", spec: "UW Photo·Coral Reef" },
+      ];
+
+      const [active, setActive] = useState(0);
+
+      return (
+        <section className="section" id="team" style={{ background: "var(--abyss)" }}>
+          <div className="container">
+            <div style={{ textAlign: "center", marginBottom: 56 }}>
+              <span className="section-label">Professional Team</span>
+              <h2 className="section-title">7 Professional Instructors<br />9 Service Staff</h2>
+              <div className="gold-divider" style={{ margin: "20px auto 20px" }} />
+              <p style={{ color: tokens.gray400, maxWidth: 480, margin: "0 auto", lineHeight: 1.7 }}>Each instructor holds international certification with 8+ years average experience, dedicated to creating unforgettable underwater experiences in a safe environment.</p>
+            </div>
+
+            {/* Instructor grid */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(155px, 1fr))", gap: 16, marginBottom: 56 }}>
+              {instructors.map((ins, i) => (
+                <div key={i} className="team-card" onClick={() => setActive(i)} style={{ cursor: "pointer", borderColor: active === i ? `rgba(201,169,110,0.5)` : undefined, background: active === i ? "rgba(14,77,107,0.35)" : undefined }}>
+                  <div className="team-avatar" style={{ background: `linear-gradient(145deg, rgba(14,77,107,0.4), rgba(6,26,48,0.8))` }}>
+                    <span style={{ fontSize: 52 }}>{ins.emoji}</span>
+                  </div>
+                  <div style={{ padding: "16px 12px 0" }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{ins.name}</div>
+                    <div style={{ fontSize: "0.75rem", color: tokens.gold, marginTop: 2 }}>{ins.title}</div>
+                    <div style={{ fontSize: "0.72rem", color: tokens.gray400, marginTop: 6 }}>{ins.cert}</div>
+                    <div style={{ display: "inline-flex", marginTop: 8, background: "rgba(26,122,154,0.15)", borderRadius: 4, padding: "3px 8px", fontSize: "0.7rem", color: tokens.current }}>{ins.spec}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Service team note */}
+            <div style={{ background: "rgba(14,77,107,0.15)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "28px 32px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 48 }}>🏆</div>
+              <div>
+                <h3 style={{ fontSize: "1.2rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 8 }}>9 Elite Service Staff</h3>
+                <p style={{ fontSize: "0.9rem", color: tokens.gray400, lineHeight: 1.7 }}>Our support team includes: front desk reception, kitchen & dining, equipment management, photo editing, housekeeping, and airport transfer specialists. English-speaking support available 24/7.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── SOCIAL PROOF ─────────────────────────────────────────────────────────────
+    function Social() {
+      const tiles = [
+        { emoji: "📸", platform: "Instagram", label: "Underwater Photos" },
+        { emoji: "🎬", platform: "Instagram", label: "Shipwreck Dive" },
+        { emoji: "🌊", platform: "Instagram", label: "Morning Dive" },
+        { emoji: "🐠", platform: "Instagram", label: "PADI Certification" },
+        { emoji: "🤿", platform: "Instagram", label: "Instructor Vlog" },
+        { emoji: "🌺", platform: "Instagram", label: "Resort Life" },
+        { emoji: "🦈", platform: "Instagram", label: "Deep Freediving" },
+        { emoji: "🐙", platform: "Instagram", label: "Night Diving" },
+      ];
+
+      const reviews = [
+        { name: "Sarah Chen", star: 5, platform: "Instagram", text: "The instructor was incredibly patient! I was afraid of water at first but fell in love with diving. The one-on-one guidance made me feel completely safe." },
+        { name: "Kevin L.", star: 5, platform: "Google", text: "Excellent instructors, very professional and safe. The resort food was amazing too!" },
+        { name: "Amos Tan", star: 5, platform: "Trip", text: "Best diving experience in Bali. The WWII shipwreck dive was unforgettable." },
+      ];
+
+      return (
+        <section className="section" id="social" style={{ background: "linear-gradient(180deg, var(--abyss) 0%, rgba(10,37,64,0.4) 100%)" }}>
+          <div className="container">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, flexWrap: "wrap", gap: 16 }}>
+              <div>
+                <span className="section-label">Community</span>
+                <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Real Student Stories<br />From the Deep Blue</h2>
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                {["小红书", "抖音", "Instagram"].map((p, i) => (
+                  <div key={i} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "8px 16px", fontSize: "0.82rem", color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>
+                    {p === "小红书" ? "📕" : p === "抖音" ? "🎵" : "📷"} {p}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Social wall */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 48 }}>
+              {tiles.map((t, i) => (
+                <div key={i} className="social-tile" style={{ background: `linear-gradient(145deg, rgba(14,77,107,${0.15 + (i % 3) * 0.1}), rgba(6,26,48,0.8))`, border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div style={{ width: "100%", paddingBottom: "100%", position: "relative" }}>
+                    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                      <span style={{ fontSize: 40 }}>{t.emoji}</span>
+                      <div style={{ fontSize: "0.72rem", color: tokens.gold, fontWeight: 600 }}>{t.platform}</div>
+                      <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.5)", textAlign: "center", padding: "0 8px" }}>{t.label}</div>
+                    </div>
+                  </div>
+                  <div className="social-overlay">
+                    <div style={{ fontSize: 28 }}>▶</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA follow */}
+            <div style={{ textAlign: "center", padding: "40px", background: "rgba(14,77,107,0.2)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, marginBottom: 56 }}>
+              <div style={{ fontSize: 36, marginBottom: 12 }}>📲</div>
+              <h3 style={{ fontSize: "1.5rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 8 }}>Follow Us for Latest Updates</h3>
+              <p style={{ color: tokens.gray400, fontSize: "0.9rem", marginBottom: 24 }}>Weekly updates on sea conditions, marine sightings, live sessions, and exclusive early bird offers</p>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                {[{icon:"📷", label:"IG @udivebali"},{icon:"📘", label:"Facebook @udivebali"},{icon:"🎵", label:"TikTok @udivebali"}].map((s, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 8, padding: "10px 20px", fontSize: "0.88rem", color: "#fff", cursor: "pointer" }}>
+                    {s.icon} {s.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Reviews */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20 }}>
+              {reviews.map((r, i) => (
+                <div key={i} style={{ background: "rgba(14,77,107,0.15)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 12, padding: "24px" }}>
+                  <div style={{ display: "flex", gap: 2, color: tokens.gold, marginBottom: 12 }}>
+                    {[...Array(r.star)].map((_, j) => <IconStar key={j} />)}
+                  </div>
+                  <p style={{ fontSize: "0.92rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginBottom: 16 }}>"{r.text}"</p>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.88rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{r.name}</div>
+                    <div style={{ fontSize: "0.72rem", color: tokens.gray400, background: "rgba(255,255,255,0.06)", padding: "3px 10px", borderRadius: 999 }}>{r.platform}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── BOOKING FORM ─────────────────────────────────────────────────────────────
+    function Booking() {
+      const [form, setForm] = useState({ name: "", contact: "", date: "", intent: "", notes: "" });
+      const [submitted, setSubmitted] = useState(false);
+      const [submitting, setSubmitting] = useState(false);
+      const [error, setError] = useState("");
+
+      const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setError("");
+
+        // 提交到 Supabase
+        if (window.submitBooking) {
+          const result = await window.submitBooking(form);
+          if (result.success) {
+            setSubmitted(true);
+          } else {
+            setError("提交失败，请稍后重试或直接联系我们");
+            console.error(result.error);
+          }
+        } else {
+          // Fallback: 仅设置提交状态
+          setSubmitted(true);
+        }
+        setSubmitting(false);
+      };
+
+      return (
+        <section className="section" id="booking" style={{ background: "var(--ocean)" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+              {/* Left */}
+              <div>
+                <span className="section-label">Book Now</span>
+                <h2 className="section-title" style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Start Your<br />Deep Blue Journey</h2>
+                <div className="gold-divider" />
+                <p style={{ color: tokens.gray400, lineHeight: 1.8, marginBottom: 36 }}>
+                  Fill out the form below and our dedicated consultant will contact you within <strong style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>24 hours</strong> to customize your diving itinerary.
+                </p>
+                {/* Contact cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {[
+                    { icon: "💬", label: "WeChat", val: "alanfirwandy" },
+                    { icon: "📱", label: "WhatsApp", val: "+60128001317" },
+                    { icon: "📧", label: "Email", val: "firwandyalan13@gmail.com" },
+                  ].map((c, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "14px 20px" }}>
+                      <span style={{ fontSize: 24 }}>{c.icon}</span>
+                      <div>
+                        <div style={{ fontSize: "0.75rem", color: tokens.gray400, marginBottom: 2 }}>{c.label}</div>
+                        <div style={{ fontWeight: 500, background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{c.val}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Form */}
+              <div>
+                {/* Scarcity */}
+                <div className="scarcity-bar">
+                  <span style={{ color: tokens.cta, flexShrink: 0 }}><IconAlert /></span>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#fff", marginBottom: 2 }}>Peak Season Availability Limited</div>
+                    <div style={{ fontSize: "0.82rem", color: "rgba(255,107,26,0.8)" }}>Holiday and summer slots filling fast. Book 60 days in advance to secure your spot.</div>
+                  </div>
+                </div>
+
+                {!submitted ? (
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    {error && (
+                      <div style={{ background: "rgba(255,82,82,0.15)", border: "1px solid rgba(255,82,82,0.3)", borderRadius: 8, padding: "12px 16px", color: "#ff5252", fontSize: "0.85rem" }}>
+                        {error}
+                      </div>
+                    )}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                      <div>
+                        <label className="form-label">Your Name *</label>
+                        <input name="name" className="form-input" placeholder="Name" value={form.name} onChange={handleChange} required />
+                      </div>
+                      <div>
+                        <label className="form-label">Contact *</label>
+                        <input name="contact" className="form-input" placeholder="WeChat or WhatsApp" value={form.contact} onChange={handleChange} required />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="form-label"><span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><IconCalendar /> Planned Travel Date *</span></label>
+                      <input name="date" type="date" className="form-input" value={form.date} onChange={handleChange} required />
+                    </div>
+
+                    <div>
+                      <label className="form-label">Interest *</label>
+                      <select name="intent" className="form-input" value={form.intent} onChange={handleChange} required>
+                        <option value="">Select Your Interest</option>
+                        <option value="ow">PADI Open Water Diver (OW)</option>
+                        <option value="aow">PADI Advanced Open Water (AOW)</option>
+                        <option value="dsd">Discover Scuba Diving (No Experience)</option>
+                        <option value="fundive">Fun Diving</option>
+                        <option value="resort">Accommodation Only</option>
+                        <option value="package">Diving + Accommodation Package</option>
+                        <option value="group">Group/Corporate Custom</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="form-label">Additional Notes (group size, special requests, etc.)</label>
+                      <textarea name="notes" className="form-input" placeholder="e.g., Two people traveling, one holds OW certificate..." value={form.notes} onChange={handleChange} rows={3} style={{ resize: "vertical" }} />
+                    </div>
+
+                    <button type="submit" className="btn-cta" style={{ justifyContent: "center", padding: "16px", fontSize: "1rem" }} disabled={submitting}>
+                      {submitting ? "Submitting..." : "Get Quote · 24 Hour Response"} <IconArrow />
+                    </button>
+
+                    <p style={{ fontSize: "0.75rem", color: tokens.gray400, textAlign: "center" }}>
+                      Your information is kept confidential and used only for travel consultation. We do not share with third parties.
+                    </p>
+                  </form>
+                ) : (
+                  <div style={{ textAlign: "center", padding: "60px 40px", background: "rgba(26,122,154,0.1)", border: "1px solid rgba(26,122,154,0.3)", borderRadius: 12 }}>
+                    <div style={{ fontSize: 64, marginBottom: 20 }}>🎉</div>
+                    <h3 style={{ fontSize: "1.5rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 12 }}>Request Submitted!</h3>
+                    <p style={{ color: tokens.gray400, lineHeight: 1.7 }}>We've received your information. Our dedicated consultant will contact you within <strong style={{ background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>24 hours</strong> via your preferred contact method.</p>
+                    <div style={{ marginTop: 24, fontSize: "0.88rem", color: tokens.current }}>Thank you for choosing UdiveBali 🤿</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ─── FOOTER ───────────────────────────────────────────────────────────────────
+    function Footer() {
+      return (
+        <footer style={{ background: "var(--abyss)", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "48px 0 24px" }}>
+          <div className="container">
+            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 40, marginBottom: 40 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                  <span style={{ fontSize: 28 }}>🤿</span>
+                  <div>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 700, background: "linear-gradient(135deg, #FF4444 0%, #FF6666 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>UdiveBali</div>
+                    <div style={{ fontSize: "0.65rem", color: tokens.gold, letterSpacing: "0.15em" }}>TULAMBEN · BALI</div>
+                  </div>
+                </div>
+                <p style={{ fontSize: "0.85rem", color: tokens.gray400, lineHeight: 1.8, maxWidth: 280 }}>Tulamben's most trusted diving center and boutique resort. 7 years dedicated to creating safe, unforgettable deep blue experiences for every diver.</p>
+              </div>
+              {[
+                { title: "Courses", items: ["PADI Open Water OW", "PADI Advanced AOW", "Discover Scuba DSD"] },
+                { title: "Resort", items: ["Single Room", "Double Room", "Triple Room", "Dining"] },
+                { title: "About Us", items: ["Our Team", "Community", "Contact Us", "Booking Info"] },
+              ].map((col, i) => (
+                <div key={i}>
+                  <div style={{ fontWeight: 600, fontSize: "0.85rem", background: "linear-gradient(135deg, #FFFFFF 0%, #FFB4B4 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", marginBottom: 16, letterSpacing: "0.05em" }}>{col.title}</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    {col.items.map((item, j) => (
+                      <a key={j} href="#" style={{ fontSize: "0.83rem", color: tokens.gray400, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color=tokens.gray400}>{item}</a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+              <div style={{ fontSize: "0.78rem", color: tokens.gray400 }}>© 2025 UdiveBali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Bali 80852</div>
+              <div style={{ fontSize: "0.78rem", color: tokens.gray400 }}>PADI Dive Center · AIDA Partner · SSI Affiliate</div>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    // ─── FAB ──────────────────────────────────────────────────────────────────────
+    function FAB() {
+      const [open, setOpen] = useState(false);
+      return (
+        <div className="fab">
+          {open && (
+            <div className="fab-menu">
+              <a href="https://wa.me/60128001317" target="_blank" rel="noreferrer" className="fab-item">
+                <span style={{ fontSize: 20 }}>📱</span>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>WhatsApp Chat</div>
+                  <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>+60128001317</div>
+                </div>
+              </a>
+              <div className="fab-item">
+                <span style={{ fontSize: 20 }}>💬</span>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>WeChat QR</div>
+                  <div style={{ fontSize: "0.75rem", color: tokens.gray400 }}>Scan to add WeChat</div>
                 </div>
               </div>
             </div>
-            <div style="display:flex;gap:8px;margin-top:16px">
-              <div class="fx-badge">
-                <div style="font-size:.68rem;color:var(--gray400);margin-bottom:2px">MYR (×3,600)</div>
-                <div style="font-family:'Cormorant Garamond';font-size:1.25rem;font-weight:700" class="gt" id="total-myr">MYR 153</div>
-              </div>
-              <div class="fx-badge">
-                <div style="font-size:.68rem;color:var(--gray400);margin-bottom:2px">CNY (×2,100)</div>
-                <div style="font-family:'Cormorant Garamond';font-size:1.25rem;font-weight:700" class="gt" id="total-cny">CNY 262</div>
-              </div>
-            </div>
-            <div style="margin-top:14px;font-size:.8rem;color:var(--gray400);border-top:1px solid rgba(255,255,255,.06);padding-top:12px">
-              50% deposit to confirm: <span style="color:var(--gold);font-weight:600" id="deposit">IDR 275,000</span>
-            </div>
-          </div>
-
-          <!-- Included -->
-          <div>
-            <div class="calc-section-label">What's Included ✅</div>
-            <div style="display:flex;flex-direction:column;gap:7px">
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Full scuba equipment set</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Lunch</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>DM ratio 1:3</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Buggy transfer service</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Dive site fee &amp; porter</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Coffee, tea &amp; water</div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:.84rem;color:rgba(255,255,255,.75)"><svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="var(--current)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Towel + free WiFi</div>
-            </div>
-          </div>
-
-          <a href="#booking" class="btn-cta" style="justify-content:center">Book at This Price →</a>
+          )}
+          <button className="fab-main" onClick={() => setOpen(!open)}>
+            {open ? <IconX /> : <IconChat />}
+          </button>
         </div>
-      </div>
-    </div>
-    <!-- ═══ END FUNDIVE CALCULATOR ═══ -->
-  </div>
-</section>
+      );
+    }
 
-<!-- RESORT -->
-<section class="section" id="resort" style="background:linear-gradient(180deg,var(--abyss) 0%,rgba(10,37,64,.6) 100%)">
-  <div class="container">
-    <div class="resort-intro" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:64px">
-      <div>
-        <span class="section-label">Boutique Resort</span>
-        <h2 class="section-title gt">Eat, Stay, Dive<br>Integrated Experience</h2>
-        <div class="gold-divider"></div>
-        <p style="font-size:1.05rem;line-height:1.8;color:var(--gray400)">16 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px">
-          <div style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold)">✦</span> Daily Ocean View Breakfast</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold)">✦</span> Free Luggage Storage</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold)">✦</span> Gear Cleaning Service</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold)">✦</span> Free Photo Consultation</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold)">✦</span> Airport Transfer (Optional)</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:rgba(255,255,255,.75)"><span style="color:var(--gold)">✦</span> 24h English Support</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div style="height:150px;border-radius:12px;background:linear-gradient(145deg,rgba(14,77,107,.2),rgba(6,26,48,.7));display:flex;align-items:center;justify-content:center;font-size:52px;border:1px solid rgba(255,255,255,.06)">🌊</div>
-        <div style="height:150px;border-radius:12px;background:linear-gradient(145deg,rgba(14,77,107,.3),rgba(6,26,48,.7));display:flex;align-items:center;justify-content:center;font-size:52px;border:1px solid rgba(255,255,255,.06)">🐠</div>
-        <div style="height:150px;border-radius:12px;background:linear-gradient(145deg,rgba(14,77,107,.4),rgba(6,26,48,.7));display:flex;align-items:center;justify-content:center;font-size:52px;border:1px solid rgba(255,255,255,.06)">🌴</div>
-        <div style="height:150px;border-radius:12px;background:linear-gradient(145deg,rgba(14,77,107,.5),rgba(6,26,48,.7));display:flex;align-items:center;justify-content:center;font-size:52px;border:1px solid rgba(255,255,255,.06)">🤿</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
-      <div class="room-card">
-        <div class="room-img"><span>🛏️</span><div style="position:absolute;top:16px;right:16px;background:rgba(6,26,48,.8);border:1px solid rgba(201,169,110,.3);border-radius:8px;padding:4px 12px;font-size:.78rem;color:var(--gold);font-weight:600">Max 1 Person</div></div>
-        <div style="padding:24px">
-          <h3 style="font-size:1.2rem;margin-bottom:8px" class="gt">Seafront Room</h3>
-          <p style="font-size:.87rem;color:var(--gray400);margin-bottom:16px;line-height:1.6">Sea view, private bathroom, perfect for solo divers</p>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><span style="color:var(--gold)">✦</span> A/C, water heater, hair dryer</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><span style="color:var(--gold)">✦</span> Daily Breakfast</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><span style="color:var(--gold)">✦</span> High-speed WiFi</div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div><div style="font-family:'Cormorant Garamond';font-size:1.4rem;font-weight:700;color:var(--cta)">IDR 700,000/night</div><div style="font-size:.75rem;color:var(--gray400)">Includes breakfast</div></div>
-            <a href="#booking" class="btn-cta" style="padding:10px 20px;font-size:.85rem">Book</a>
-          </div>
-        </div>
-      </div>
-      <div class="room-card">
-        <div class="room-img"><span>🛌</span><div style="position:absolute;top:16px;right:16px;background:rgba(6,26,48,.8);border:1px solid rgba(201,169,110,.3);border-radius:8px;padding:4px 12px;font-size:.78rem;color:var(--gold);font-weight:600">Max 2 People</div></div>
-        <div style="padding:24px">
-          <h3 style="font-size:1.2rem;margin-bottom:8px" class="gt">Garden Room</h3>
-          <p style="font-size:.87rem;color:var(--gray400);margin-bottom:16px;line-height:1.6">Spacious and comfortable, ideal for couples or friends</p>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><span style="color:var(--gold)">✦</span> Queen/Twin Beds</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><span style="color:var(--gold)">✦</span> Daily Breakfast</div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:.83rem;color:rgba(255,255,255,.7)"><span style="color:var(--gold)">✦</span> Toiletries included</div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div><div style="font-family:'Cormorant Garamond';font-size:1.4rem;font-weight:700;color:var(--cta)">IDR 600,000/night</div><div style="font-size:.75rem;color:var(--gray400)">Includes breakfast</div></div>
-            <a href="#booking" class="btn-cta" style="padding:10px 20px;font-size:.85rem">Book</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    // ─── APP ──────────────────────────────────────────────────────────────────────
+    function UdiveBali() {
+      return (
+        <>
+          <GlobalStyle />
+          <Nav />
+          <main>
+            <Hero />
+            <TrustBar />
+          <Stats />
+          <Courses />
+          <Resort />
+          <Social />
+          <Booking />
+          </main>
+          <Footer />
+          <FAB />
+        </>
+      );
+    }
 
-<!-- SOCIAL -->
-<section class="section" id="social" style="background:linear-gradient(180deg,var(--abyss) 0%,rgba(10,37,64,.4) 100%)">
-  <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:16px">
-      <div>
-        <span class="section-label">Community</span>
-        <h2 class="section-title gt">Real Student Stories<br>From the Deep Blue</h2>
-      </div>
-      <div style="display:flex;gap:12px">
-        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 16px;font-size:.82rem;color:rgba(255,255,255,.7);cursor:pointer">📕 小红书</div>
-        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 16px;font-size:.82rem;color:rgba(255,255,255,.7);cursor:pointer">🎵 抖音</div>
-        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 16px;font-size:.82rem;color:rgba(255,255,255,.7);cursor:pointer">📷 Instagram</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:48px">
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.15),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">📸</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Underwater Photos</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.25),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🎬</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Shipwreck Dive</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.35),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🌊</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Morning Dive</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.15),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🐠</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">PADI Cert</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.25),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🤿</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Instructor Vlog</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.35),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🌺</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Resort Life</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.15),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🦈</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Deep Freediving</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-      <div class="social-tile" style="background:linear-gradient(145deg,rgba(14,77,107,.25),rgba(6,26,48,.8))"><div style="width:100%;padding-bottom:100%;position:relative"><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font-size:40px">🐙</span><div style="font-size:.72rem;color:var(--gold);font-weight:600">Instagram</div><div style="font-size:.7rem;color:rgba(255,255,255,.5)">Night Diving</div></div></div><div class="social-overlay"><div style="font-size:28px">▶</div></div></div>
-    </div>
-    <div style="text-align:center;padding:40px;background:rgba(14,77,107,.2);border:1px solid rgba(255,255,255,.07);border-radius:16px;margin-bottom:56px">
-      <div style="font-size:36px;margin-bottom:12px">📲</div>
-      <h3 style="font-size:1.5rem;margin-bottom:8px" class="gt">Follow Us for Latest Updates</h3>
-      <p style="color:var(--gray400);font-size:.9rem;margin-bottom:24px">Weekly updates on sea conditions, marine sightings, and exclusive early bird offers</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 20px;font-size:.88rem;color:#fff;cursor:pointer">📷 IG @udivebali</div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 20px;font-size:.88rem;color:#fff;cursor:pointer">📘 Facebook @udivebali</div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 20px;font-size:.88rem;color:#fff;cursor:pointer">🎵 TikTok @udivebali</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-      <div style="background:rgba(14,77,107,.15);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:24px">
-        <div style="color:var(--gold);margin-bottom:12px">★★★★★</div>
-        <p style="font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:16px">"The instructor was incredibly patient! I was afraid of water at first but fell in love with diving. The one-on-one guidance made me feel completely safe."</p>
-        <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:600;font-size:.88rem" class="gt">Sarah Chen</div><div style="font-size:.72rem;color:var(--gray400);background:rgba(255,255,255,.06);padding:3px 10px;border-radius:999px">Instagram</div></div>
-      </div>
-      <div style="background:rgba(14,77,107,.15);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:24px">
-        <div style="color:var(--gold);margin-bottom:12px">★★★★★</div>
-        <p style="font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:16px">"Excellent instructors, very professional and safe. The resort food was amazing too!"</p>
-        <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:600;font-size:.88rem" class="gt">Kevin L.</div><div style="font-size:.72rem;color:var(--gray400);background:rgba(255,255,255,.06);padding:3px 10px;border-radius:999px">Google</div></div>
-      </div>
-      <div style="background:rgba(14,77,107,.15);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:24px">
-        <div style="color:var(--gold);margin-bottom:12px">★★★★★</div>
-        <p style="font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:16px">"Best diving experience in Bali. The WWII shipwreck dive was unforgettable."</p>
-        <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:600;font-size:.88rem" class="gt">Amos Tan</div><div style="font-size:.72rem;color:var(--gray400);background:rgba(255,255,255,.06);padding:3px 10px;border-radius:999px">Tripadvisor</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BOOKING -->
-<section class="section" id="booking" style="background:var(--ocean)">
-  <div class="container">
-    <div class="booking-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start">
-      <div>
-        <span class="section-label">Book Now</span>
-        <h2 class="section-title gt">Start Your<br>Deep Blue Journey</h2>
-        <div class="gold-divider"></div>
-        <p style="color:var(--gray400);line-height:1.8;margin-bottom:36px">Fill out the form and our consultant will contact you within <strong class="gt">24 hours</strong> to customize your itinerary.</p>
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 20px">
-            <span style="font-size:24px">💬</span><div><div style="font-size:.75rem;color:var(--gray400);margin-bottom:2px">WeChat</div><div style="font-weight:500" class="gt">alanfirwandy</div></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 20px">
-            <span style="font-size:24px">📱</span><div><div style="font-size:.75rem;color:var(--gray400);margin-bottom:2px">WhatsApp</div><div style="font-weight:500" class="gt">+60128001317</div></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 20px">
-            <span style="font-size:24px">📧</span><div><div style="font-size:.75rem;color:var(--gray400);margin-bottom:2px">Email</div><div style="font-weight:500" class="gt">firwandyalan13@gmail.com</div></div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="scarcity-bar">
-          <span style="color:var(--cta);font-size:18px;flex-shrink:0">⚠</span>
-          <div><div style="font-weight:600;font-size:.9rem;color:#fff;margin-bottom:2px">Peak Season Availability Limited</div><div style="font-size:.82rem;color:rgba(255,107,26,.8)">Holiday and summer slots filling fast. Book 60 days in advance to secure your spot.</div></div>
-        </div>
-        <form id="bookingForm" style="display:flex;flex-direction:column;gap:20px" onsubmit="submitForm(event)">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div><label class="form-label">Your Name *</label><input name="name" class="form-input" placeholder="Name" required></div>
-            <div><label class="form-label">Contact *</label><input name="contact" class="form-input" placeholder="WeChat or WhatsApp" required></div>
-          </div>
-          <div><label class="form-label">Planned Travel Date *</label><input name="date" type="date" class="form-input" required></div>
-          <div>
-            <label class="form-label">Interest *</label>
-            <select name="intent" class="form-input" required>
-              <option value="">Select Your Interest</option>
-              <option value="ow">PADI Open Water Diver (OW)</option>
-              <option value="aow">PADI Advanced Open Water (AOW)</option>
-              <option value="free">Freediving Course</option>
-              <option value="dsd">Discover Scuba Diving</option>
-              <option value="fundive">Fun Diving</option>
-              <option value="resort">Accommodation Only</option>
-              <option value="package">Diving + Accommodation Package</option>
-            </select>
-          </div>
-          <div><label class="form-label">Additional Notes</label><textarea name="notes" class="form-input" placeholder="e.g., Two people, one holds OW certificate..." rows="3" style="resize:vertical"></textarea></div>
-          <button type="submit" class="btn-cta" style="justify-content:center;padding:16px;font-size:1rem">Get Quote · 24 Hour Response →</button>
-          <p style="font-size:.75rem;color:var(--gray400);text-align:center">Your information is kept confidential and used only for travel consultation.</p>
-        </form>
-        <div id="formSuccess" style="display:none;text-align:center;padding:60px 40px;background:rgba(26,122,154,.1);border:1px solid rgba(26,122,154,.3);border-radius:12px">
-          <div style="font-size:64px;margin-bottom:20px">🎉</div>
-          <h3 style="font-size:1.5rem;margin-bottom:12px" class="gt">Request Submitted!</h3>
-          <p style="color:var(--gray400);line-height:1.7">Our consultant will contact you within <strong class="gt">24 hours</strong>.</p>
-          <div style="margin-top:24px;font-size:.88rem;color:var(--current)">Thank you for choosing UdiveBali 🤿</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer style="background:var(--abyss);border-top:1px solid rgba(255,255,255,.06);padding:48px 0 24px">
-  <div class="container">
-    <div class="footer-grid" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-          <span style="font-size:28px">🤿</span>
-          <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700" class="gt-red">UdiveBali</div><div style="font-size:.65rem;color:var(--gold);letter-spacing:.15em">TULAMBEN · BALI</div></div>
-        </div>
-        <p style="font-size:.85rem;color:var(--gray400);line-height:1.8;max-width:280px">Tulamben's most trusted diving center and boutique resort. 7 years dedicated to creating safe, unforgettable deep blue experiences.</p>
-      </div>
-      <div>
-        <div style="font-weight:600;font-size:.85rem;margin-bottom:16px;letter-spacing:.05em" class="gt">Courses</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="#courses" style="font-size:.83rem;color:var(--gray400)">PADI Open Water OW</a>
-          <a href="#courses" style="font-size:.83rem;color:var(--gray400)">PADI Advanced AOW</a>
-          <a href="#courses" style="font-size:.83rem;color:var(--gray400)">Freediving</a>
-          <a href="#courses" style="font-size:.83rem;color:var(--gray400)">Fun Diving</a>
-        </div>
-      </div>
-      <div>
-        <div style="font-weight:600;font-size:.85rem;margin-bottom:16px;letter-spacing:.05em" class="gt">Resort</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="#resort" style="font-size:.83rem;color:var(--gray400)">Seafront Room</a>
-          <a href="#resort" style="font-size:.83rem;color:var(--gray400)">Garden Room</a>
-          <a href="#resort" style="font-size:.83rem;color:var(--gray400)">Dining</a>
-        </div>
-      </div>
-      <div>
-        <div style="font-weight:600;font-size:.85rem;margin-bottom:16px;letter-spacing:.05em" class="gt">Contact</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <span style="font-size:.83rem;color:var(--gray400)">💬 alanfirwandy</span>
-          <span style="font-size:.83rem;color:var(--gray400)">📱 +60128001317</span>
-          <span style="font-size:.83rem;color:var(--gray400)">📧 firwandyalan13@gmail.com</span>
-        </div>
-      </div>
-    </div>
-    <div style="border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <div style="font-size:.78rem;color:var(--gray400)">© 2026 UdiveBali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Bali 80852</div>
-      <div style="font-size:.78rem;color:var(--gray400)">PADI Dive Center · AIDA Partner · SSI Affiliate</div>
-    </div>
-  </div>
-</footer>
-
-<!-- FAB -->
-<div class="fab" id="fab">
-  <div id="fab-menu" style="display:none" class="fab-menu">
-    <a href="https://wa.me/60128001317" target="_blank" class="fab-item">
-      <span style="font-size:20px">📱</span>
-      <div><div style="font-weight:600;font-size:.88rem">WhatsApp Chat</div><div style="font-size:.75rem;color:var(--gray400)">+60128001317</div></div>
-    </a>
-    <div class="fab-item">
-      <span style="font-size:20px">💬</span>
-      <div><div style="font-weight:600;font-size:.88rem">WeChat QR</div><div style="font-size:.75rem;color:var(--gray400)">ID: alanfirwandy</div></div>
-    </div>
-  </div>
-  <button class="fab-main" id="fab-btn" onclick="toggleFab()">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-  </button>
-</div>
-
-<script>
-// Nav scroll
-window.addEventListener('scroll',function(){
-  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// FAB
-var fabOpen = false;
-function toggleFab(){
-  fabOpen = !fabOpen;
-  document.getElementById('fab-menu').style.display = fabOpen ? 'flex' : 'none';
-  document.getElementById('fab-btn').innerHTML = fabOpen
-    ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
-    : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>';
-}
-
-// ── FUNDIVE CALCULATOR ──
-var calcState = {
-  location: 'tulamben',
-  divePrice: 550000,
-  addons: { out: 0, night: 0, nitrox: 0, boat: 0 }
-};
-
-function setLocation(loc){
-  calcState.location = loc;
-  ['tulamben','penida'].forEach(function(l){
-    document.getElementById('btn-loc-'+l).classList.toggle('active', l === loc);
-  });
-  document.getElementById('penida-note').style.display = loc === 'penida' ? 'block' : 'none';
-  document.getElementById('dive-count-section').style.display = loc === 'tulamben' ? 'block' : 'none';
-  if(loc === 'penida'){ calcState.divePrice = 2600000; }
-  else { calcState.divePrice = 550000; setDive(0, 550000); return; }
-  updateCalc();
-}
-
-function setDive(idx, price){
-  calcState.divePrice = price;
-  document.querySelectorAll('.dive-btn').forEach(function(b,i){
-    b.classList.toggle('active', i === idx);
-  });
-  updateCalc();
-}
-
-function changeAddon(key, delta){
-  calcState.addons[key] = Math.max(0, calcState.addons[key] + delta);
-  document.getElementById('cnt-'+key).textContent = calcState.addons[key];
-  updateCalc();
-}
-
-function fmt(n){ return 'IDR ' + Math.round(n).toLocaleString(); }
-
-function updateCalc(){
-  var a = calcState.addons;
-  var addonTotal = a.out*50000 + a.night*100000 + a.nitrox*30000 + a.boat*300000;
-  var total = calcState.divePrice + addonTotal;
-
-  document.getElementById('s-base').textContent = fmt(calcState.divePrice);
-
-  var addonRow = document.getElementById('s-addon-row');
-  if(addonTotal > 0){
-    addonRow.style.display = 'flex';
-    document.getElementById('s-addon').textContent = fmt(addonTotal);
-  } else {
-    addonRow.style.display = 'none';
-  }
-
-  document.getElementById('total-idr').textContent = fmt(total);
-  document.getElementById('total-myr').textContent = 'MYR ' + Math.round(total/3600).toLocaleString();
-  document.getElementById('total-cny').textContent = 'CNY ' + Math.round(total/2100).toLocaleString();
-  document.getElementById('deposit').textContent = fmt(total * 0.5);
-}
-
-// initialise s-addon-row display
-document.getElementById('s-addon-row').style.display = 'none';
-
-// Form submit
-function submitForm(e){
-  e.preventDefault();
-  document.getElementById('bookingForm').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
-}
-</script>
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<UdiveBali />);
+  </script>
 </body>
 </html>
