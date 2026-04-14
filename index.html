@@ -188,7 +188,7 @@
     .course-features li { font-size: 0.85rem; color: var(--muted); padding: 4px 0; }
     .course-features li::before { content: '✓ '; color: var(--orange); font-weight: 700; }
     .course-price { margin-top: auto; }
-    .price-val { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .price-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--orange); }
     .price-note { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
     .btn-card {
       display: inline-block; margin-top: 16px;
@@ -561,8 +561,8 @@
         <li>PADI International Certificate</li>
       </ul>
       <div class="course-price">
-        <div class="price-val">$550</div>
-        <div class="price-note">per person (discount with accommodation)</div>
+        <div class="price-val">IDR 5,500,000</div>
+        <div class="price-note">per person</div>
       </div>
       <a href="#booking" class="btn-card">View Package Details</a>
     </div>
@@ -581,7 +581,7 @@
         <li>Upgrade Certificate</li>
       </ul>
       <div class="course-price">
-        <div class="price-val">$400</div>
+        <div class="price-val">IDR 5,500,000</div>
         <div class="price-note">per person</div>
       </div>
       <a href="#booking" class="btn-card">View Package Details</a>
@@ -601,7 +601,7 @@
         <li>Upgrade to Certification</li>
       </ul>
       <div class="course-price">
-        <div class="price-val">$98</div>
+        <div class="price-val">IDR 1,500,000</div>
         <div class="price-note">per person</div>
       </div>
       <a href="#booking" class="btn-card">View Package Details</a>
@@ -624,19 +624,19 @@
         <div class="calc-group">
           <div class="calc-label">Location</div>
           <div class="loc-buttons">
-            <button class="loc-btn active" onclick="setLoc(this, 0)">🏝 Tulamben</button>
-            <button class="loc-btn" onclick="setLoc(this, 50000)">🚤 Nusa Penida / Others</button>
+            <button class="loc-btn active" onclick="setLoc(this, 0)">🏝 Tulamben / Amed</button>
+            <button class="loc-btn" onclick="setLoc(this, 2800000)">🚤 Nusa Penida (IDR 2,800,000 per pax)</button>
           </div>
         </div>
         <div class="calc-group">
           <div class="calc-label">Number of Dives</div>
           <div class="dive-grid">
-            <button class="dive-btn active" onclick="setDives(this,1,550000)"><span class="dive-count">1 Dive</span><span class="dive-price">550,000K</span></button>
-            <button class="dive-btn" onclick="setDives(this,2,1000000)"><span class="dive-count">2 Dives</span><span class="dive-price">1,000,000K</span></button>
-            <button class="dive-btn" onclick="setDives(this,3,1450000)"><span class="dive-count">3 Dives</span><span class="dive-price">1,450,000K</span></button>
-            <button class="dive-btn" onclick="setDives(this,5,2360000)"><span class="dive-count">5 Dives</span><span class="dive-price">2,360,000K</span></button>
-            <button class="dive-btn" onclick="setDives(this,7,3250000)"><span class="dive-count">7 Dives</span><span class="dive-price">3,250,000K</span></button>
-            <button class="dive-btn" onclick="setDives(this,9,4050000)"><span class="dive-count">9 Dives</span><span class="dive-price">4,050,000K</span></button>
+            <button class="dive-btn active" onclick="setDives(this,1,550000)"><span class="dive-count">1 Dive</span><span class="dive-price">IDR 550,000</span></button>
+            <button class="dive-btn" onclick="setDives(this,2,1000000)"><span class="dive-count">2 Dives</span><span class="dive-price">IDR 1,000,000</span></button>
+            <button class="dive-btn" onclick="setDives(this,3,1450000)"><span class="dive-count">3 Dives</span><span class="dive-price">IDR 1,450,000</span></button>
+            <button class="dive-btn" onclick="setDives(this,5,2360000)"><span class="dive-count">5 Dives</span><span class="dive-price">IDR 2,360,000</span></button>
+            <button class="dive-btn" onclick="setDives(this,7,3250000)"><span class="dive-count">7 Dives</span><span class="dive-price">IDR 3,250,000</span></button>
+            <button class="dive-btn" onclick="setDives(this,9,4050000)"><span class="dive-count">9 Dives</span><span class="dive-price">IDR 4,050,000</span></button>
           </div>
         </div>
         <div class="calc-group">
@@ -863,27 +863,14 @@
 
 <!-- ===== SOCIAL ===== -->
 <section id="social">
-  <div class="section-tag">Community</div>
-  <h2 class="section-title">Real Student Stories<br>From the Deep Blue</h2>
-  <div class="social-platforms">
-    <span class="plat-tag">📕 Xiaohongshu</span>
-    <span class="plat-tag">🎵 Douyin</span>
-    <span class="plat-tag">📷 Instagram</span>
-  </div>
-  <div class="reels-grid">
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Underwater Photos</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Shipwreck Dive</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Morning Dive</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">PADI Certification</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Instructor Vlog</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Resort Life</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Deep Freediving</div></div>
-    <div class="reel-card"><div class="reel-src">Instagram</div><div class="reel-label">Night Diving</div></div>
-  </div>
   <div class="social-cta">
     <h3 class="section-title" style="font-size:1.5rem;margin-bottom:10px;">Follow Us for Latest Updates</h3>
     <p>Weekly updates on sea conditions, marine sightings, live sessions, and exclusive early bird offers</p>
-    <a href="https://www.instagram.com/udivebali/" target="_blank" class="btn-insta" style="margin-top:14px;">📷 IG @udivebali</a>
+    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 14px;">
+      <a href="https://www.instagram.com/udivebali/" target="_blank" class="btn-insta">📷 Instagram</a>
+      <a href="https://www.facebook.com/udivebali/" target="_blank" class="btn-insta">📘 Facebook</a>
+      <a href="https://www.xiaohongshu.com/user/profile/5cdc64300000000010034a32?xsec_token=ABFAtz7BxNUtZ0qNQavA3Y88Letiqr1u19wbsHg9LXxO4%3D&xsec_source=pc_search" target="_blank" class="btn-insta">📕 XiaoHongShu</a>
+    </div>
   </div>
 
   <!-- Reviews -->
@@ -921,7 +908,7 @@
       <div class="contact-card">
         <div class="contact-icon">💬</div>
         <div class="contact-method">WeChat</div>
-        <div class="contact-val">alanfirwandy</div>
+        <div class="contact-val">u_sea_sea_u</div>
       </div>
       <div class="contact-card">
         <div class="contact-icon">📱</div>
@@ -931,7 +918,7 @@
       <div class="contact-card">
         <div class="contact-icon">📧</div>
         <div class="contact-method">Email</div>
-        <div class="contact-val">firwandyalan13@gmail.com</div>
+        <div class="contact-val">udive.bali@gmail.com</div>
       </div>
     </div>
     <div class="urgent-notice">
@@ -1057,17 +1044,25 @@
   }
 
   function updatePrice() {
-    const addonTotal =
-      addons.area * addonRates.area +
-      addons.night * diveCount * addonRates.night +
-      addons.nitrox * diveCount * addonRates.nitrox +
-      addons.boat * addonRates.boat;
-    const total = diveBase + addonTotal + locExtra;
+    let total = 0;
+    let addonTotal = 0;
+    
+    if (locExtra === 2800000) {
+      // Special flat rate for Nusa Penida
+      total = locExtra;
+    } else {
+      addonTotal =
+        addons.area * addonRates.area +
+        addons.night * diveCount * addonRates.night +
+        addons.nitrox * diveCount * addonRates.nitrox +
+        addons.boat * addonRates.boat;
+      total = diveBase + addonTotal + locExtra;
+    }
     const deposit = Math.round(total / 2);
 
     const fmt = n => 'IDR ' + n.toLocaleString('id-ID');
-    document.getElementById('ps-pkg').textContent = fmt(diveBase);
-    document.getElementById('ps-addons').textContent = fmt(addonTotal + locExtra);
+    document.getElementById('ps-pkg').textContent = locExtra === 2800000 ? fmt(locExtra) : fmt(diveBase);
+    document.getElementById('ps-addons').textContent = fmt(locExtra === 2800000 ? 0 : addonTotal + locExtra);
     document.getElementById('ps-total').textContent = fmt(total);
     document.getElementById('ps-deposit').innerHTML = '50% deposit to confirm: <strong>' + fmt(deposit) + '</strong>';
     document.getElementById('ps-currencies').innerHTML =
