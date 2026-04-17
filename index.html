@@ -445,7 +445,7 @@
       .nav-links { display: none; }
       .footer-grid { grid-template-columns: 1fr; }
       .philosophy-grid { grid-template-columns: 1fr; }
-      .padi-60-logo { width: 70px; top: 85px; right: 16px; }
+      #hero .padi-60-logo { width: 70px; top: 85px; right: 16px; }
     }
 
     @keyframes float {
@@ -454,17 +454,17 @@
       100% { transform: translateY(0px); }
     }
     
-    .padi-60-logo {
+    #hero .padi-60-logo {
       position: absolute;
       top: 85px;
-      right: -10px;
+      right: 25px;
       width: 140px;
-      z-index: 5;
+      z-index: 10;
       filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
       animation: float 4s ease-in-out infinite;
     }
     @media (max-width: 900px) {
-      .padi-60-logo { top: 85px; right: -5px; width: 110px; }
+      #hero .padi-60-logo { top: 85px; right: -5px; width: 110px; }
     }
   </style>
 </head>
@@ -499,7 +499,9 @@
 
 <!-- ===== HERO ===== -->
 <section id="hero">
-  <img src="PADI60.png" alt="PADI 60 Years" class="padi-60-logo">
+  <a href="https://www.padi.com/" target="_blank" class="padi-60-logo" style="display:block; text-decoration:none;">
+    <img src="PADI60.png" alt="PADI 60 Years" style="width: 100%; height: auto; display: block;">
+  </a>
   <div class="hero-tag" data-en="✦ Tulamben, Bali" data-zh="✦ 印度尼西亚 巴厘岛 图兰奔">✦ Tulamben, Bali</div>
   <h1 data-en="Tulamben<br><span>PADI 5 Star IDC</span><br>Dive Centre" data-zh="图兰奔<br><span>PADI 五星级 IDC</span><br>教练发展潜水中心">Tulamben<br><span>PADI 5 Star IDC</span><br>Dive Centre</h1>
   <p class="hero-desc" data-en="PADI 5 Star IDC Centre #27368 — Dual Directors, 2013–2025 consecutive PADI Global Outstanding Teaching Award. <strong>15,000+</strong> certifications issued, <strong>500+</strong> professional dive instructors trained." data-zh="PADI 五星级 IDC 中心 #27368 — 双总监制度，2013-2025连续获得 PADI 全球卓越教学奖。颁发超过 <strong>15,000+</strong> 份潜水证书，培训了 <strong>500+</strong> 名专业潜水教练。">
