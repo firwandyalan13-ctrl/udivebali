@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UdiveBali - Tulamben PADI 5 Star IDC Dive Centre</title>
+  <title>Udive Bali - Tulamben PADI 5 Star IDC Dive Centre</title>
   <meta name="description" content="UDive Bali — Tulamben PADI 5 Star IDC Centre #27368. Dual Directors, 2013–2025 consecutive PADI Global Outstanding Teaching Award. 15,000+ certifications issued.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -445,6 +445,26 @@
       .nav-links { display: none; }
       .footer-grid { grid-template-columns: 1fr; }
       .philosophy-grid { grid-template-columns: 1fr; }
+      .padi-60-logo { width: 70px; top: 85px; right: 16px; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .padi-60-logo {
+      position: absolute;
+      top: 85px;
+      right: -10px;
+      width: 140px;
+      z-index: 5;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+      animation: float 4s ease-in-out infinite;
+    }
+    @media (max-width: 900px) {
+      .padi-60-logo { top: 85px; right: -5px; width: 110px; }
     }
   </style>
 </head>
@@ -462,7 +482,7 @@
       <path d="M16 16 H20" stroke="#e8702a" stroke-width="1.5"/>
     </svg>
     <div class="logo-text">
-      <span class="brand">UdiveBali</span>
+      <span class="brand">Udive Bali</span>
       <span class="sub">Tulamben · Est. 2018</span>
     </div>
   </a>
@@ -479,6 +499,7 @@
 
 <!-- ===== HERO ===== -->
 <section id="hero">
+  <img src="PADI60.png" alt="PADI 60 Years" class="padi-60-logo">
   <div class="hero-tag" data-en="✦ Tulamben, Bali" data-zh="✦ 印度尼西亚 巴厘岛 图兰奔">✦ Tulamben, Bali</div>
   <h1 data-en="Tulamben<br><span>PADI 5 Star IDC</span><br>Dive Centre" data-zh="图兰奔<br><span>PADI 五星级 IDC</span><br>教练发展潜水中心">Tulamben<br><span>PADI 5 Star IDC</span><br>Dive Centre</h1>
   <p class="hero-desc" data-en="PADI 5 Star IDC Centre #27368 — Dual Directors, 2013–2025 consecutive PADI Global Outstanding Teaching Award. <strong>15,000+</strong> certifications issued, <strong>500+</strong> professional dive instructors trained." data-zh="PADI 五星级 IDC 中心 #27368 — 双总监制度，2013-2025连续获得 PADI 全球卓越教学奖。颁发超过 <strong>15,000+</strong> 份潜水证书，培训了 <strong>500+</strong> 名专业潜水教练。">
@@ -505,7 +526,7 @@
   </div>
   <div class="badge-item">
     <div class="badge-icon">🏡</div>
-    <div class="badge-title" data-en="16 Boutique Rooms" data-zh="16 间精品客房">16 Boutique Rooms</div>
+    <div class="badge-title" data-en="6 Boutique Rooms" data-zh="6 间精品客房">6 Boutique Rooms</div>
     <div class="badge-sub" data-en="Integrated stay-dive experience" data-zh="潜水住宿一体化体验">Integrated stay-dive experience</div>
   </div>
   <div class="badge-item">
@@ -531,7 +552,7 @@
     <div class="stat-label" data-en="Professional Coaches Trained" data-zh="培训专业潜水教练">Professional Coaches Trained</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num">16</div>
+    <div class="stat-num">6</div>
     <div class="stat-label" data-en="Boutique Rooms" data-zh="精品客房">Boutique Rooms</div>
   </div>
   <div class="stat-item">
@@ -716,7 +737,7 @@
   <div class="resort-header">
     <div class="section-tag" data-en="Boutique Resort" data-zh="精品度假村">Boutique Resort</div>
     <h2 class="section-title" data-en="Eat, Stay, Dive<br>Integrated Experience" data-zh="潜水与住宿<br>一站式完美体验">Eat, Stay, Dive<br>Integrated Experience</h2>
-    <p class="section-sub" data-en="16 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue." data-zh="16间精品客房与潜水中心无缝连接。晨出潜水，暮归休息。享受精心准备的每日餐点，让您将所有精力专注在深蓝的海洋中。">16 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue.</p>
+    <p class="section-sub" data-en="6 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue." data-zh="6间精品客房与潜水中心无缝连接。晨出潜水，暮归休息。享受精心准备的每日餐点，让您将所有精力专注在深蓝的海洋中。">6 boutique rooms seamlessly integrated with our dive center. Dive at dawn, return at dusk. Enjoy daily meals prepared with care, so you can focus entirely on the deep blue.</p>
   </div>
   <div class="resort-amenities">
     <span class="amenity" data-en="Daily Ocean View Breakfast" data-zh="每日海景早餐">Daily Ocean View Breakfast</span>
@@ -956,7 +977,7 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="brand">UdiveBali</div>
+      <div class="brand">Udive Bali</div>
       <div class="sub" data-en="Tulamben · Bali" data-zh="巴厘岛 · 图兰奔">Tulamben · Bali</div>
       <p data-en="Tulamben's most trusted PADI 5 Star IDC dive center and boutique resort. 7 years dedicated to creating safe, unforgettable diving experiences." data-zh="图兰奔最值得信赖的 PADI 五星级 IDC 潜水中心及精品度假村。7年致力于打造安全、难忘的潜水体验。">Tulamben's most trusted PADI 5 Star IDC dive center and boutique resort. 7 years dedicated to creating safe, unforgettable diving experiences.</p>
     </div>
@@ -990,7 +1011,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p data-en="© 2025 UdiveBali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali" data-zh="© 2025 UdiveBali. 保留所有权利。 · 地址：Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali">© 2025 UdiveBali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali</p>
+    <p data-en="© 2025 Udive Bali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali" data-zh="© 2025 Udive Bali. 保留所有权利。 · 地址：Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali">© 2025 Udive Bali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali</p>
     <div class="footer-certs">
       <span class="cert">PADI 5 Star IDC #27368</span>
       <span class="cert">CDC Career Dev. Center</span>
