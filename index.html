@@ -1025,7 +1025,7 @@
         <div class="price-val">IDR 5,500,000</div>
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
-      <a href="#booking" class="btn-card" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</a>
+      <button class="btn-card" onclick="document.getElementById('aow-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
     </div>
 
     <!-- DSD -->
@@ -1040,7 +1040,7 @@
         <div class="price-val">IDR 1,500,000</div>
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
-      <a href="#booking" class="btn-card" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</a>
+      <button class="btn-card" onclick="document.getElementById('dsd-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
     </div>
   </div>
 </section>
@@ -1802,6 +1802,233 @@ document.addEventListener('keydown', function(e) {
     </div><!-- end .pkg-modal-body -->
   </div>
 </div>
+
+
+  <!-- AOW Package Details Modal -->
+  <div id="aow-pkg-modal" class="pkg-modal-overlay" onclick="if(event.target===this)document.getElementById('aow-pkg-modal').classList.remove('open')">
+    <div class="pkg-modal">
+
+      <!-- Hero Banner -->
+      <div class="pkg-modal-hero" style="background-image: linear-gradient(to bottom, rgba(10,20,40,0.45), rgba(10,20,40,0.75)), url('Single1.jpg');">
+        <button class="pkg-modal-close" onclick="document.getElementById('aow-pkg-modal').classList.remove('open')">✕</button>
+        <div class="pkg-modal-hero-content">
+          <span class="pkg-modal-hero-tag">🦈 Advanced Certification</span>
+          <h2>PADI Advanced Open Water</h2>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="pkg-modal-body">
+
+        <!-- Meta row -->
+        <div class="pkg-meta-row">
+          <div class="pkg-emoji-badge">⏱</div>
+          <div>
+            <div class="pkg-meta-label">Course Length</div>
+            <div class="pkg-meta-val">2 Days</div>
+          </div>
+          <div class="pkg-meta-divider"></div>
+          <div class="pkg-emoji-badge">🤿</div>
+          <div>
+            <div class="pkg-meta-label">Dives Included</div>
+            <div class="pkg-meta-val">5 Adventure Dives</div>
+          </div>
+          <div class="pkg-meta-divider"></div>
+          <div class="pkg-emoji-badge">📏</div>
+          <div>
+            <div class="pkg-meta-label">Max Depth</div>
+            <div class="pkg-meta-val">30m / 100ft</div>
+          </div>
+        </div>
+
+        <!-- Course Description -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📖</div>
+            <h3>Course Description</h3>
+          </div>
+          <p>Build upon the basic scuba diving knowledge you learned in your PADI Open Water Diver Course. Upon completing this course, you will receive your PADI Advanced Open Water Diver Certification and be able to dive to a maximum depth of 30 meters/100 feet.</p>
+          <p><strong>Knowledge Development:</strong> Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn more specialized skills and techniques related to each of the Adventure Dives you select.</p>
+          <p><strong>Five Adventure Dives:</strong> All students are required to complete one Deep Dive and one Underwater Navigation Dive. In addition, you'll complete three Adventure Dives of your choice. You can credit these toward the related PADI specialty course.</p>
+          <p style="margin-top:10px;font-size:0.88rem;color:#555;">Available Adventure Dives: Altitude · Boat · Digital Underwater Photography · Diver Propulsion Vehicle · Drift · Dry Suit · Enriched Air · Fish Identification · Multilevel · Night · Peak Performance Buoyancy · Public Safety · Search and Recovery · Underwater Naturalist · Underwater Videography · Wreck</p>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- Free Photos -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📸</div>
+            <h3>Free Photos &amp; Videos</h3>
+          </div>
+          <p>Includes free photos and videos to help you remember your dives.</p>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- Dive Sites -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📍</div>
+            <h3>Dive Sites</h3>
+          </div>
+          <p style="margin-bottom:10px">Open Water dives may take place at the following dive sites in Tulamben:</p>
+          <div class="pkg-sites">
+            <span class="pkg-site-pill">⚓ Liberty Wreck</span>
+            <span class="pkg-site-pill">🪸 Coral Garden</span>
+            <span class="pkg-site-pill">🌊 Drop Off</span>
+            <span class="pkg-site-pill">🚢 Boga Wreck</span>
+          </div>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- Requirements -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">✅</div>
+            <h3>Requirements</h3>
+          </div>
+          <div class="pkg-req-box">Students must already have their <strong>PADI Open Water Diver Certification</strong>, be in good physical health, and be at least <strong>15 years old</strong> (or 12–15 for Junior Advanced Open Water Diver Certification).</div>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- What's Included -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">🎁</div>
+            <h3>What's Included</h3>
+          </div>
+          <ul class="pkg-included-grid">
+            <li>PADI online theory + teaching by expert local instructor</li>
+            <li>5 dives</li>
+            <li>PADI certification fee</li>
+            <li>Equipment rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
+            <li>Lunch, snacks, coffee, tea, and drinking water</li>
+            <li>Dive site entrance tickets and porter fee</li>
+            <li>Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)</li>
+            <li>Transportation to/from dive center to dive sites in Tulamben</li>
+            <li>Free wifi at the dive center</li>
+            <li>Towel, soap, and shampoo</li>
+            <li>Photos and videos</li>
+          </ul>
+        </div>
+
+      </div><!-- end pkg-modal-body -->
+    </div><!-- end pkg-modal -->
+  </div><!-- end aow-pkg-modal -->
+
+  <!-- DSD Package Details Modal -->
+  <div id="dsd-pkg-modal" class="pkg-modal-overlay" onclick="if(event.target===this)document.getElementById('dsd-pkg-modal').classList.remove('open')">
+    <div class="pkg-modal">
+
+      <!-- Hero Banner -->
+      <div class="pkg-modal-hero" style="background-image: linear-gradient(to bottom, rgba(10,20,40,0.45), rgba(10,20,40,0.75)), url('Single1.jpg');">
+        <button class="pkg-modal-close" onclick="document.getElementById('dsd-pkg-modal').classList.remove('open')">✕</button>
+        <div class="pkg-modal-hero-content">
+          <span class="pkg-modal-hero-tag">🐙 Try Scuba Diving</span>
+          <h2>Discover Scuba Diving</h2>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="pkg-modal-body">
+
+        <!-- Meta row -->
+        <div class="pkg-meta-row">
+          <div class="pkg-emoji-badge">⏱</div>
+          <div>
+            <div class="pkg-meta-label">Duration</div>
+            <div class="pkg-meta-val">2–6 Hours</div>
+          </div>
+          <div class="pkg-meta-divider"></div>
+          <div class="pkg-emoji-badge">🤿</div>
+          <div>
+            <div class="pkg-meta-label">Dives</div>
+            <div class="pkg-meta-val">1–3 Dives</div>
+          </div>
+          <div class="pkg-meta-divider"></div>
+          <div class="pkg-emoji-badge">👤</div>
+          <div>
+            <div class="pkg-meta-label">Guide Ratio</div>
+            <div class="pkg-meta-val">1-on-1</div>
+          </div>
+        </div>
+
+        <!-- Course Description -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📖</div>
+            <h3>Description</h3>
+          </div>
+          <p>If you are new to scuba diving or are not a certified diver, then this is the option for you. Prior to gearing up, your dive master will provide you with a briefing on basic dive techniques such as mask clearing, BCD and regulator use, hand signals, and safety principles.</p>
+          <p>If it's your first time diving or if you would simply like to refresh your skills, you will also get a chance to practice these techniques in a pool or water with pool-like conditions prior to your dive. Each beginner diver will be accompanied by their own dive master during the entire dive.</p>
+          <p>Since your first dive will be mainly focused on getting you comfortable using the gear underwater, we highly recommend doing a second dive so that you can fully appreciate and enjoy the unique experience of diving. (This is also known as the PADI Discover Scuba Diving Program).</p>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- Free Photos -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📸</div>
+            <h3>Free Photos &amp; Videos</h3>
+          </div>
+          <p>Includes free photos and videos, taken by your dive guide, to help you remember your dives.</p>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- Dive Sites -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📍</div>
+            <h3>Dive Sites</h3>
+          </div>
+          <p style="margin-bottom:10px">Beginner dives may take place at the following dive sites in Tulamben:</p>
+          <div class="pkg-sites">
+            <span class="pkg-site-pill">⚓ Liberty Wreck</span>
+            <span class="pkg-site-pill">🪸 Coral Garden</span>
+            <span class="pkg-site-pill">🌊 Drop Off (3rd dive only)</span>
+          </div>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- Requirements -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">✅</div>
+            <h3>Requirements</h3>
+          </div>
+          <div class="pkg-req-box">No prior diving experience is required; however divers must be at least <strong>12 years old</strong>, have adequate swimming skills, and be in good physical health.</div>
+        </div>
+
+        <div class="pkg-divider"></div>
+
+        <!-- What's Included -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">🎁</div>
+            <h3>What's Included</h3>
+          </div>
+          <ul class="pkg-included-grid">
+            <li>Equipment rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
+            <li>Private dive master</li>
+            <li>Lunch, snacks, coffee, tea, and drinking water</li>
+            <li>Photos and videos</li>
+            <li>Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)</li>
+            <li>Transportation to/from dive center to dive sites in Tulamben</li>
+            <li>Dive site entrance tickets and porter fee</li>
+            <li>Free wifi at the dive center</li>
+            <li>Towel, soap, and shampoo</li>
+          </ul>
+        </div>
+
+      </div><!-- end pkg-modal-body -->
+    </div><!-- end pkg-modal -->
+  </div><!-- end dsd-pkg-modal -->
 
 </body>
 </html>
