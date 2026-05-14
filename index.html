@@ -198,8 +198,10 @@
       gap: 28px;
       padding: 8px 4px 32px;
     }
-    .courses-grid .course-card {
-      opacity: 0;
+    .courses-grid .course-card:not(.is-revealed) {
+      opacity: 0 !important;
+      clip-path: none !important;
+      transform: none !important;
     }
     .courses-grid .course-card.is-revealed {
       animation: maskReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -1647,7 +1649,6 @@
     'section .card',
     'section .stat-item',
     'section .badge-item',
-    'section .course-card',
     'section .room-card',
     'section .feature-item',
     'section .about-text p',
