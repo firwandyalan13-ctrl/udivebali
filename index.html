@@ -189,8 +189,8 @@
     .courses-header { margin-bottom: 50px; }
     /* ── Mask Reveal Animation ── */
     @keyframes maskReveal {
-      from { clip-path: inset(0 100% 0 0); opacity: 0; transform: translateY(24px); }
-      to   { clip-path: inset(0 0% 0 0);   opacity: 1; transform: translateY(0);    }
+      from { clip-path: inset(0 100% 0 0); opacity: 0; }
+      to   { clip-path: inset(0 0% 0 0);   opacity: 1; }
     }
     .courses-grid {
       display: grid;
@@ -200,13 +200,11 @@
     }
     .courses-grid .course-card {
       opacity: 0;
-      clip-path: inset(0 100% 0 0);
-      transform: translateY(24px);
     }
     .courses-grid .course-card.is-revealed {
       animation: maskReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-        /* ── Course Card Styles ── */
+    /* ── Course Card Styles ── */
     .course-card {
       position: relative; overflow: hidden;
       background: rgba(255,255,255,0.04);
@@ -2125,7 +2123,7 @@ document.addEventListener('keydown', function(e) {
 (function(){
   /* ── Mask Reveal Animation ── */
 (function(){
-  var cards = document.querySelectorAll('.course-card');
+  var cards = document.querySelectorAll('.courses-grid .course-card');
   if(!cards.length) return;
 
   var observer = new IntersectionObserver(function(entries){
@@ -2133,12 +2131,12 @@ document.addEventListener('keydown', function(e) {
       if(entry.isIntersecting){
         var card = entry.target;
         var idx = Array.from(cards).indexOf(card);
-        card.style.animationDelay = (idx * 0.12) + 's';
+        card.style.animationDelay = (idx * 0.15) + 's';
         card.classList.add('is-revealed');
         observer.unobserve(card);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0, rootMargin: '0px 0px -50px 0px' });
 
   cards.forEach(function(card){ observer.observe(card); });
 })();
