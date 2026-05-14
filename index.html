@@ -1043,7 +1043,19 @@
       <button class="btn-card" onclick="document.getElementById('dsd-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
     </div>
   </div>
-</section>
+
+    <div class="course-card">
+      <span class="card-badge" data-en="RESCUE" data-zh="救援">RESCUE</span>
+      <div class="course-emoji">🚑</div>
+      <h3 data-en="Rescue Diver" data-zh="救援潜水员">Rescue Diver</h3>
+      <div class="course-sub" data-en="PADI Rescue Diver Certification" data-zh="PADI救援潜水员认证">PADI Rescue Diver Certification</div>
+      <p class="course-desc" data-en="Learn how to prevent and manage different types of emergencies that can occur while diving and receive your PADI Rescue Diver Certification." data-zh="学习如何预防和处理潜水中可能发生的各类紧急情况，并获得PADI救援潜水员认证。">Learn how to prevent and manage different types of emergencies that can occur while diving and receive your PADI Rescue Diver Certification.</p>
+      <div class="course-price">
+        <div class="price-val">IDR 8,180,000</div>
+        <div class="price-note" data-en="per person" data-zh="每人">per person</div>
+      </div>
+      <button class="btn-card" onclick="document.getElementById('rescue-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
+    </div></section>
 
 <!-- ===== FUN DIVE CALCULATOR ===== -->
 <section id="fundive">
@@ -2027,5 +2039,57 @@ document.addEventListener('keydown', function(e) {
     </div><!-- end pkg-modal -->
   </div><!-- end dsd-pkg-modal -->
 
+
+  <!-- Rescue Diver Package Details Modal -->
+  <div id="rescue-pkg-modal" class="pkg-modal-overlay" onclick="if(event.target===this)document.getElementById('rescue-pkg-modal').classList.remove('open')">
+    <div class="pkg-modal">
+      <!-- Hero Banner -->
+      <div class="pkg-modal-hero" style="background-image: linear-gradient(to bottom, rgba(10,20,40,0.45), rgba(10,20,40,0.75)), url('Single1.jpg');">
+        <button class="pkg-modal-close" onclick="document.getElementById('rescue-pkg-modal').classList.remove('open')">✕</button>
+        <div class="pkg-modal-hero-content">
+          <span class="pkg-modal-hero-tag">🚑 Rescue Certification</span>
+          <h2>Rescue Diver</h2>
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="pkg-modal-body">
+        <!-- Meta row -->
+        <div class="pkg-meta-row">
+          <div class="pkg-emoji-badge">📅</div>
+          <div>
+            <div class="pkg-meta-label">Length</div>
+            <div class="pkg-meta-val">2 Days</div>
+          </div>
+        </div>
+        <!-- Course Description -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">📖</div>
+            <h3>Description</h3>
+          </div>
+          <p>This course will prepare you to prevent and manage different types of emergencies that can occur while diving. It is one of the more challenging courses, but also one of the most rewarding. You'll walk away not only more prepared to keep your buddy safe, but also yourself! In addition to becoming more confident at managing crisis situations, upon completing this course you will also receive your PADI Rescue Diver Certification. The PADI Rescue Diver Course consists of the following:</p>
+          <p><strong>Knowledge Development:</strong> Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn how to think like a rescue diver and become familiar with the techniques you may need to use when responding to emergencies. Topics include:</p>
+          <ul class="pkg-included-grid" style="list-style:disc;padding-left:1.2rem;">
+            <li>Self rescue</li>
+            <li>Recognizing and managing stress in other divers</li>
+            <li>Emergency management and equipment</li>
+            <li>Rescuing panicked divers</li>
+            <li>Rescuing unresponsive divers</li>
+          </ul>
+          <p><strong>Rescue Dives:</strong> Through a series of rescue exercises in the pool and the sea, you'll get the opportunity to put your Rescue Diver knowledge and skills into practice.</p>
+          <p><strong>Final Exam:</strong> In order to successfully complete the course and receive your PADI Rescue Diver Certification, students must pass a written Final Exam.</p>
+        </div>
+        <div class="pkg-divider"></div>
+        <!-- Requirements -->
+        <div class="pkg-section">
+          <div class="pkg-section-header">
+            <div class="pkg-section-icon">✅</div>
+            <h3>Requirements</h3>
+          </div>
+          <div class="pkg-req-box">To enroll in this course, students must already have their <strong>PADI Advanced Open Water Diver Certification</strong>, have completed an <strong>Emergency First Response (EFR)</strong> training, and be in good physical health.</div>
+        </div>
+      </div><!-- end pkg-modal-body -->
+    </div><!-- end pkg-modal -->
+  </div><!-- end rescue-pkg-modal -->
 </body>
 </html>
