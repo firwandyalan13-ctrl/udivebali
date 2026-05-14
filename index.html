@@ -187,110 +187,25 @@
     /* ===== COURSES ===== */
     #courses { padding: 80px 60px; background: var(--navy); }
     .courses-header { margin-bottom: 50px; }
-    /* ── Magnetic Snap Carousel ── */
-    .courses-clip { overflow: hidden; }
-    .courses-slider-wrapper {
-      position: relative;
-      overflow: visible;
-      cursor: grab;
-      user-select: none;
-      -webkit-user-select: none;
-      border-radius: 20px;
-      padding: 8px 0 24px;
+    /* ── Mask Reveal Animation ── */
+    @keyframes maskReveal {
+      from { clip-path: inset(0 100% 0 0); opacity: 0; transform: translateY(24px); }
+      to   { clip-path: inset(0 0% 0 0);   opacity: 1; transform: translateY(0);    }
     }
-    .courses-slider-wrapper.is-dragging { cursor: grabbing; }
     .courses-grid {
-      display: flex;
-      gap: 24px;
-      will-change: transform;
-      transition: none;
-    }
-    .courses-grid.is-snapping {
-      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+      padding: 8px 4px 32px;
     }
     .courses-grid .course-card {
-      flex: 0 0 calc(33.333% - 16px);
-      min-width: 0;
-      transform: scale(1);
-      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
-                  box-shadow 0.4s ease,
-                  border-color 0.4s ease;
+      opacity: 0;
+      clip-path: inset(0 100% 0 0);
+      transform: translateY(24px);
     }
-    .courses-grid .course-card.is-active {
-      transform: scale(1.03);
-      box-shadow: 0 12px 40px rgba(232,112,42,0.25);
-      border-color: var(--orange);
+    .courses-grid .course-card.is-revealed {
+      animation: maskReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-    @media(max-width:900px){
-      .courses-grid .course-card { flex: 0 0 calc(50% - 12px); }
-    }
-    @media(max-width:600px){
-      .courses-grid .course-card { flex: 0 0 90%; }
-    }
-    .slider-btn {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      background: var(--orange); border: none; color: #fff;
-      width: 44px; height: 44px; border-radius: 50%;
-      font-size: 1.2rem; cursor: pointer; z-index: 5;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, opacity .2s, transform .2s;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-    }
-    .slider-btn:hover { background: #c85a10; transform: translateY(-50%) scale(1.1); }
-    .slider-btn:disabled { opacity: 0.25; cursor: default; transform: translateY(-50%) scale(1); }
-    .slider-btn-prev { left: -6px; }
-    .slider-btn-next { right: -6px; }
-    .slider-dots {
-      display: flex; justify-content: center;
-      gap: 10px; margin-top: 20px;
-    }
-    .slider-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: rgba(232,112,42,0.25); border: none;
-      cursor: pointer; padding: 0;
-      transition: background .3s, transform .3s, width .3s;
-    }
-    .slider-dot.active {
-      background: var(--orange);
-      transform: scale(1.3);
-      width: 22px;
-      border-radius: 4px;
-    }
-    .course-card {
-      background: var(--card-bg);
-      border: 1px solid rgba(232,112,42,0.15);
-      border-radius: 16px; padding: 32px; position: relative;
-      transition: transform .2s, border-color .2s;
-    }
-    .course-card:hover { transform: translateY(-4px); border-color: var(--orange); }
-    .card-badge {
-      position: absolute; top: 20px; right: 20px;
-      background: var(--orange); color: #fff;
-      font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 20px;
-      text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .course-emoji { font-size: 2rem; margin-bottom: 12px; }
-    .course-card h3 {
-      font-family: 'Playfair Display', serif; font-size: 1.4rem;
-      font-weight: 600; color: var(--cream); margin-bottom: 4px;
-    }
-    .course-sub { color: var(--orange); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-    .course-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.7; }
-    .course-features { list-style: none; margin-bottom: 24px; }
-    .course-features li { font-size: 0.85rem; color: var(--muted); padding: 4px 0; }
-    .course-features li::before { content: '✓ '; color: var(--orange); font-weight: 700; }
-    .course-price { margin-top: auto; }
-    .price-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--orange); }
-    .price-note { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
-    .btn-card {
-      display: inline-block; margin-top: 16px;
-      background: transparent; border: 1.5px solid var(--orange);
-      color: var(--orange); padding: 10px 20px; border-radius: 8px;
-      font-size: 0.85rem; font-weight: 600; text-decoration: none;
-      transition: background .2s, color .2s;
-    }
-    .btn-card:hover { background: var(--orange); color: #fff; }
-
     /* ===== FUN DIVE CALCULATOR ===== */
     #fundive { padding: 80px 60px; background: var(--navy2); }
     .fundive-inner { max-width: 820px; margin: 0 auto; }
@@ -1065,9 +980,7 @@
     <h2 class="section-title" data-en="More Than Diving,<br>A Life-Changing Experience" data-zh="不仅仅是潜水，<br>这是一场改变人生的体验">More Than Diving,<br>A Life-Changing Experience</h2>
     <p class="section-sub" data-en="Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors." data-zh="我们的课程价格高于市场平均水平，因为我们严格保持小班教学（最多4人），提供齐全的装备，以及拥有7年以上经验的教练。">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
   </div>
-  <div class="courses-clip"><div class="courses-slider-wrapper">
-    <button class="slider-btn slider-btn-prev" id="courses-prev" aria-label="Previous" onclick="courseSlide(-1)">&#8592;</button>
-    <div class="courses-grid" id="courses-grid">
+  <div class="courses-grid" id="courses-grid">
     <!-- OW -->
     <div class="course-card">
       <span class="card-badge" data-en="Most Popular" data-zh="最受欢迎">Most Popular</span>
@@ -1126,9 +1039,9 @@
       <button class="btn-card" onclick="document.getElementById('rescue-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
         </div>
   </div>
-    <button class="slider-btn slider-btn-next" id="courses-next" aria-label="Next" onclick="courseSlide(1)">&#8594;</button>
-  </div></div>
-  <div class="slider-dots" id="courses-dots"></div></section>
+    
+  </div>
+</section>
 
 <!-- ===== FUN DIVE CALCULATOR ===== -->
 <section id="fundive">
@@ -2167,172 +2080,24 @@ document.addEventListener('keydown', function(e) {
 
 <script>
 (function(){
-  /* ── Magnetic Snap Carousel ── */
-  var wrapper, clip, grid, prevBtn, nextBtn, dotsEl;
-  var perView = 3, total = 1, current = 0;
-  var cardW = 0;
-  var pos = 0, target = 0;           /* current translateX */
-  var isDragging = false, startX = 0, startPos = 0;
-  var raf = null;
-  var STIFFNESS = 260, DAMPING = 26;
-  var vel = 0;
+  /* ── Mask Reveal Animation ── */
+(function(){
+  var cards = document.querySelectorAll('.course-card');
+  if(!cards.length) return;
 
-  /* ─── measure card width reliably ─────────────────────── */
-  function measure(){
-    if(!grid || !grid.children[0]) return;
-    var gap = 24;
-    var cw = grid.children[0].getBoundingClientRect().width;
-    if(cw < 10) return;                /* not rendered yet */
-    cardW = cw + gap;
-    perView = window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3;
-    total   = Math.max(1, grid.children.length - perView + 1);
-  }
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var card = entry.target;
+        var idx = Array.from(cards).indexOf(card);
+        card.style.animationDelay = (idx * 0.12) + 's';
+        card.classList.add('is-revealed');
+        observer.unobserve(card);
+      }
+    });
+  }, { threshold: 0.15 });
 
-  /* ─── go to slide ─────────────────────────────────────── */
-  function goTo(i, instant){
-    measure();
-    current  = Math.max(0, Math.min(i, total - 1));
-    target   = -(current * cardW);
-    if(instant){ pos = target; vel = 0; setX(pos); }
-    updateUI();
-    if(!instant) tick();
-  }
-
-  window.courseSlide = function(dir){ goTo(current + dir); };
-
-  /* ─── UI helpers ──────────────────────────────────────── */
-  function updateUI(){
-    /* dots */
-    if(dotsEl){
-      Array.from(dotsEl.children).forEach(function(d,i){
-        d.classList.toggle('active', i === current);
-      });
-    }
-    /* buttons */
-    if(prevBtn) prevBtn.disabled = (current === 0);
-    if(nextBtn) nextBtn.disabled = (current >= total - 1);
-    /* card highlight */
-    if(grid){
-      Array.from(grid.children).forEach(function(c,i){
-        c.classList.toggle('is-active', i === current);
-      });
-    }
-  }
-
-  function buildDots(){
-    if(!dotsEl) return;
-    dotsEl.innerHTML = '';
-    for(var i = 0; i < total; i++){
-      var d = document.createElement('button');
-      d.className = 'slider-dot' + (i === 0 ? ' active' : '');
-      d.setAttribute('data-i', i);
-      d.setAttribute('aria-label', 'Slide ' + (i + 1));
-      d.onclick = (function(idx){ return function(){ goTo(idx); }; })(i);
-      dotsEl.appendChild(d);
-    }
-  }
-
-  /* ─── spring animation ────────────────────────────────── */
-  function setX(x){
-    if(grid) grid.style.transform = 'translateX(' + x + 'px)';
-  }
-
-  function tick(){
-    if(raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(step);
-  }
-
-  function step(){
-    var force = -STIFFNESS * (pos - target);
-    vel = (vel + force / 60) * (1 - DAMPING / 1000);
-    pos += vel;
-    setX(pos);
-    if(Math.abs(pos - target) > 0.1 || Math.abs(vel) > 0.1){
-      raf = requestAnimationFrame(step);
-    } else {
-      pos = target; vel = 0;
-      setX(pos);
-      raf = null;
-    }
-  }
-
-  /* ─── drag / pointer ──────────────────────────────────── */
-  function onDown(e){
-    if(e.button && e.button !== 0) return;
-    isDragging = true;
-    startX     = e.clientX;
-    startPos   = pos;
-    if(raf){ cancelAnimationFrame(raf); raf = null; }
-    wrapper.setPointerCapture && wrapper.setPointerCapture(e.pointerId);
-    wrapper.classList.add('is-dragging');
-    e.preventDefault();
-  }
-
-  function onMove(e){
-    if(!isDragging) return;
-    var dx = e.clientX - startX;
-    var minT = -(( total - 1) * cardW);
-    var raw = startPos + dx;
-    /* rubber-band at edges */
-    if(raw > 0)    raw = dx * 0.2;
-    if(raw < minT) raw = minT + (raw - minT) * 0.2;
-    pos = raw; vel = 0;
-    setX(pos);
-    /* live nearest highlight */
-    var nearest = Math.round(-pos / (cardW || 1));
-    nearest = Math.max(0, Math.min(nearest, total - 1));
-    if(nearest !== current){ current = nearest; updateUI(); }
-  }
-
-  function onUp(e){
-    if(!isDragging) return;
-    isDragging = false;
-    wrapper.classList.remove('is-dragging');
-    /* snap with velocity from last pointer delta */
-    var dx  = e.clientX - startX;
-    var vFactor = dx / (cardW || 1);
-    var proj = Math.round(-pos / (cardW || 1) - vFactor * 0.5);
-    proj = Math.max(0, Math.min(proj, total - 1));
-    goTo(proj);
-  }
-
-  /* ─── init ────────────────────────────────────────────── */
-  function init(){
-    wrapper  = document.querySelector('.courses-slider-wrapper');
-    clip     = document.querySelector('.courses-clip');
-    grid     = document.getElementById('courses-grid');
-    prevBtn  = document.getElementById('courses-prev');
-    nextBtn  = document.getElementById('courses-next');
-    dotsEl   = document.getElementById('courses-dots');
-    if(!grid) return;
-
-    measure();
-    if(!cardW){
-      /* layout not ready yet – retry */
-      setTimeout(init, 100);
-      return;
-    }
-
-    current = 0; pos = 0; vel = 0; target = 0;
-    setX(0);
-    buildDots();
-    updateUI();
-
-    wrapper.addEventListener('pointerdown',   onDown);
-    wrapper.addEventListener('pointermove',   onMove);
-    wrapper.addEventListener('pointerup',     onUp);
-    wrapper.addEventListener('pointercancel', onUp);
-    wrapper.addEventListener('dragstart', function(e){ e.preventDefault(); });
-  }
-
-  window.addEventListener('resize', function(){
-    if(raf){ cancelAnimationFrame(raf); raf = null; }
-    current = 0; pos = 0; vel = 0;
-    init();
-  });
-
-  if(document.readyState === 'complete'){ init(); }
-  else { window.addEventListener('load', init); }
+  cards.forEach(function(card){ observer.observe(card); });
 })();
 </script></body>
 </html>
