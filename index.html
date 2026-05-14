@@ -188,9 +188,10 @@
     #courses { padding: 80px 60px; background: var(--navy); }
     .courses-header { margin-bottom: 50px; }
     /* ── Magnetic Snap Carousel ── */
+    .courses-clip { overflow: hidden; }
     .courses-slider-wrapper {
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       cursor: grab;
       user-select: none;
       -webkit-user-select: none;
@@ -1064,7 +1065,7 @@
     <h2 class="section-title" data-en="More Than Diving,<br>A Life-Changing Experience" data-zh="不仅仅是潜水，<br>这是一场改变人生的体验">More Than Diving,<br>A Life-Changing Experience</h2>
     <p class="section-sub" data-en="Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors." data-zh="我们的课程价格高于市场平均水平，因为我们严格保持小班教学（最多4人），提供齐全的装备，以及拥有7年以上经验的教练。">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
   </div>
-  <div class="courses-slider-wrapper">
+  <div class="courses-clip"><div class="courses-slider-wrapper">
     <button class="slider-btn slider-btn-prev" id="courses-prev" aria-label="Previous" onclick="courseSlide(-1)">&#8592;</button>
     <div class="courses-grid" id="courses-grid">
     <!-- OW -->
@@ -1126,7 +1127,7 @@
         </div>
   </div>
     <button class="slider-btn slider-btn-next" id="courses-next" aria-label="Next" onclick="courseSlide(1)">&#8594;</button>
-  </div>
+  </div></div>
   <div class="slider-dots" id="courses-dots"></div></section>
 
 <!-- ===== FUN DIVE CALCULATOR ===== -->
