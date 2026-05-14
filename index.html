@@ -187,7 +187,20 @@
     /* ===== COURSES ===== */
     #courses { padding: 80px 60px; background: var(--navy); }
     .courses-header { margin-bottom: 50px; }
-    .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    /* Courses slider */
+    .courses-slider-wrapper { position: relative; overflow: hidden; }
+    .courses-grid { display: flex; gap: 24px; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+    .courses-grid .course-card { flex: 0 0 calc(33.333% - 16px); min-width: 0; }
+    @media(max-width:900px){ .courses-grid .course-card { flex: 0 0 calc(50% - 12px); } }
+    @media(max-width:600px){ .courses-grid .course-card { flex: 0 0 100%; } }
+    .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--orange); border: none; color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; transition: background .2s, opacity .2s; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+    .slider-btn:hover { background: #c85a10; }
+    .slider-btn:disabled { opacity: 0.3; cursor: default; }
+    .slider-btn-prev { left: -10px; }
+    .slider-btn-next { right: -10px; }
+    .slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+    .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(232,112,42,0.3); border: none; cursor: pointer; transition: background .2s, transform .2s; padding: 0; }
+    .slider-dot.active { background: var(--orange); transform: scale(1.3); }
     .course-card {
       background: var(--card-bg);
       border: 1px solid rgba(232,112,42,0.15);
@@ -997,7 +1010,9 @@
     <h2 class="section-title" data-en="More Than Diving,<br>A Life-Changing Experience" data-zh="不仅仅是潜水，<br>这是一场改变人生的体验">More Than Diving,<br>A Life-Changing Experience</h2>
     <p class="section-sub" data-en="Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors." data-zh="我们的课程价格高于市场平均水平，因为我们严格保持小班教学（最多4人），提供齐全的装备，以及拥有7年以上经验的教练。">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
   </div>
-  <div class="courses-grid">
+  <div class="courses-slider-wrapper">
+    <button class="slider-btn slider-btn-prev" id="courses-prev" aria-label="Previous" onclick="courseSlide(-1)">&#8592;</button>
+    <div class="courses-grid" id="courses-grid">
     <!-- OW -->
     <div class="course-card">
       <span class="card-badge" data-en="Most Popular" data-zh="最受欢迎">Most Popular</span>
@@ -1055,7 +1070,10 @@
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
       <button class="btn-card" onclick="document.getElementById('rescue-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
-    </div></section>
+        </div>
+    <button class="slider-btn slider-btn-next" id="courses-next" aria-label="Next" onclick="courseSlide(1)">&#8594;</button>
+  </div>
+  <div class="slider-dots" id="courses-dots"></div></section>
 
 <!-- ===== FUN DIVE CALCULATOR ===== -->
 <section id="fundive">
@@ -2091,5 +2109,48 @@ document.addEventListener('keydown', function(e) {
       </div><!-- end pkg-modal-body -->
     </div><!-- end pkg-modal -->
   </div><!-- end rescue-pkg-modal -->
-</body>
+
+<script>
+(function(){
+  var grid = document.getElementById('courses-grid');
+  var prevBtn = document.getElementById('courses-prev');
+  var nextBtn = document.getElementById('courses-next');
+  var dotsEl = document.getElementById('courses-dots');
+  var cards, perView, total, current = 0;
+
+  function init(){
+    cards = grid.children.length;
+    perView = window.innerWidth <= 600 ? 1 : window.innerWidth <= 900 ? 2 : 3;
+    total = Math.max(1, cards - perView + 1);
+    // build dots
+    dotsEl.innerHTML = '';
+    for(var i=0;i<total;i++){
+      var d=document.createElement('button');
+      d.className='slider-dot'+(i===0?' active':'');
+      d.setAttribute('aria-label','Slide '+(i+1));
+      d.setAttribute('data-i',i);
+      d.onclick=function(){goTo(+this.getAttribute('data-i'));};
+      dotsEl.appendChild(d);
+    }
+    goTo(Math.min(current, total-1));
+  }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(i, total-1));
+    var cardW = grid.children[0] ? grid.children[0].offsetWidth + 24 : 0;
+    grid.style.transform = 'translateX(-'+(current * cardW)+'px)';
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= total - 1;
+    var dots = dotsEl.querySelectorAll('.slider-dot');
+    dots.forEach(function(d,idx){ d.classList.toggle('active', idx===current); });
+  }
+
+  window.courseSlide = function(dir){ goTo(current + dir); };
+
+  window.addEventListener('resize', init);
+  // wait for fonts/layout
+  window.addEventListener('load', init);
+  if(document.readyState==='complete') init();
+})();
+</script></body>
 </html>
