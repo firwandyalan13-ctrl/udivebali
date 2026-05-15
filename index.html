@@ -162,7 +162,7 @@
 
     /* ===== STATS ===== */
     #stats {
-      padding: 70px 60px;
+      padding: 80px 60px;
       display: grid; grid-template-columns: repeat(4,1fr); gap: 32px;
       background: var(--navy);
     }
@@ -175,7 +175,7 @@
 
     /* ===== SECTION HEADER ===== */
     .section-tag {
-      display: inline-block; font-size: 0.72rem; letter-spacing: 0.2em;
+      display: inline-block; font-size: 0.75rem; letter-spacing: 0.2em;
       text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
     }
     .section-title {
@@ -200,10 +200,10 @@
       content: ''; position: absolute; inset: 0; z-index: 0;
       background: linear-gradient(180deg, rgba(12,24,39,0.7) 0%, rgba(12,24,39,0.5) 50%, rgba(12,24,39,0.85) 100%);
     }
-    .courses-header { margin-bottom: 50px; }
+    .courses-header { margin-bottom: 40px; }
     .courses-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
     .course-card {
-      background: rgba(14,34,55,0.85);
+      background: var(--card-bg);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(232,112,42,0.15);
       border-radius: 16px; padding: 24px 18px; position: relative;
@@ -348,7 +348,7 @@
       background: var(--card-bg); border: 1px solid rgba(232,112,42,0.15);
       border-radius: 16px; padding: 30px; transition: transform .2s, border-color .2s;
     }
-    .room-card:hover { transform: translateY(-4px); border-color: var(--orange); }
+    .room-card:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 8px 30px rgba(232,112,42,0.15); }
     .room-icon { font-size: 2rem; margin-bottom: 14px; }
     .room-cap { font-size: 0.75rem; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
     .room-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--cream); margin-bottom: 6px; }
@@ -436,8 +436,10 @@
     .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .review-card {
       background: var(--card-bg); border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px; padding: 24px;
+      border-radius: 16px; padding: 24px;
+      transition: transform .2s, border-color .2s, box-shadow .2s;
     }
+    .review-card:hover { transform: translateY(-4px); border-color: var(--orange); box-shadow: 0 8px 30px rgba(232,112,42,0.12); }
     .review-stars { color: var(--orange); margin-bottom: 10px; font-size: 0.9rem; }
     .review-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; font-style: italic; margin-bottom: 14px; }
     .reviewer { font-size: 0.82rem; font-weight: 600; color: var(--cream); }
