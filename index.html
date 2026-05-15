@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,68 +188,58 @@
     /* ===== COURSES ===== */
     #courses { padding: 80px 60px; background: var(--navy); }
     .courses-header { margin-bottom: 50px; }
-    /* ── Mask Reveal Animation ── */
-    @keyframes maskReveal {
-      from { clip-path: inset(0 100% 0 0); opacity: 0; }
-      to   { clip-path: inset(0 0% 0 0);   opacity: 1; }
-    }
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 28px;
-      padding: 8px 4px 32px;
-    }
-    .courses-grid .course-card:not(.is-revealed) {
-      opacity: 0 !important;
-      clip-path: none !important;
-      transform: none !important;
-    }
-    .courses-grid .course-card.is-revealed {
-      animation: maskReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    /* ── Course Card Styles ── */
+    .courses-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
     .course-card {
-      position: relative; overflow: hidden;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(232,112,42,0.20);
-      border-radius: 20px;
-      padding: 32px 28px;
-      display: flex; flex-direction: column;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      background: var(--card-bg);
+      border: 1px solid rgba(232,112,42,0.15);
+      border-radius: 16px; padding: 24px 18px; position: relative;
+      transition: transform .2s, border-color .2s;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
     }
-    .course-card:hover {
-      border-color: rgba(232,112,42,0.55);
-      box-shadow: 0 8px 32px rgba(232,112,42,0.12);
-      transform: translateY(-4px);
-    }
+    .course-card:hover { transform: translateY(-4px); border-color: var(--orange); }
     .card-badge {
       position: absolute; top: 20px; right: 20px;
       background: var(--orange); color: #fff;
       font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 20px;
       text-transform: uppercase; letter-spacing: 0.05em;
     }
-    .course-emoji { font-size: 2rem; margin-bottom: 12px; }
+    .course-emoji { font-size: 1.8rem; margin-bottom: 10px; }
     .course-card h3 {
-      font-family: 'Playfair Display', serif; font-size: 1.4rem;
+      font-family: 'Playfair Display', serif; font-size: 1.15rem;
       font-weight: 600; color: var(--cream); margin-bottom: 4px;
     }
     .course-sub { color: var(--orange); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
     .course-desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; line-height: 1.7; }
     .course-features { list-style: none; margin-bottom: 24px; }
     .course-features li { font-size: 0.85rem; color: var(--muted); padding: 4px 0; }
-    .course-features li::before { content: '\2713 '; color: var(--orange); font-weight: 700; }
+    .course-features li::before { content: '✓ '; color: var(--orange); font-weight: 700; }
     .course-price { margin-top: auto; }
-    .price-val { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--orange); }
-    .price-note { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
+    .price-val { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--orange); }
+    .price-note { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
     .btn-card {
-      display: inline-block; padding: 12px 24px;
-      background: transparent; border: 1px solid var(--orange);
-      color: var(--orange); border-radius: 50px;
-      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      display: inline-block; margin-top: 12px;
+      background: transparent; border: 1.5px solid var(--orange);
+      color: var(--orange); padding: 8px 14px; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 600; text-decoration: none;
       transition: background .2s, color .2s;
-      text-align: center;
     }
     .btn-card:hover { background: var(--orange); color: #fff; }
+    /* ===== COURSE CARD STAGGER ANIMATION ===== */
+    .courses-grid .course-card {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.2s;
+    }
+    .courses-grid .course-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .courses-grid .course-card:nth-child(1) { transition-delay: 0s; }
+    .courses-grid .course-card:nth-child(2) { transition-delay: 0.15s; }
+    .courses-grid .course-card:nth-child(3) { transition-delay: 0.3s; }
+    .courses-grid .course-card:nth-child(4) { transition-delay: 0.45s; }
+    .courses-grid .course-card:nth-child(5) { transition-delay: 0.6s; }
+
     /* ===== FUN DIVE CALCULATOR ===== */
     #fundive { padding: 80px 60px; background: var(--navy2); }
     .fundive-inner { max-width: 820px; margin: 0 auto; }
@@ -328,128 +319,6 @@
     .room-price { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--orange); }
     .room-price-note { font-size: 0.78rem; color: var(--muted); }
     .room-card-img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 14px; }
-
-    /* ===== PACKAGE DETAILS MODAL ===== */
-    .pkg-modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 2000;
-      background: rgba(5,15,28,0.88); backdrop-filter: blur(6px);
-      overflow-y: auto; padding: 32px 16px;
-    }
-    .pkg-modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
-    .pkg-modal {
-      background: linear-gradient(160deg, #0e2237 0%, #0c1827 100%);
-      border: 1px solid rgba(232,112,42,0.25);
-      border-radius: 20px; max-width: 820px; width: 100%;
-      position: relative; color: #fff;
-      overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-    }
-    /* Hero banner at top of modal */
-    .pkg-modal-hero {
-      position: relative; height: 220px; overflow: hidden;
-      background: linear-gradient(135deg, #0c2744 0%, #1a4060 50%, #0e2f50 100%);
-    }
-    .pkg-modal-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: url('Single1.jpg') center/cover no-repeat;
-      opacity: 0.35;
-    }
-    .pkg-modal-hero::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(12,24,39,0) 0%, rgba(12,24,39,0.9) 100%);
-    }
-    .pkg-modal-hero-content {
-      position: absolute; bottom: 24px; left: 32px; right: 60px; z-index: 1;
-    }
-    .pkg-modal-hero-tag {
-      display: inline-block; background: #e8702a; color: #fff;
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; padding: 4px 12px; border-radius: 4px; margin-bottom: 8px;
-    }
-    .pkg-modal-hero h2 {
-      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
-      color: #fff; line-height: 1.15; margin: 0;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-    /* Close button */
-    .pkg-modal-close {
-      position: absolute; top: 14px; right: 16px; z-index: 10;
-      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 50%; width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 1.1rem; cursor: pointer; line-height: 1;
-      transition: background 0.2s;
-    }
-    .pkg-modal-close:hover { background: rgba(232,112,42,0.7); border-color: #e8702a; }
-    /* Body */
-    .pkg-modal-body { padding: 28px 32px 36px; }
-    /* Meta row: length + badge */
-    .pkg-meta-row {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 0 20px;
-      border-bottom: 1px solid rgba(138,173,203,0.12);
-      margin-bottom: 24px;
-    }
-    .pkg-meta-label { font-size: 0.72rem; color: #8aadcb; text-transform: uppercase; letter-spacing: 0.1em; }
-    .pkg-meta-val {
-      font-family: 'Playfair Display', serif; font-size: 1.4rem;
-      font-weight: 700; color: #f5e9da;
-    }
-    .pkg-meta-divider { width: 1px; height: 32px; background: rgba(138,173,203,0.2); }
-    .pkg-emoji-badge {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(232,112,42,0.15); border: 1px solid rgba(232,112,42,0.3);
-      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
-    }
-    /* Sections */
-    .pkg-section { margin-bottom: 22px; }
-    .pkg-section-header {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-    }
-    .pkg-section-icon {
-      width: 30px; height: 30px; border-radius: 8px;
-      background: rgba(232,112,42,0.15); border: 1px solid rgba(232,112,42,0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; flex-shrink: 0;
-    }
-    .pkg-section h3 {
-      font-size: 0.78rem; font-weight: 700; color: #e8702a;
-      text-transform: uppercase; letter-spacing: 0.1em; margin: 0;
-    }
-    .pkg-section p { color: #aac4d8; font-size: 0.88rem; line-height: 1.75; margin: 0 0 10px; }
-    .pkg-section p:last-child { margin-bottom: 0; }
-    .pkg-section p strong { color: #f5e9da; font-weight: 600; }
-    /* Sites pills */
-    .pkg-sites { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
-    .pkg-site-pill {
-      background: rgba(14,34,55,0.9); border: 1px solid rgba(232,112,42,0.3);
-      border-radius: 20px; padding: 5px 14px;
-      font-size: 0.82rem; color: #f5e9da; font-weight: 500;
-    }
-    /* Included list — two-column grid */
-    .pkg-included-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px;
-    }
-    @media (max-width: 560px) { .pkg-included-grid { grid-template-columns: 1fr; } }
-    .pkg-included-item {
-      display: flex; align-items: flex-start; gap: 8px;
-      font-size: 0.85rem; color: #aac4d8; padding: 4px 0;
-    }
-    .pkg-included-item::before {
-      content: '✦'; color: #e8702a; font-size: 0.65rem;
-      margin-top: 4px; flex-shrink: 0;
-    }
-    /* Divider */
-    .pkg-divider { height: 1px; background: rgba(138,173,203,0.1); margin: 20px 0; }
-    /* Requirements box */
-    .pkg-req-box {
-      background: rgba(14,34,55,0.6); border-left: 3px solid #e8702a;
-      border-radius: 0 10px 10px 0; padding: 14px 16px;
-      font-size: 0.86rem; color: #aac4d8; line-height: 1.7;
-    }
 
     /* ===== ABOUT / BRAND (NEW PDF SECTION) ===== */
     #about { padding: 80px 60px; background: var(--navy2); }
@@ -611,6 +480,7 @@
       .reviews-grid { grid-template-columns: 1fr; }
       .contact-methods { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
       footer { padding: 40px 24px 24px; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
     }
@@ -618,6 +488,7 @@
       .nav-links { display: none; }
       .footer-grid { grid-template-columns: 1fr; }
       .philosophy-grid { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: 1fr; }
       #hero .padi-60-logo { width: 70px; top: -10px; right: 16px; }
     }
 
@@ -826,6 +697,116 @@
     .nav-drawer { display: none !important; }
     .nav-overlay { display: none !important; }
   }
+
+    /* Course Detail Modal */
+    #ow-detail-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.82); z-index: 9999;
+      align-items: flex-start; justify-content: center;
+      overflow-y: auto; padding: 40px 16px;
+      backdrop-filter: blur(4px);
+    }
+    #ow-detail-modal.open { display: flex; animation: modalFadeIn .25s ease; }
+    #aow-detail-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.82); z-index: 9999;
+      align-items: flex-start; justify-content: center;
+      overflow-y: auto; padding: 40px 16px;
+      backdrop-filter: blur(4px);
+    }
+    #aow-detail-modal.open { display: flex; animation: modalFadeIn .25s ease; }
+    #dsd-detail-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.82); z-index: 9999;
+      align-items: flex-start; justify-content: center;
+      overflow-y: auto; padding: 40px 16px;
+      backdrop-filter: blur(4px);
+    }
+    #dsd-detail-modal.open { display: flex; animation: modalFadeIn .25s ease; }
+    #rescue-detail-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.82); z-index: 9999;
+      align-items: flex-start; justify-content: center;
+      overflow-y: auto; padding: 40px 16px;
+      backdrop-filter: blur(4px);
+    }
+    #rescue-detail-modal.open { display: flex; animation: modalFadeIn .25s ease; }
+    #nitrox-detail-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.82); z-index: 9999;
+      align-items: flex-start; justify-content: center;
+      overflow-y: auto; padding: 40px 16px;
+      backdrop-filter: blur(4px);
+    }
+    #nitrox-detail-modal.open { display: flex; animation: modalFadeIn .25s ease; }
+    @keyframes modalFadeIn { from { opacity:0 } to { opacity:1 } }
+    .course-modal-box {
+      position: relative; max-width: 740px; width: 100%;
+      background: var(--navy2);
+      border: 1px solid rgba(232,112,42,0.25);
+      border-radius: 20px; padding: 0; margin: auto; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: modalSlideUp .3s ease;
+    }
+    @keyframes modalSlideUp { from { transform:translateY(24px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+    .course-modal-header {
+      background: linear-gradient(135deg, var(--navy3) 0%, #1a3d5c 100%);
+      border-bottom: 1px solid rgba(232,112,42,0.2);
+      padding: 36px 40px 28px; position: relative;
+    }
+    .course-modal-header .modal-badge {
+      display: inline-block; background: var(--orange); color:#fff;
+      font-size: 0.68rem; font-weight:700; padding: 4px 12px;
+      border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .course-modal-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem; font-weight:700;
+      color: var(--cream); line-height:1.2; margin: 0 0 6px;
+    }
+    .course-modal-header .modal-subtitle { font-size:0.88rem; color:var(--muted); margin:0; }
+    .course-modal-header .modal-meta-row { display:flex; gap:32px; margin-top:20px; }
+    .modal-meta-item { display:flex; flex-direction:column; gap:2px; }
+    .modal-meta-label { font-size:0.7rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; }
+    .modal-meta-value { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--orange); }
+    .course-modal-close {
+      position:absolute; top:18px; right:20px;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+      color:var(--muted); font-size:20px; line-height:1;
+      width:36px; height:36px; border-radius:50%;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .2s, color .2s;
+    }
+    .course-modal-close:hover { background:var(--orange); color:#fff; border-color:var(--orange); }
+    .course-modal-body { padding:32px 40px 40px; color:rgba(255,255,255,0.88); font-size:0.92rem; line-height:1.75; }
+    .course-modal-body h3 {
+      font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700;
+      color:var(--cream); margin:28px 0 10px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .course-modal-body h3::before {
+      content:''; display:inline-block; width:3px; height:18px;
+      background:var(--orange); border-radius:2px; flex-shrink:0;
+    }
+    .course-modal-body p { margin:0 0 12px; color:rgba(255,255,255,0.75); }
+    .course-modal-body ul { margin:0 0 12px 0; padding:0; list-style:none; }
+    .course-modal-body ul li {
+      padding:7px 0 7px 20px; position:relative;
+      color:rgba(255,255,255,0.75);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .course-modal-body ul li:last-child { border-bottom:none; }
+    .course-modal-body ul li::before {
+      content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+      width:6px; height:6px; border-radius:50%; background:var(--orange);
+    }
+    .course-modal-body ul li strong { color:var(--cream); }
+    .modal-site-pills { display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 12px; }
+    .modal-site-pill {
+      background:rgba(232,112,42,0.12); border:1px solid rgba(232,112,42,0.3);
+      color:var(--orange); font-size:0.82rem; font-weight:600; padding:5px 14px; border-radius:20px;
+    }
 </style>
 <script type="application/ld+json">
 {
@@ -1023,7 +1004,7 @@
     <h2 class="section-title" data-en="More Than Diving,<br>A Life-Changing Experience" data-zh="不仅仅是潜水，<br>这是一场改变人生的体验">More Than Diving,<br>A Life-Changing Experience</h2>
     <p class="section-sub" data-en="Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors." data-zh="我们的课程价格高于市场平均水平，因为我们严格保持小班教学（最多4人），提供齐全的装备，以及拥有7年以上经验的教练。">Our courses are priced above market average because we maintain strict small classes (max 4), complete equipment, and 7+ years experienced instructors.</p>
   </div>
-  <div class="courses-grid" id="courses-grid">
+  <div class="courses-grid">
     <!-- OW -->
     <div class="course-card">
       <span class="card-badge" data-en="Most Popular" data-zh="最受欢迎">Most Popular</span>
@@ -1031,12 +1012,11 @@
       <h3 data-en="PADI Open Water Diver" data-zh="PADI 开放水域潜水员">PADI Open Water Diver</h3>
       <div class="course-sub" data-en="Beginner Certification" data-zh="零基础入门认证">Beginner Certification</div>
       <p class="course-desc" data-en="From zero to certified diver in 4 intensive days with small classes (max 4). Dedicated instructor guidance with complete theory, pool, and ocean training." data-zh="从零基础到认证潜水员只需4天紧凑培训，小班授课（最多4人）。全职教练专门指导，涵盖完整理论、泳池及海洋训练。">From zero to certified diver in 4 intensive days with small classes (max 4). Dedicated instructor guidance with complete theory, pool, and ocean training.</p>
-
       <div class="course-price">
         <div class="price-val">IDR 5,500,000</div>
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
-      <button class="btn-card" onclick="document.getElementById('ow-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
+      <button class="btn-card" onclick="document.getElementById('ow-detail-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
     </div>
 
     <!-- AOW -->
@@ -1046,12 +1026,11 @@
       <h3 data-en="PADI Advanced Open Water" data-zh="PADI 进阶开放水域潜水员">PADI Advanced Open Water</h3>
       <div class="course-sub" data-en="Level Up Your Skills" data-zh="提升潜水技能">Level Up Your Skills</div>
       <p class="course-desc" data-en="5 specialty dives reaching 30m depth. Master navigation, deep diving, and more. Perfect for OW certified divers." data-zh="5次专长潜水，深达30米。掌握导航、深潜等技巧。是OW认证潜水员进阶的绝佳选择。">5 specialty dives reaching 30m depth. Master navigation, deep diving, and more. Perfect for OW certified divers.</p>
-
       <div class="course-price">
         <div class="price-val">IDR 5,500,000</div>
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
-      <button class="btn-card" onclick="document.getElementById('aow-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
+      <button class="btn-card" onclick="document.getElementById('aow-detail-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
     </div>
 
     <!-- DSD -->
@@ -1061,28 +1040,40 @@
       <h3 data-en="Discover Scuba Diving" data-zh="体验水肺潜水">Discover Scuba Diving</h3>
       <div class="course-sub" data-en="No Experience Needed" data-zh="无需任何经验">No Experience Needed</div>
       <p class="course-desc" data-en="No certification needed, age 10+. Experience the underwater world with professional instructor guidance. Explore the famous USAT Liberty Shipwreck." data-zh="无需潜水证，年满10岁即可。在专业教练陪同下探索海底世界。亲自探秘著名的自由号沉船。">No certification needed, age 10+. Experience the underwater world with professional instructor guidance. Explore the famous USAT Liberty Shipwreck.</p>
-
       <div class="course-price">
         <div class="price-val">IDR 1,500,000</div>
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
-      <button class="btn-card" onclick="document.getElementById('dsd-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
+      <button class="btn-card" onclick="document.getElementById('dsd-detail-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
     </div>
 
+    <!-- Rescue Diver -->
     <div class="course-card">
-      <span class="card-badge" data-en="RESCUE" data-zh="救援">RESCUE</span>
-      <div class="course-emoji">🚑</div>
-      <h3 data-en="Rescue Diver" data-zh="救援潜水员">Rescue Diver</h3>
-      <div class="course-sub" data-en="PADI Rescue Diver Certification" data-zh="PADI救援潜水员认证">PADI Rescue Diver Certification</div>
-      <p class="course-desc" data-en="Learn how to prevent and manage different types of emergencies that can occur while diving and receive your PADI Rescue Diver Certification." data-zh="学习如何预防和处理潜水中可能发生的各类紧急情况，并获得PADI救援潜水员认证。">Learn how to prevent and manage different types of emergencies that can occur while diving and receive your PADI Rescue Diver Certification.</p>
+      <span class="card-badge" data-en="Rescue" data-zh="救援">Rescue</span>
+      <div class="course-emoji">🛟</div>
+      <h3 data-en="Rescue Diver" data-zh="PADI 救援潜水员">Rescue Diver</h3>
+      <div class="course-sub" data-en="Prevent & Manage Emergencies" data-zh="预防与应对紧急情况">Prevent & Manage Emergencies</div>
+      <p class="course-desc" data-en="Learn how to prevent and manage different types of emergencies that can occur while diving and receive your PADI Rescue Diver Certification." data-zh="学习预防和管理潜水中可能发生的各种紧急情况，并获得 PADI 救援潜水员认证。">Learn how to prevent and manage different types of emergencies that can occur while diving and receive your PADI Rescue Diver Certification.</p>
       <div class="course-price">
         <div class="price-val">IDR 8,180,000</div>
         <div class="price-note" data-en="per person" data-zh="每人">per person</div>
       </div>
-      <button class="btn-card" onclick="document.getElementById('rescue-pkg-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
-        </div>
-  </div>
-    
+      <button class="btn-card" onclick="document.getElementById('rescue-detail-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
+    </div>
+
+    <!-- Nitrox -->
+    <div class="course-card">
+      <span class="card-badge" data-en="Speciality" data-zh="专长">Speciality</span>
+      <div class="course-emoji">🫧</div>
+      <h3 data-en="Nitrox" data-zh="高氧空气潜水">Nitrox</h3>
+      <div class="course-sub" data-en="Longer Bottom Times" data-zh="更长海底停留时间">Longer Bottom Times</div>
+      <p class="course-desc" data-en="As a Nitrox diver, you can increase your bottom times and safety margins, plus shorten your surface intervals — so you can spend more time diving and less time waiting! In this program, you will learn new skills and increase your diving knowledge whilst learning how to safely plan and dive." data-zh="作为高氧潜水员，您可以增加海底停留时间和安全边际，缩短水面休息时间——花更多时间潜水，更少时间等待！在本课程中，您将学习新技能、提升潜水知识，并学会如何安全规划和高氧潜水。">As a Nitrox diver, you can increase your bottom times and safety margins, plus shorten your surface intervals — so you can spend more time diving and less time waiting! In this program, you will learn new skills and increase your diving knowledge whilst learning how to safely plan and dive.</p>
+      <div class="course-price">
+        <div class="price-val">IDR 2,380,000</div>
+        <div class="price-note" data-en="per person" data-zh="每人">per person</div>
+      </div>
+      <button class="btn-card" onclick="document.getElementById('nitrox-detail-modal').classList.add('open')" data-en="View Package Details" data-zh="查看套餐详情">View Package Details</button>
+    </div>
   </div>
 </section>
 
@@ -1649,6 +1640,7 @@
     'section .card',
     'section .stat-item',
     'section .badge-item',
+    'section .course-card',
     'section .room-card',
     'section .feature-item',
     'section .about-text p',
@@ -1692,6 +1684,23 @@
   document.querySelectorAll('.scroll-reveal').forEach(function(el) {
     observer.observe(el);
   });
+
+  // Observe course cards for stagger animation
+  var courseObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        courseObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -20px 0px'
+  });
+
+  document.querySelectorAll('.courses-grid .course-card').forEach(function(el) {
+    courseObserver.observe(el);
+  });
 })();
 </script>
 
@@ -1720,427 +1729,333 @@ window.udHamClose = function() {
   document.body.style.overflow = '';
 };
 document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') window.udHamClose();
+});
+
+// OW Course Detail Modal — Escape to close
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    window.udHamClose();
-    document.getElementById('ow-pkg-modal').classList.remove('open');
+    document.getElementById('ow-detail-modal').classList.remove('open');
   }
 });
 </script>
 
 
-<!-- ===== OW PACKAGE DETAILS MODAL ===== -->
-<div class="pkg-modal-overlay" id="ow-pkg-modal" onclick="if(event.target===this)document.getElementById('ow-pkg-modal').classList.remove('open')">
-  <div class="pkg-modal">
+<!-- OW Course Detail Modal -->
+<div id="ow-detail-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="course-modal-box">
 
-    <!-- Hero Banner -->
-    <div class="pkg-modal-hero">
-      <button class="pkg-modal-close" onclick="document.getElementById('ow-pkg-modal').classList.remove('open')">✕</button>
-      <div class="pkg-modal-hero-content">
-        <span class="pkg-modal-hero-tag">🐠 Beginner Certification</span>
-        <h2>PADI Open Water Diver</h2>
+    <!-- Header -->
+    <div class="course-modal-header">
+      <button class="course-modal-close" onclick="document.getElementById('ow-detail-modal').classList.remove('open')">&#x2715;</button>
+      <div class="modal-badge" data-en="Most Popular" data-zh="最受欢迎">Most Popular</div>
+      <h2 data-en="PADI Open Water Diver" data-zh="PADI 开放水域潜水员">PADI Open Water Diver</h2>
+      <p class="modal-subtitle" data-en="Beginner Certification &nbsp;·&nbsp; Tulamben, Bali" data-zh="零基础入门认证 &nbsp;·&nbsp; 巴厘岛 Tulamben">Beginner Certification &nbsp;·&nbsp; Tulamben, Bali</p>
+      <div class="modal-meta-row">
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Length" data-zh="课程时长">Length</span>
+          <span class="modal-meta-value" data-en="2–3 Days" data-zh="2–3 天">2–3 Days</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Max Depth" data-zh="最大深度">Max Depth</span>
+          <span class="modal-meta-value" data-en="18m / 60ft" data-zh="18米 / 60英尺">18m / 60ft</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Class Size" data-zh="班级人数">Class Size</span>
+          <span class="modal-meta-value" data-en="Max 4" data-zh="最多 4 人">Max 4</span>
+        </div>
       </div>
     </div>
 
     <!-- Body -->
-    <div class="pkg-modal-body">
+    <div class="course-modal-body">
 
-      <!-- Meta row -->
-      <div class="pkg-meta-row">
-        <div class="pkg-emoji-badge">⏱</div>
-        <div>
-          <div class="pkg-meta-label">Course Length</div>
-          <div class="pkg-meta-val">2–3 Days</div>
-        </div>
-        <div class="pkg-meta-divider"></div>
-        <div class="pkg-emoji-badge">🤿</div>
-        <div>
-          <div class="pkg-meta-label">Dives Included</div>
-          <div class="pkg-meta-val">4 + 1 Pool</div>
-        </div>
-        <div class="pkg-meta-divider"></div>
-        <div class="pkg-emoji-badge">📋</div>
-        <div>
-          <div class="pkg-meta-label">Max Depth</div>
-          <div class="pkg-meta-val">18m / 60ft</div>
-        </div>
+      <h3 data-en="Course Description" data-zh="课程介绍">Course Description</h3>
+      <p data-en="The PADI Open Water Course is the most popular introductory certification for scuba divers. Upon completing this course, you will receive your PADI Open Water Diver Certification and be able to dive to a maximum depth of 18 meters/60 feet. During the course, you will learn how to use your scuba equipment and perform the diving skills necessary to ensuring that your dives are safe, fun, and rewarding. The Open Water Course consists of the following:" data-zh="PADI 开放水域课程是最受欢迎的水肺潜水入门认证。完成课程后，您将获得 PADI 开放水域潜水员认证，最大潜水深度可达 18 米。课程将涵盖以下内容：">The PADI Open Water Course is the most popular introductory certification for scuba divers. Upon completing this course, you will receive your PADI Open Water Diver Certification and be able to dive to a maximum depth of 18 meters/60 feet. The Open Water Course consists of the following:</p>
+      <ul>
+        <li><strong data-en="Knowledge Development:" data-zh="知识学习：">Knowledge Development:</strong> <span data-en="Through reading, exercises, quizzes, and instructor-led training, you'll learn the principles and skills to safely enjoy scuba diving." data-zh="通过阅读、练习题、测验及教练引导，掌握安全享受水肺潜水所需的基本原则与技能。">Through reading, exercises, quizzes, and instructor-led training, you'll learn the principles and skills to safely enjoy scuba diving.</span></li>
+        <li><strong data-en="Confined Water Dive:" data-zh="限制水域潜水：">Confined Water Dive:</strong> <span data-en="Your first dive takes place in the pool — your instructor guides you through the skills in a safe environment." data-zh="您的第一次潜水在泳池进行，教练在安全环境中带您实践所学技能。">Your first dive takes place in the pool — your instructor guides you through the skills in a safe environment.</span></li>
+        <li><strong data-en="4 Open Water Dives:" data-zh="4 次开放水域潜水：">4 Open Water Dives:</strong> <span data-en="Head out to Tulamben's best dive sites to perfect your skills and explore the fascinating marine environment." data-zh="前往 Tulamben 最佳潜点，完善技能并探索迷人的海洋环境。">Head out to Tulamben's best dive sites to perfect your skills and explore the fascinating marine environment.</span></li>
+        <li><strong data-en="Final Exam:" data-zh="结业考试：">Final Exam:</strong> <span data-en="Students must pass a written Final Exam to receive their Open Water Certification." data-zh="须通过书面结业考试才能获得开放水域认证。">Students must pass a written Final Exam to receive their Open Water Certification.</span></li>
+      </ul>
+
+      <h3 data-en="Free Photos &amp; Videos" data-zh="免费照片与视频">Free Photos &amp; Videos</h3>
+      <p data-en="Includes complimentary photos and videos so you can relive every moment of your dives." data-zh="包含免费照片和视频，帮您留住每次潜水的美好记忆。">Includes complimentary photos and videos so you can relive every moment of your dives.</p>
+
+      <h3 data-en="Dive Sites" data-zh="潜水地点">Dive Sites</h3>
+      <div class="modal-site-pills">
+        <span class="modal-site-pill" data-en="Liberty Wreck" data-zh="自由号沉船">Liberty Wreck</span>
+        <span class="modal-site-pill" data-en="Coral Garden" data-zh="珊瑚花园">Coral Garden</span>
+        <span class="modal-site-pill" data-en="Drop Off" data-zh="断崖">Drop Off</span>
       </div>
 
-      <!-- Course Description -->
-      <div class="pkg-section">
-        <div class="pkg-section-header">
-          <div class="pkg-section-icon">📖</div>
-          <h3>Course Description</h3>
+      <h3 data-en="Requirements" data-zh="参与要求">Requirements</h3>
+      <p data-en="No prior diving experience required. Students must have basic swimming ability, good physical health, and be at least 15 years old (or 12–15 for Junior Open Water Diver Certification)." data-zh="无需任何潜水经验。须具备基本游泳能力、良好身体健康，且年满 15 岁（12–15 岁可获青少年认证）。">No prior diving experience required. Students must have basic swimming ability, good physical health, and be at least 15 years old (or 12–15 for Junior Open Water Diver Certification).</p>
+
+      <h3 data-en="What's Included" data-zh="费用包含">What's Included</h3>
+      <ul>
+        <li data-en="PADI online theory + teaching by expert local instructor" data-zh="PADI 在线理论 + 本地专业教练面授">PADI online theory + teaching by expert local instructor</li>
+        <li data-en="4 dives in the sea + 1 pool training" data-zh="4 次海洋潜水 + 1 次泳池训练">4 dives in the sea + 1 pool training</li>
+        <li data-en="PADI certification fee" data-zh="PADI 认证费用">PADI certification fee</li>
+        <li data-en="Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights" data-zh="装备租借：面镜、防寒衣、脚蹼、BCD、调节器、气瓶、配重">Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
+        <li data-en="Lunch, snacks, coffee, tea, and drinking water" data-zh="午餐、小食、咖啡、茶及饮用水">Lunch, snacks, coffee, tea, and drinking water</li>
+        <li data-en="Dive site entrance tickets and porter fee" data-zh="潜点门票及搬运费">Dive site entrance tickets and porter fee</li>
+        <li data-en="Pick-up and drop-off from hotels in Tulamben (from Amed 50k IDR each way)" data-zh="Tulamben 酒店接送（从 Amed 出发单程 5 万印尼盾）">Pick-up and drop-off from hotels in Tulamben (from Amed 50k IDR each way)</li>
+        <li data-en="Transportation to/from dive center to dive sites" data-zh="潜水中心往返各潜点交通">Transportation to/from dive center to dive sites</li>
+        <li data-en="Free wifi at the dive center" data-zh="潜水中心免费 Wi-Fi">Free wifi at the dive center</li>
+        <li data-en="Towel, soap, and shampoo" data-zh="毛巾、沐浴露及洗发水">Towel, soap, and shampoo</li>
+        <li data-en="Photos and videos" data-zh="照片及视频">Photos and videos</li>
+      </ul>
+
+    </div><!-- /.course-modal-body -->
+  </div><!-- /.course-modal-box -->
+</div>
+
+<div id="aow-detail-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="course-modal-box">
+
+    <!-- Header -->
+    <div class="course-modal-header">
+      <button class="course-modal-close" onclick="document.getElementById('aow-detail-modal').classList.remove('open')">&#x2715;</button>
+      <div class="modal-badge" data-en="Advanced" data-zh="进阶">Advanced</div>
+      <h2 data-en="PADI Advanced Open Water" data-zh="PADI 进阶开放水域潜水员">PADI Advanced Open Water</h2>
+      <p class="modal-subtitle" data-en="Level Up Your Skills &nbsp;·&nbsp; Tulamben, Bali" data-zh="提升潜水技能 &nbsp;·&nbsp; 巴厘岛 Tulamben">Level Up Your Skills &nbsp;·&nbsp; Tulamben, Bali</p>
+      <div class="modal-meta-row">
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Length" data-zh="课程时长">Length</span>
+          <span class="modal-meta-value" data-en="2 Days" data-zh="2 天">2 Days</span>
         </div>
-        <p>The PADI Open Water Course is the most popular introductory certification for scuba divers. Upon completing this course, you will receive your PADI Open Water Diver Certification and be able to dive to a maximum depth of 18 meters/60 feet.</p>
-        <p><strong>Knowledge Development:</strong> Through reading, exercises, quizzes, and instructor-led training, you'll learn the essential principles to safely enjoy scuba diving.</p>
-        <p><strong>Confined Open Water Dive:</strong> Your first dive takes place in the pool — your instructor will guide you through the skills in practice.</p>
-        <p><strong>4 Open Water Dives:</strong> Head out to Tulamben's best dive sites to perfect your skills and explore the fascinating marine environment.</p>
-        <p><strong>Final Exam:</strong> Students must pass a written exam to receive their Open Water Certification.</p>
-      </div>
-
-      <div class="pkg-divider"></div>
-
-      <!-- Free Photos -->
-      <div class="pkg-section">
-        <div class="pkg-section-header">
-          <div class="pkg-section-icon">📸</div>
-          <h3>Free Photos &amp; Videos</h3>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Max Depth" data-zh="最大深度">Max Depth</span>
+          <span class="modal-meta-value" data-en="30m / 100ft" data-zh="30米 / 100英尺">30m / 100ft</span>
         </div>
-        <p>Includes free photos and videos to help you remember your dives.</p>
-      </div>
-
-      <div class="pkg-divider"></div>
-
-      <!-- Dive Sites -->
-      <div class="pkg-section">
-        <div class="pkg-section-header">
-          <div class="pkg-section-icon">📍</div>
-          <h3>Dive Sites</h3>
-        </div>
-        <p style="margin-bottom:10px">Open Water dives may take place at the following sites in Tulamben:</p>
-        <div class="pkg-sites">
-          <span class="pkg-site-pill">⚓ Liberty Wreck</span>
-          <span class="pkg-site-pill">🪸 Coral Garden</span>
-          <span class="pkg-site-pill">🌊 Drop Off</span>
-        </div>
-      </div>
-
-      <div class="pkg-divider"></div>
-
-      <!-- Requirements -->
-      <div class="pkg-section">
-        <div class="pkg-section-header">
-          <div class="pkg-section-icon">✅</div>
-          <h3>Requirements</h3>
-        </div>
-        <div class="pkg-req-box">No prior diving experience required. Students must have adequate swimming skills, be in good physical health, and be at least <strong>15 years old</strong> (or 12–15 for Junior Open Water Diver Certification).</div>
-      </div>
-
-      <div class="pkg-divider"></div>
-
-      <!-- What's Included -->
-      <div class="pkg-section">
-        <div class="pkg-section-header">
-          <div class="pkg-section-icon">🎁</div>
-          <h3>What's Included</h3>
-        </div>
-        <div class="pkg-included-grid">
-          <div class="pkg-included-item">PADI online theory + expert local instructor</div>
-          <div class="pkg-included-item">4 dives in the sea + 1 pool training</div>
-          <div class="pkg-included-item">PADI certification fee</div>
-          <div class="pkg-included-item">Equipment rental (mask, wetsuit, fins, BCD, regulator, tank, weights)</div>
-          <div class="pkg-included-item">Lunch, snacks, coffee, tea &amp; drinking water</div>
-          <div class="pkg-included-item">Dive site entrance tickets &amp; porter fee</div>
-          <div class="pkg-included-item">Pick-up &amp; drop-off in Tulamben (Amed +50k IDR each way)</div>
-          <div class="pkg-included-item">Transportation to/from dive sites in Tulamben</div>
-          <div class="pkg-included-item">Free wifi at the dive center</div>
-          <div class="pkg-included-item">Towel, soap, and shampoo</div>
-          <div class="pkg-included-item">Photos and videos</div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Dives" data-zh="潜水次数">Dives</span>
+          <span class="modal-meta-value" data-en="5 Adventure Dives" data-zh="5 次冒险潜水">5 Adventure Dives</span>
         </div>
       </div>
+    </div>
 
-    </div><!-- end .pkg-modal-body -->
+    <!-- Body -->
+    <div class="course-modal-body">
+
+      <h3 data-en="Course Description" data-zh="课程介绍">Course Description</h3>
+      <p data-en="Build upon the basic scuba diving knowledge you learned in your PADI Open Water Diver Course. Upon completing this course, you will receive your PADI Advanced Open Water Diver Certification and be able to dive to a maximum depth of 30 meters/100 feet. During this course, you'll receive an introduction to deep diving, learn about more advanced underwater navigation techniques, and get to try out a few more specialized underwater activities. The Advanced Open Water Course consists of the following:" data-zh="在您 PADI 开放水域潜水员课程所学基础上进一步提升。完成本课程后，您将获得 PADI 进阶开放水域潜水员认证，最大潜水深度可达 30 米。课程内容包括深潜入门、进阶水下导航技巧，以及体验多项专长潜水活动。进阶开放水域课程包含以下内容：">Build upon the basic scuba diving knowledge you learned in your PADI Open Water Diver Course. Upon completing this course, you will receive your PADI Advanced Open Water Diver Certification and be able to dive to a maximum depth of 30 meters/100 feet. During this course, you'll receive an introduction to deep diving, learn about more advanced underwater navigation techniques, and get to try out a few more specialized underwater activities. The Advanced Open Water Course consists of the following:</p>
+      <ul>
+        <li><strong data-en="Knowledge Development:" data-zh="知识学习：">Knowledge Development:</strong> <span data-en="Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn more specialized skills and techniques related to each of the Adventure Dives you select." data-zh="通过阅读、短练习、测验及教练引导，您将学习与所选冒险潜水相关的专长技能与技巧。">Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn more specialized skills and techniques related to each of the Adventure Dives you select.</span></li>
+        <li><strong data-en="Five Adventure Dives:" data-zh="五次冒险潜水：">Five Adventure Dives:</strong> <span data-en="All students are required to complete one Deep Dive and one Underwater Navigation Dive. In addition to these two dives, you'll get to go on three Adventure Dives of your choice from the options listed below. You can credit these Adventure Dives toward the related PADI specialty course." data-zh="所有学员必须完成一次深潜和一次水下导航潜水。此外，您还可从以下选项中自选三次冒险潜水，这些潜水次数可计入相关 PADI 专长课程。">All students are required to complete one Deep Dive and one Underwater Navigation Dive. In addition to these two dives, you'll get to go on three Adventure Dives of your choice from the options listed below. You can credit these Adventure Dives toward the related PADI specialty course.</span></li>
+      </ul>
+
+      <h3 data-en="Adventure Dive Options" data-zh="冒险潜水选项">Adventure Dive Options</h3>
+      <div class="modal-site-pills">
+        <span class="modal-site-pill" data-en="Altitude" data-zh="高海拔">Altitude</span>
+        <span class="modal-site-pill" data-en="Boat" data-zh="船潜">Boat</span>
+        <span class="modal-site-pill" data-en="Digital Underwater Photography" data-zh="水下数码摄影">Digital Underwater Photography</span>
+        <span class="modal-site-pill" data-en="Diver Propulsion Vehicle" data-zh="潜水推进器">Diver Propulsion Vehicle</span>
+        <span class="modal-site-pill" data-en="Drift" data-zh="漂流">Drift</span>
+        <span class="modal-site-pill" data-en="Dry Suit" data-zh="干式防寒衣">Dry Suit</span>
+        <span class="modal-site-pill" data-en="Enriched Air" data-zh="高氧空气">Enriched Air</span>
+        <span class="modal-site-pill" data-en="Fish Identification" data-zh="鱼类辨识">Fish Identification</span>
+        <span class="modal-site-pill" data-en="Multilevel" data-zh="多层潜水">Multilevel</span>
+        <span class="modal-site-pill" data-en="Night" data-zh="夜潜">Night</span>
+        <span class="modal-site-pill" data-en="Peak Performance Buoyancy" data-zh="浮力控制">Peak Performance Buoyancy</span>
+        <span class="modal-site-pill" data-en="Public Safety" data-zh="公共安全">Public Safety</span>
+        <span class="modal-site-pill" data-en="Search and Recovery" data-zh="搜索与寻回">Search and Recovery</span>
+        <span class="modal-site-pill" data-en="Underwater Naturalist" data-zh="水下自然学家">Underwater Naturalist</span>
+        <span class="modal-site-pill" data-en="Underwater Videography" data-zh="水下录像">Underwater Videography</span>
+        <span class="modal-site-pill" data-en="Wreck" data-zh="沉船">Wreck</span>
+      </div>
+
+      <h3 data-en="Dive Sites" data-zh="潜水地点">Dive Sites</h3>
+      <div class="modal-site-pills">
+        <span class="modal-site-pill" data-en="Liberty Wreck" data-zh="自由号沉船">Liberty Wreck</span>
+        <span class="modal-site-pill" data-en="Coral Garden" data-zh="珊瑚花园">Coral Garden</span>
+        <span class="modal-site-pill" data-en="Drop Off" data-zh="断崖">Drop Off</span>
+        <span class="modal-site-pill" data-en="Boga Wreck" data-zh="Boga 沉船">Boga Wreck</span>
+      </div>
+
+      <h3 data-en="Free Photos &amp; Videos" data-zh="免费照片与视频">Free Photos &amp; Videos</h3>
+      <p data-en="Includes free photos and videos to help you remember your dives." data-zh="包含免费照片和视频，帮您留住每次潜水的美好记忆。">Includes free photos and videos to help you remember your dives.</p>
+
+      <h3 data-en="Requirements" data-zh="参与要求">Requirements</h3>
+      <p data-en="To enroll in this course, students must already have their PADI Open Water Diver Certification, be in good physical health, and be at least 15 years old to receive their Advanced Open Water Diver Certification or 12-15 years old to receive their Junior Advanced Open Water Diver Certification." data-zh="报名本课程须持有 PADI 开放水域潜水员认证，身体健康，年满 15 岁可获进阶认证（12-15 岁可获青少年进阶认证）。">To enroll in this course, students must already have their PADI Open Water Diver Certification, be in good physical health, and be at least 15 years old to receive their Advanced Open Water Diver Certification or 12-15 years old to receive their Junior Advanced Open Water Diver Certification.</p>
+
+      <h3 data-en="What's Included" data-zh="费用包含">What's Included</h3>
+      <ul>
+        <li data-en="PADI online theory + teaching by expert local instructor" data-zh="PADI 在线理论 + 本地专业教练面授">PADI online theory + teaching by expert local instructor</li>
+        <li data-en="5 dives" data-zh="5 次潜水">5 dives</li>
+        <li data-en="PADI certification fee" data-zh="PADI 认证费用">PADI certification fee</li>
+        <li data-en="Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights" data-zh="装备租借：面镜、防寒衣、脚蹼、BCD、调节器、气瓶、配重">Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
+        <li data-en="Lunch, snacks, coffee, tea, and drinking water" data-zh="午餐、小食、咖啡、茶及饮用水">Lunch, snacks, coffee, tea, and drinking water</li>
+        <li data-en="Dive site entrance tickets and porter fee" data-zh="潜点门票及搬运费">Dive site entrance tickets and porter fee</li>
+        <li data-en="Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)" data-zh="Tulamben 酒店接送（如需要，从 Amed 出发单程 5 万印尼盾）">Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)</li>
+        <li data-en="Transportation to/from dive center to dive sites in Tulamben" data-zh="潜水中心往返 Tulamben 各潜点交通">Transportation to/from dive center to dive sites in Tulamben</li>
+        <li data-en="Dive site entrance tickets and porter fee" data-zh="潜点门票及搬运费">Dive site entrance tickets and porter fee</li>
+        <li data-en="Free wifi at the dive center" data-zh="潜水中心免费 Wi-Fi">Free wifi at the dive center</li>
+        <li data-en="Towel, soap, and shampoo" data-zh="毛巾、沐浴露及洗发水">Towel, soap, and shampoo</li>
+        <li data-en="Photos and videos" data-zh="照片及视频">Photos and videos</li>
+      </ul>
+
+    </div>
   </div>
 </div>
 
+<div id="dsd-detail-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="course-modal-box">
 
-  <!-- AOW Package Details Modal -->
-  <div id="aow-pkg-modal" class="pkg-modal-overlay" onclick="if(event.target===this)document.getElementById('aow-pkg-modal').classList.remove('open')">
-    <div class="pkg-modal">
-
-      <!-- Hero Banner -->
-      <div class="pkg-modal-hero" style="background-image: linear-gradient(to bottom, rgba(10,20,40,0.45), rgba(10,20,40,0.75)), url('Single1.jpg');">
-        <button class="pkg-modal-close" onclick="document.getElementById('aow-pkg-modal').classList.remove('open')">✕</button>
-        <div class="pkg-modal-hero-content">
-          <span class="pkg-modal-hero-tag">🦈 Advanced Certification</span>
-          <h2>PADI Advanced Open Water</h2>
+    <!-- Header -->
+    <div class="course-modal-header">
+      <button class="course-modal-close" onclick="document.getElementById('dsd-detail-modal').classList.remove('open')">&#x2715;</button>
+      <div class="modal-badge" data-en="Try Dive" data-zh="体验潜水">Try Dive</div>
+      <h2 data-en="Discover Scuba Diving" data-zh="体验水肺潜水">Discover Scuba Diving</h2>
+      <p class="modal-subtitle" data-en="No Experience Needed &nbsp;·&nbsp; Tulamben, Bali" data-zh="无需任何经验 &nbsp;·&nbsp; 巴厘岛 Tulamben">No Experience Needed &nbsp;·&nbsp; Tulamben, Bali</p>
+      <div class="modal-meta-row">
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Length" data-zh="课程时长">Length</span>
+          <span class="modal-meta-value" data-en="2–3 Hours" data-zh="2–3 小时">2–3 Hours</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Dives" data-zh="潜水次数">Dives</span>
+          <span class="modal-meta-value" data-en="1–2 Dives" data-zh="1–2 次潜水">1–2 Dives</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Guide" data-zh="教练配比">Guide</span>
+          <span class="modal-meta-value" data-en="Private Dive Master" data-zh="私人潜导">Private Dive Master</span>
         </div>
       </div>
+    </div>
 
-      <!-- Body -->
-      <div class="pkg-modal-body">
+    <!-- Body -->
+    <div class="course-modal-body">
 
-        <!-- Meta row -->
-        <div class="pkg-meta-row">
-          <div class="pkg-emoji-badge">⏱</div>
-          <div>
-            <div class="pkg-meta-label">Course Length</div>
-            <div class="pkg-meta-val">2 Days</div>
-          </div>
-          <div class="pkg-meta-divider"></div>
-          <div class="pkg-emoji-badge">🤿</div>
-          <div>
-            <div class="pkg-meta-label">Dives Included</div>
-            <div class="pkg-meta-val">5 Adventure Dives</div>
-          </div>
-          <div class="pkg-meta-divider"></div>
-          <div class="pkg-emoji-badge">📏</div>
-          <div>
-            <div class="pkg-meta-label">Max Depth</div>
-            <div class="pkg-meta-val">30m / 100ft</div>
-          </div>
-        </div>
+      <h3 data-en="Course Description" data-zh="课程介绍">Course Description</h3>
+      <p data-en="If you are new to scuba diving or are not a certified diver, then this is the option for you. Prior to gearing up, your dive master will provide you with a briefing on basic dive techniques such as mask clearing, BCD and regulator use, hand signals, and safety principles. If it's your first time diving or if you would simply like to refresh your skills, you will also get a chance to practice these techniques in a pool or water with pool-like conditions prior to your dive. Each beginner diver will be accompanied by their own dive master during the entire dive. Since your first dive will be mainly focused on getting you comfortable using the gear underwater, we highly recommended doing a second dive so that you can fully appreciate and enjoy the unique experience of diving. (This is also known as the PADI Discover Scuba Diving Program)." data-zh="如果您是水肺潜水新手或尚未取得潜水认证，这个选项非常适合您。装备穿戴前，潜导会为您讲解基本潜水技巧，包括面镜排水、BCD 和调节器使用、手势信号及安全原则。如果是首次潜水或想温习技能，您还可在泳池或类似泳池条件的水域中先行练习。每位初学者在整个潜水过程中都由专属潜导全程陪同。由于第一次潜水主要让您适应水下装备，我们强烈建议进行第二次潜水，以便充分感受和享受潜水的独特体验。（本课程也称为 PADI 体验水肺潜水课程）。">If you are new to scuba diving or are not a certified diver, then this is the option for you. Prior to gearing up, your dive master will provide you with a briefing on basic dive techniques such as mask clearing, BCD and regulator use, hand signals, and safety principles. If it's your first time diving or if you would simply like to refresh your skills, you will also get a chance to practice these techniques in a pool or water with pool-like conditions prior to your dive. Each beginner diver will be accompanied by their own dive master during the entire dive. Since your first dive will be mainly focused on getting you comfortable using the gear underwater, we highly recommended doing a second dive so that you can fully appreciate and enjoy the unique experience of diving. (This is also known as the PADI Discover Scuba Diving Program).</p>
 
-        <!-- Course Description -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📖</div>
-            <h3>Course Description</h3>
-          </div>
-          <p>Build upon the basic scuba diving knowledge you learned in your PADI Open Water Diver Course. Upon completing this course, you will receive your PADI Advanced Open Water Diver Certification and be able to dive to a maximum depth of 30 meters/100 feet.</p>
-          <p><strong>Knowledge Development:</strong> Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn more specialized skills and techniques related to each of the Adventure Dives you select.</p>
-          <p><strong>Five Adventure Dives:</strong> All students are required to complete one Deep Dive and one Underwater Navigation Dive. In addition, you'll complete three Adventure Dives of your choice. You can credit these toward the related PADI specialty course.</p>
-          <p style="margin-top:10px;font-size:0.88rem;color:#555;">Available Adventure Dives: Altitude · Boat · Digital Underwater Photography · Diver Propulsion Vehicle · Drift · Dry Suit · Enriched Air · Fish Identification · Multilevel · Night · Peak Performance Buoyancy · Public Safety · Search and Recovery · Underwater Naturalist · Underwater Videography · Wreck</p>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- Free Photos -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📸</div>
-            <h3>Free Photos &amp; Videos</h3>
-          </div>
-          <p>Includes free photos and videos to help you remember your dives.</p>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- Dive Sites -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📍</div>
-            <h3>Dive Sites</h3>
-          </div>
-          <p style="margin-bottom:10px">Open Water dives may take place at the following dive sites in Tulamben:</p>
-          <div class="pkg-sites">
-            <span class="pkg-site-pill">⚓ Liberty Wreck</span>
-            <span class="pkg-site-pill">🪸 Coral Garden</span>
-            <span class="pkg-site-pill">🌊 Drop Off</span>
-            <span class="pkg-site-pill">🚢 Boga Wreck</span>
-          </div>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- Requirements -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">✅</div>
-            <h3>Requirements</h3>
-          </div>
-          <div class="pkg-req-box">Students must already have their <strong>PADI Open Water Diver Certification</strong>, be in good physical health, and be at least <strong>15 years old</strong> (or 12–15 for Junior Advanced Open Water Diver Certification).</div>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- What's Included -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">🎁</div>
-            <h3>What's Included</h3>
-          </div>
-          <ul class="pkg-included-grid">
-            <li>PADI online theory + teaching by expert local instructor</li>
-            <li>5 dives</li>
-            <li>PADI certification fee</li>
-            <li>Equipment rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
-            <li>Lunch, snacks, coffee, tea, and drinking water</li>
-            <li>Dive site entrance tickets and porter fee</li>
-            <li>Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)</li>
-            <li>Transportation to/from dive center to dive sites in Tulamben</li>
-            <li>Free wifi at the dive center</li>
-            <li>Towel, soap, and shampoo</li>
-            <li>Photos and videos</li>
-          </ul>
-        </div>
-
-      </div><!-- end pkg-modal-body -->
-    </div><!-- end pkg-modal -->
-  </div><!-- end aow-pkg-modal -->
-
-  <!-- DSD Package Details Modal -->
-  <div id="dsd-pkg-modal" class="pkg-modal-overlay" onclick="if(event.target===this)document.getElementById('dsd-pkg-modal').classList.remove('open')">
-    <div class="pkg-modal">
-
-      <!-- Hero Banner -->
-      <div class="pkg-modal-hero" style="background-image: linear-gradient(to bottom, rgba(10,20,40,0.45), rgba(10,20,40,0.75)), url('Single1.jpg');">
-        <button class="pkg-modal-close" onclick="document.getElementById('dsd-pkg-modal').classList.remove('open')">✕</button>
-        <div class="pkg-modal-hero-content">
-          <span class="pkg-modal-hero-tag">🐙 Try Scuba Diving</span>
-          <h2>Discover Scuba Diving</h2>
-        </div>
+      <h3 data-en="Dive Sites" data-zh="潜水地点">Dive Sites</h3>
+      <div class="modal-site-pills">
+        <span class="modal-site-pill" data-en="Liberty Wreck" data-zh="自由号沉船">Liberty Wreck</span>
+        <span class="modal-site-pill" data-en="Coral Garden" data-zh="珊瑚花园">Coral Garden</span>
       </div>
 
-      <!-- Body -->
-      <div class="pkg-modal-body">
+      <h3 data-en="Free Photos &amp; Videos" data-zh="免费照片与视频">Free Photos &amp; Videos</h3>
+      <p data-en="Includes free photos and videos, taken by your dive guide, to help you remember your dives." data-zh="包含免费照片和视频，由您的潜导拍摄，帮您留住每次潜水的美好记忆。">Includes free photos and videos, taken by your dive guide, to help you remember your dives.</p>
 
-        <!-- Meta row -->
-        <div class="pkg-meta-row">
-          <div class="pkg-emoji-badge">⏱</div>
-          <div>
-            <div class="pkg-meta-label">Duration</div>
-            <div class="pkg-meta-val">2 Hours</div>
-          </div>
-          <div class="pkg-meta-divider"></div>
-          <div class="pkg-emoji-badge">🤿</div>
-          <div>
-            <div class="pkg-meta-label">Dives</div>
-            <div class="pkg-meta-val">2 Dives</div>
-          </div>
-          <div class="pkg-meta-divider"></div>
-          <div class="pkg-emoji-badge">👤</div>
-          <div>
-            <div class="pkg-meta-label">Guide Ratio</div>
-            <div class="pkg-meta-val">1-on-1</div>
-          </div>
+      <h3 data-en="Requirements" data-zh="参与要求">Requirements</h3>
+      <p data-en="No prior diving experience is required; however divers must be at least 12 years old, have adequate swimming skills, and be in good physical health." data-zh="无需任何潜水经验；但潜水者须年满 12 岁，具备基本游泳能力，且身体健康。">No prior diving experience is required; however divers must be at least 12 years old, have adequate swimming skills, and be in good physical health.</p>
+
+      <h3 data-en="What's Included" data-zh="费用包含">What's Included</h3>
+      <ul>
+        <li data-en="Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights" data-zh="装备租借：面镜、防寒衣、脚蹼、BCD、调节器、气瓶、配重">Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
+        <li data-en="Private dive master" data-zh="私人潜导全程陪同">Private dive master</li>
+        <li data-en="Lunch, snacks, coffee, tea, and drinking water" data-zh="午餐、小食、咖啡、茶及饮用水">Lunch, snacks, coffee, tea, and drinking water</li>
+        <li data-en="Photos and videos" data-zh="照片及视频">Photos and videos</li>
+        <li data-en="Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)" data-zh="Tulamben 酒店接送（如需要，从 Amed 出发单程 5 万印尼盾）">Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)</li>
+        <li data-en="Transportation to/from dive center to dive sites in Tulamben" data-zh="潜水中心往返 Tulamben 各潜点交通">Transportation to/from dive center to dive sites in Tulamben</li>
+        <li data-en="Dive site entrance tickets and porter fee" data-zh="潜点门票及搬运费">Dive site entrance tickets and porter fee</li>
+        <li data-en="Free wifi at the dive center" data-zh="潜水中心免费 Wi-Fi">Free wifi at the dive center</li>
+        <li data-en="Towel, soap, and shampoo" data-zh="毛巾、沐浴露及洗发水">Towel, soap, and shampoo</li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+<div id="rescue-detail-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="course-modal-box">
+
+    <!-- Header -->
+    <div class="course-modal-header">
+      <button class="course-modal-close" onclick="document.getElementById('rescue-detail-modal').classList.remove('open')">&#x2715;</button>
+      <div class="modal-badge" data-en="Rescue" data-zh="救援">Rescue</div>
+      <h2 data-en="Rescue Diver" data-zh="PADI 救援潜水员">Rescue Diver</h2>
+      <p class="modal-subtitle" data-en="Prevent &amp; Manage Emergencies &nbsp;·&nbsp; Tulamben, Bali" data-zh="预防与应对紧急情况 &nbsp;·&nbsp; 巴厘岛 Tulamben">Prevent &amp; Manage Emergencies &nbsp;·&nbsp; Tulamben, Bali</p>
+      <div class="modal-meta-row">
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Length" data-zh="课程时长">Length</span>
+          <span class="modal-meta-value" data-en="2 Days" data-zh="2 天">2 Days</span>
         </div>
-
-        <!-- Course Description -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📖</div>
-            <h3>Description</h3>
-          </div>
-          <p>If you are new to scuba diving or are not a certified diver, then this is the option for you. Prior to gearing up, your dive master will provide you with a briefing on basic dive techniques such as mask clearing, BCD and regulator use, hand signals, and safety principles. If it's your first time diving or if you would simply like to refresh your skills, you will also get a chance to practice these techniques in a pool or water with pool-like conditions prior to your dive. Each beginner diver will be accompanied by their own dive master during the entire dive. Since your first dive will be mainly focused on getting you comfortable using the gear underwater, we highly recommended doing a second dive so that you can fully appreciate and enjoy the unique experience of diving. (This is also known as the PADI Discover Scuba Diving Program).</p>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Prerequisite" data-zh="前置要求">Prerequisite</span>
+          <span class="modal-meta-value" data-en="AOW + EFR" data-zh="AOW + EFR">AOW + EFR</span>
         </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- Free Photos -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📸</div>
-            <h3>Free Photos &amp; Videos</h3>
-          </div>
-          <p>Includes free photos and videos, taken by your dive guide, to help you remember your dives.</p>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- Dive Sites -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📍</div>
-            <h3>Dive Sites</h3>
-          </div>
-          <p style="margin-bottom:10px">Beginner dives may take place at the following dive sites in Tulamben:</p>
-          <div class="pkg-sites">
-            <span class="pkg-site-pill">⚓ Liberty Wreck</span>
-            <span class="pkg-site-pill">🪸 Coral Garden</span>
-          </div>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- Requirements -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">✅</div>
-            <h3>Requirements</h3>
-          </div>
-          <div class="pkg-req-box">No prior diving experience is required; however divers must be at least <strong>12 years old</strong>, have adequate swimming skills, and be in good physical health.</div>
-        </div>
-
-        <div class="pkg-divider"></div>
-
-        <!-- What's Included -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">🎁</div>
-            <h3>What's Included</h3>
-          </div>
-          <ul class="pkg-included-grid">
-            <li>Equipment Rental: mask, wetsuit, fins, BCD, regulator, tank, weights</li>
-            <li>Private dive master</li>
-            <li>Lunch, snacks, coffee, tea, and drinking water</li>
-            <li>Photos and videos</li>
-            <li>Pick-up and drop-off from hotels in Tulamben, if requested (from Amed 50k IDR each way)</li>
-            <li>Transportation to/from dive center to dive sites in Tulamben</li>
-            <li>Dive site entrance tickets and porter fee</li>
-            <li>Free wifi at the dive center</li>
-            <li>Towel, soap, and shampoo</li>
-          </ul>
-        </div>
-
-      </div><!-- end pkg-modal-body -->
-    </div><!-- end pkg-modal -->
-  </div><!-- end dsd-pkg-modal -->
-
-
-  <!-- Rescue Diver Package Details Modal -->
-  <div id="rescue-pkg-modal" class="pkg-modal-overlay" onclick="if(event.target===this)document.getElementById('rescue-pkg-modal').classList.remove('open')">
-    <div class="pkg-modal">
-      <!-- Hero Banner -->
-      <div class="pkg-modal-hero" style="background-image: linear-gradient(to bottom, rgba(10,20,40,0.45), rgba(10,20,40,0.75)), url('Single1.jpg');">
-        <button class="pkg-modal-close" onclick="document.getElementById('rescue-pkg-modal').classList.remove('open')">✕</button>
-        <div class="pkg-modal-hero-content">
-          <span class="pkg-modal-hero-tag">🚑 Rescue Certification</span>
-          <h2>Rescue Diver</h2>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Certification" data-zh="认证">Certification</span>
+          <span class="modal-meta-value" data-en="PADI Rescue Diver" data-zh="PADI 救援潜水员">PADI Rescue Diver</span>
         </div>
       </div>
-      <!-- Body -->
-      <div class="pkg-modal-body">
-        <!-- Meta row -->
-        <div class="pkg-meta-row">
-          <div class="pkg-emoji-badge">📅</div>
-          <div>
-            <div class="pkg-meta-label">Length</div>
-            <div class="pkg-meta-val">2 Days</div>
-          </div>
-        </div>
-        <!-- Course Description -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">📖</div>
-            <h3>Description</h3>
-          </div>
-          <p>This course will prepare you to prevent and manage different types of emergencies that can occur while diving. It is one of the more challenging courses, but also one of the most rewarding. You'll walk away not only more prepared to keep your buddy safe, but also yourself! In addition to becoming more confident at managing crisis situations, upon completing this course you will also receive your PADI Rescue Diver Certification. The PADI Rescue Diver Course consists of the following:</p>
-          <p><strong>Knowledge Development:</strong> Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn how to think like a rescue diver and become familiar with the techniques you may need to use when responding to emergencies. Topics include:</p>
-          <ul class="pkg-included-grid" style="list-style:disc;padding-left:1.2rem;">
-            <li>Self rescue</li>
-            <li>Recognizing and managing stress in other divers</li>
-            <li>Emergency management and equipment</li>
-            <li>Rescuing panicked divers</li>
-            <li>Rescuing unresponsive divers</li>
-          </ul>
-          <p><strong>Rescue Dives:</strong> Through a series of rescue exercises in the pool and the sea, you'll get the opportunity to put your Rescue Diver knowledge and skills into practice.</p>
-          <p><strong>Final Exam:</strong> In order to successfully complete the course and receive your PADI Rescue Diver Certification, students must pass a written Final Exam.</p>
-        </div>
-        <div class="pkg-divider"></div>
-        <!-- Requirements -->
-        <div class="pkg-section">
-          <div class="pkg-section-header">
-            <div class="pkg-section-icon">✅</div>
-            <h3>Requirements</h3>
-          </div>
-          <div class="pkg-req-box">To enroll in this course, students must already have their <strong>PADI Advanced Open Water Diver Certification</strong>, have completed an <strong>Emergency First Response (EFR)</strong> training, and be in good physical health.</div>
-        </div>
-      </div><!-- end pkg-modal-body -->
-    </div><!-- end pkg-modal -->
-  </div><!-- end rescue-pkg-modal -->
+    </div>
 
-<script>
-(function(){
-  /* ── Mask Reveal Animation ── */
-(function(){
-  function revealCards(){
-    var cards = document.querySelectorAll('.courses-grid .course-card:not(.is-revealed)');
-    if(!cards.length){ window.removeEventListener('scroll', revealCards); return; }
-    cards.forEach(function(card){
-      var rect = card.getBoundingClientRect();
-      if(rect.top < window.innerHeight - 50){
-        var allCards = document.querySelectorAll('.courses-grid .course-card');
-        var idx = Array.from(allCards).indexOf(card);
-        card.style.animationDelay = (idx * 0.15) + 's';
-        card.classList.add('is-revealed');
-      }
-    });
-  }
-  window.addEventListener('scroll', revealCards, { passive: true });
-  /* also check on load in case already in view */
-  if(document.readyState === 'complete'){ revealCards(); }
-  else { window.addEventListener('load', revealCards); }
-})();
-</script></body>
+    <!-- Body -->
+    <div class="course-modal-body">
+
+      <h3 data-en="Course Description" data-zh="课程介绍">Course Description</h3>
+      <p data-en="This course will prepare you to prevent and manage different types of emergencies that can occur while diving. It is one of the more challenging courses, but also one of the most rewarding. You'll walk away not only more prepared to keep your buddy safe, but also yourself! In addition to becoming more confident at managing crisis situations, upon completing this course you will also receive your PADI Rescue Diver Certification. The PADI Rescue Diver Course consists of the following:" data-zh="本课程将让您学会预防和应对潜水中可能发生的各种紧急情况。这是最具挑战性的课程之一，但也是最令人有成就感的。完成课程后，您不仅能更好地保护潜伴，也能更好地保护自己！除了提升应对危机情况的信心，完成课程后您还将获得 PADI 救援潜水员认证。PADI 救援潜水员课程包含以下内容：">This course will prepare you to prevent and manage different types of emergencies that can occur while diving. It is one of the more challenging courses, but also one of the most rewarding. You'll walk away not only more prepared to keep your buddy safe, but also yourself! In addition to becoming more confident at managing crisis situations, upon completing this course you will also receive your PADI Rescue Diver Certification. The PADI Rescue Diver Course consists of the following:</p>
+      <ul>
+        <li><strong data-en="Knowledge Development:" data-zh="知识学习：">Knowledge Development:</strong> <span data-en="Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn how to think like a rescue diver and become familiar with the techniques you may need to use when responding to emergencies. Topics include:" data-zh="通过阅读、短练习、测验及教练引导，您将学会以救援潜水员的思维模式思考，并熟悉应对紧急情况所需的技巧。主题包括：">Through a combination of reading, short exercises, quizzes, and instructor-led training, you'll learn how to think like a rescue diver and become familiar with the techniques you may need to use when responding to emergencies. Topics include:</span></li>
+        <li data-en="Self rescue" data-zh="自我救援">Self rescue</li>
+        <li data-en="Recognizing and managing stress in other divers" data-zh="识别和管理其他潜水员的压力">Recognizing and managing stress in other divers</li>
+        <li data-en="Emergency management and equipment" data-zh="紧急情况管理与装备">Emergency management and equipment</li>
+        <li data-en="Rescuing panicked divers" data-zh="救援恐慌的潜水员">Rescuing panicked divers</li>
+        <li data-en="Rescuing unresponsive divers" data-zh="救援无反应的潜水员">Rescuing unresponsive divers</li>
+        <li><strong data-en="Rescue Dives:" data-zh="救援潜水：">Rescue Dives:</strong> <span data-en="Through a series of rescue exercises in the pool and the sea, you'll get the opportunity to put your Rescue Diver knowledge and skills into practice." data-zh="通过在泳池和海洋中一系列的救援练习，您将有机会将救援潜水员的知识和技能付诸实践。">Through a series of rescue exercises in the pool and the sea, you'll get the opportunity to put your Rescue Diver knowledge and skills into practice.</span></li>
+        <li><strong data-en="Final Exam:" data-zh="结业考试：">Final Exam:</strong> <span data-en="In order to successfully complete the course and receive your PADI Rescue Diver Certification, students must pass a written Final Exam." data-zh="为顺利完成课程并获得 PADI 救援潜水员认证，学员须通过书面结业考试。">In order to successfully complete the course and receive your PADI Rescue Diver Certification, students must pass a written Final Exam.</span></li>
+      </ul>
+
+      <h3 data-en="Requirements" data-zh="参与要求">Requirements</h3>
+      <p data-en="To enroll in this course, students must already have their PADI Advanced Open Water Diver Certification, have completed an Emergency First Response (EFR) training, and be in good physical health." data-zh="报名本课程须持有 PADI 进阶开放水域潜水员认证，完成紧急第一反应（EFR）培训，且身体健康。">To enroll in this course, students must already have their PADI Advanced Open Water Diver Certification, have completed an Emergency First Response (EFR) training, and be in good physical health.</p>
+
+    </div>
+  </div>
+</div>
+
+<div id="nitrox-detail-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="course-modal-box">
+
+    <!-- Header -->
+    <div class="course-modal-header">
+      <button class="course-modal-close" onclick="document.getElementById('nitrox-detail-modal').classList.remove('open')">&#x2715;</button>
+      <div class="modal-badge" data-en="Speciality" data-zh="专长">Speciality</div>
+      <h2 data-en="Nitrox (Enriched Air Diver)" data-zh="高氧空气潜水员">Nitrox (Enriched Air Diver)</h2>
+      <p class="modal-subtitle" data-en="Longer Bottom Times &nbsp;·&nbsp; Tulamben, Bali" data-zh="更长海底停留时间 &nbsp;·&nbsp; 巴厘岛 Tulamben">Longer Bottom Times &nbsp;·&nbsp; Tulamben, Bali</p>
+      <div class="modal-meta-row">
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Type" data-zh="类型">Type</span>
+          <span class="modal-meta-value" data-en="Knowledge-Based" data-zh="理论课程">Knowledge-Based</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Max O₂" data-zh="最大含氧量">Max O&#x2082;</span>
+          <span class="modal-meta-value" data-en="40%" data-zh="40%">40%</span>
+        </div>
+        <div class="modal-meta-item">
+          <span class="modal-meta-label" data-en="Prerequisite" data-zh="前置要求">Prerequisite</span>
+          <span class="modal-meta-value" data-en="OW Certification" data-zh="OW 认证">OW Certification</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="course-modal-body">
+
+      <h3 data-en="Course Description" data-zh="课程介绍">Course Description</h3>
+      <p data-en="The PADI Enriched Air Diver course is the most popular PADI specialty course. Diving with enriched air (nitrox) can increase your bottom time, especially on repetitive dives, and help you feel more refreshed after your dives. In this course you'll learn how to safely plan and conduct dives using enriched air mixtures of up to 40% oxygen, and upon completion receive your PADI Enriched Air Diver certification." data-zh="PADI 高氧空气潜水员课程是最受欢迎的 PADI 专长课程。使用高氧空气（Nitrox）潜水可以增加海底停留时间，尤其是在重复潜水时，并帮助您在潜水后感觉更加清爽。在本课程中，您将学习如何安全规划和使用含氧量高达 40% 的高氧混合气进行潜水，完成课程后将获得 PADI 高氧空气潜水员认证。">The PADI Enriched Air Diver course is the most popular PADI specialty course. Diving with enriched air (nitrox) can increase your bottom time, especially on repetitive dives, and help you feel more refreshed after your dives. In this course you'll learn how to safely plan and conduct dives using enriched air mixtures of up to 40% oxygen, and upon completion receive your PADI Enriched Air Diver certification.</p>
+
+      <h3 data-en="What You'll Cover" data-zh="课程内容">What You'll Cover</h3>
+      <ul>
+        <li><strong data-en="Knowledge Development:" data-zh="知识学习：">Knowledge Development:</strong> <span data-en="Understand the benefits and risks of enriched air diving. Topics include:" data-zh="了解高氧空气潜水的益处和风险。主题包括：">Understand the benefits and risks of enriched air diving. Topics include:</span></li>
+        <li data-en="What enriched air is and how it benefits divers" data-zh="什么是高氧空气及其对潜水员的益处">What enriched air is and how it benefits divers</li>
+        <li data-en="Oxygen toxicity — risks and how to manage them" data-zh="氧中毒——风险与管理方法">Oxygen toxicity — risks and how to manage them</li>
+        <li data-en="Planning dives with enriched air using dive tables or a computer" data-zh="使用潜水表或电脑规划高氧潜水">Planning dives with enriched air using dive tables or a computer</li>
+        <li data-en="Analyzing your cylinder to confirm the oxygen percentage" data-zh="分析气瓶以确认含氧百分比">Analyzing your cylinder to confirm the oxygen percentage</li>
+        <li data-en="Equipment considerations for enriched air diving" data-zh="高氧潜水的装备注意事项">Equipment considerations for enriched air diving</li>
+        <li><strong data-en="Cylinder Analysis:" data-zh="气瓶分析：">Cylinder Analysis:</strong> <span data-en="Hands-on practice analyzing your enriched air tank and labelling it correctly before each dive." data-zh="实操练习分析高氧气瓶并在每次潜水前正确标记。">Hands-on practice analyzing your enriched air tank and labelling it correctly before each dive.</span></li>
+        <li><strong data-en="Optional Dives:" data-zh="可选潜水：">Optional Dives:</strong> <span data-en="Apply your nitrox knowledge on real open-water dives using enriched air (dives can be added for an additional fee)." data-zh="在真实开放水域潜水中应用您的高氧知识（可额外付费添加潜水）。">Apply your nitrox knowledge on real open-water dives using enriched air (dives can be added for an additional fee).</span></li>
+      </ul>
+
+      <h3 data-en="Requirements" data-zh="参与要求">Requirements</h3>
+      <p data-en="Must hold a PADI Open Water Diver Certification (or equivalent) and be at least 10 years old. No prior enriched air experience required — this is a knowledge-based specialty course with no mandatory open-water dives." data-zh="须持有 PADI 开放水域潜水员认证（或同等资质），年满 10 岁。无需高氧潜水经验——这是一门理论型专长课程，无强制开放水域潜水要求。">Must hold a PADI Open Water Diver Certification (or equivalent) and be at least 10 years old. No prior enriched air experience required — this is a knowledge-based specialty course with no mandatory open-water dives.</p>
+
+    </div>
+  </div>
+</div>
+</body>
 </html>
