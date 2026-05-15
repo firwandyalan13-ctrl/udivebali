@@ -186,11 +186,25 @@
     .section-sub { color: var(--muted); font-size: 1rem; max-width: 560px; }
 
     /* ===== COURSES ===== */
-    #courses { padding: 80px 60px; background: var(--navy); }
+    #courses { padding: 80px 60px; background: var(--navy); position: relative; overflow: hidden; }
+    #courses .course-bg-video {
+      position: absolute; top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover; z-index: 0;
+      opacity: 0.35; pointer-events: none;
+    }
+    #courses .courses-header,
+    #courses .courses-grid { position: relative; z-index: 1; }
+    #courses::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(180deg, rgba(12,24,39,0.7) 0%, rgba(12,24,39,0.5) 50%, rgba(12,24,39,0.85) 100%);
+    }
     .courses-header { margin-bottom: 50px; }
     .courses-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
     .course-card {
-      background: var(--card-bg);
+      background: rgba(14,34,55,0.85);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(232,112,42,0.15);
       border-radius: 16px; padding: 24px 18px; position: relative;
       transition: transform .2s, border-color .2s;
@@ -239,6 +253,32 @@
     .courses-grid .course-card:nth-child(3) { transition-delay: 0.3s; }
     .courses-grid .course-card:nth-child(4) { transition-delay: 0.45s; }
     .courses-grid .course-card:nth-child(5) { transition-delay: 0.6s; }
+    /* ===== COURSE CARD SCROLL SPOTLIGHT ===== */
+    .courses-grid .course-card.is-visible {
+      opacity: 0.5;
+      transform: translateY(0) scale(0.96);
+      filter: brightness(0.65);
+      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s, box-shadow 0.3s, filter 0.4s;
+    }
+    .courses-grid:hover .course-card.is-visible {
+      opacity: 0.5;
+      transform: translateY(0) scale(0.96);
+      filter: brightness(0.65);
+    }
+    .courses-grid:hover .course-card.is-visible:hover {
+      opacity: 1;
+      transform: translateY(-8px) scale(1.04);
+      filter: brightness(1);
+      border-color: var(--orange);
+      box-shadow: 0 16px 48px rgba(232,112,42,0.25);
+      z-index: 2;
+    }
+    /* When no card hovered, all look normal */
+    .courses-grid:not(:hover) .course-card.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: brightness(1);
+    }
 
     /* ===== FUN DIVE CALCULATOR ===== */
     #fundive { padding: 80px 60px; background: var(--navy2); }
@@ -999,6 +1039,9 @@
 
 <!-- ===== COURSES ===== -->
 <section id="courses">
+  <video class="course-bg-video" autoplay muted loop playsinline>
+    <source src="course-bg-video.mp4" type="video/mp4">
+  </video>
   <div class="courses-header">
     <div class="section-tag" data-en="Diving Courses" data-zh="潜水课程">Diving Courses</div>
     <h2 class="section-title" data-en="More Than Diving,<br>A Life-Changing Experience" data-zh="不仅仅是潜水，<br>这是一场改变人生的体验">More Than Diving,<br>A Life-Changing Experience</h2>
