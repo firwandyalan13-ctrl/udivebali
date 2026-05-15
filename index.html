@@ -1039,9 +1039,28 @@
 
 <!-- ===== COURSES ===== -->
 <section id="courses">
-  <video class="course-bg-video" autoplay muted loop playsinline>
+  <video class="course-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto">
     <source src="course-bg-video.mp4" type="video/mp4">
   </video>
+  <script>
+    (function(){
+      var v = document.querySelector('.course-bg-video');
+      if (!v) return;
+      v.play().catch(function(){
+        // iOS fallback: play on first user interaction
+        var started = false;
+        function tryPlay() {
+          if (started) return;
+          started = true;
+          v.play().catch(function(){});
+          document.removeEventListener('touchstart', tryPlay);
+          document.removeEventListener('click', tryPlay);
+        }
+        document.addEventListener('touchstart', tryPlay, {once: false});
+        document.addEventListener('click', tryPlay, {once: false});
+      });
+    })();
+  </script>
   <div class="courses-header">
     <div class="section-tag" data-en="Diving Courses" data-zh="潜水课程">Diving Courses</div>
     <h2 class="section-title" data-en="More Than Diving,<br>A Life-Changing Experience" data-zh="不仅仅是潜水，<br>这是一场改变人生的体验">More Than Diving,<br>A Life-Changing Experience</h2>
