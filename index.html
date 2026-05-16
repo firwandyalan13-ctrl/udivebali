@@ -254,30 +254,40 @@
     .courses-grid .course-card:nth-child(4) { transition-delay: 0.45s; }
     .courses-grid .course-card:nth-child(5) { transition-delay: 0.6s; }
     /* ===== COURSE CARD SCROLL SPOTLIGHT ===== */
-    .courses-grid .course-card.is-visible {
-      opacity: 0.5;
-      transform: translateY(0) scale(0.96);
-      filter: brightness(0.65);
-      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s, box-shadow 0.3s, filter 0.4s;
+    /* Desktop only — touch devices have no hover */
+    @media (hover: hover) and (pointer: fine) {
+      .courses-grid .course-card.is-visible {
+        opacity: 0.5;
+        transform: translateY(0) scale(0.96);
+        filter: brightness(0.65);
+        transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s, box-shadow 0.3s, filter 0.4s;
+      }
+      .courses-grid:hover .course-card.is-visible {
+        opacity: 0.5;
+        transform: translateY(0) scale(0.96);
+        filter: brightness(0.65);
+      }
+      .courses-grid:hover .course-card.is-visible:hover {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.04);
+        filter: brightness(1);
+        border-color: var(--orange);
+        box-shadow: 0 16px 48px rgba(232,112,42,0.25);
+        z-index: 2;
+      }
+      .courses-grid:not(:hover) .course-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+      }
     }
-    .courses-grid:hover .course-card.is-visible {
-      opacity: 0.5;
-      transform: translateY(0) scale(0.96);
-      filter: brightness(0.65);
-    }
-    .courses-grid:hover .course-card.is-visible:hover {
-      opacity: 1;
-      transform: translateY(-8px) scale(1.04);
-      filter: brightness(1);
-      border-color: var(--orange);
-      box-shadow: 0 16px 48px rgba(232,112,42,0.25);
-      z-index: 2;
-    }
-    /* When no card hovered, all look normal */
-    .courses-grid:not(:hover) .course-card.is-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: brightness(1);
+    /* Touch devices: all cards fully visible, no spotlight */
+    @media (hover: none) {
+      .courses-grid .course-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+      }
     }
 
     /* ===== FUN DIVE CALCULATOR ===== */
