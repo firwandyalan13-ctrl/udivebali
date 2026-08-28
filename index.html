@@ -1263,6 +1263,13 @@
     'Primary dive area': '主要潜水区域',
     'Choose 1–9 dives · maximum 3 dives per day.': '选择 1–9 潜 · 每天最多 3 潜。',
     'Tulamben dive package': '图兰奔潜水套餐',
+    'Select a package. Click the same option again to cancel.': '请选择套餐。再次点击同一选项即可取消。',
+    'Select a course. Click the same option again to cancel.': '请选择课程。再次点击同一选项即可取消。',
+    'Click the same option again to cancel.': '再次点击同一选项即可取消。',
+    'Select a Tulamben dive package to see your estimate': '请选择图兰奔潜水套餐后查看报价',
+    'Select a course to see your estimate': '请选择课程后查看报价',
+    'Select a Tulamben dive package.': '请选择图兰奔潜水套餐。',
+    'Select a course.': '请选择课程。',
     'Optional Nusa Penida day trip': '可选努沙佩尼达一日行程',
     'Date assigned by UDive Bali': '日期由 UDive Bali 安排',
     'UDive Bali will assign the Nusa Penida date within your selected range. Maximum one day; no Tulamben dives that day.': 'UDive Bali 将在所选日期范围内安排努沙佩尼达日期。最多一天；当天不安排图兰奔潜水。',
@@ -1440,12 +1447,21 @@ function dateRangeDays(startISO, endISO) {
   return Math.floor((toUTC(endISO) - toUTC(startISO)) / 86400000) + 1;
 }
 
+function hasTulambenPackage(dives) {
+  return Object.prototype.hasOwnProperty.call(PACKAGES, Number(dives));
+}
+
 function minimumFDTripDays(dives, includePenida) {
-  return Math.ceil(Number(dives) / MAX_TULAMBEN_DIVES_PER_DAY) + (includePenida ? PENIDA.maxDays : 0);
+  const diveCount = Number(dives);
+  const tulambenDays = hasTulambenPackage(diveCount)
+    ? Math.ceil(diveCount / MAX_TULAMBEN_DIVES_PER_DAY)
+    : 0;
+  return tulambenDays + (includePenida ? PENIDA.maxDays : 0);
 }
 
 function fdDateRangeError({ start, end, dives, includePenida }) {
   if (!start || !end) return 'Select a start and end date.';
+  if (!hasTulambenPackage(dives)) return '';
   const requiredDays = minimumFDTripDays(dives, includePenida);
   const selectedDays = dateRangeDays(start, end);
   if (selectedDays < requiredDays) {
@@ -1598,17 +1614,17 @@ const formatIDR = (value) => `IDR ${Math.round(value).toLocaleString('en-US')}`;
 
 function calculateQuote({
   bookingType = 'fd',
-  courseId = 'ow',
-  dives,
+  courseId = null,
+  dives = null,
   guests,
   includePenida = false,
   addOns = {},
 }) {
   const safeGuests = Math.max(1, Number(guests) || 1);
   const isCourse = bookingType === 'course';
-  const course = isCourse ? (COURSES[courseId] ?? COURSES.ow) : null;
-  const effectiveDives = isCourse ? null : Number(dives);
-  const perGuest = isCourse ? course.price : (PACKAGES[effectiveDives] ?? 0);
+  const course = isCourse ? (COURSES[courseId] ?? null) : null;
+  const effectiveDives = !isCourse && hasTulambenPackage(dives) ? Number(dives) : null;
+  const perGuest = isCourse ? (course ? course.price : 0) : (PACKAGES[effectiveDives] ?? 0);
   const base = perGuest * safeGuests;
   const penidaBase = !isCourse && includePenida ? PENIDA.pricePerGuest * safeGuests : 0;
 
@@ -1635,7 +1651,7 @@ function calculateQuote({
 
   return {
     bookingType: isCourse ? 'course' : 'fd',
-    courseId: isCourse ? courseId : null,
+    courseId: isCourse && course ? courseId : null,
     course,
     effectiveDives,
     guests: safeGuests,
@@ -1643,7 +1659,9 @@ function calculateQuote({
     base,
     includePenida: !isCourse && includePenida,
     penidaBase,
-    minimumDays: isCourse ? course.days : minimumFDTripDays(effectiveDives, includePenida),
+    minimumDays: isCourse
+      ? (course ? course.days : 0)
+      : minimumFDTripDays(effectiveDives, includePenida),
     lines,
     addOnsTotal,
     subtotal,
@@ -1656,10 +1674,18 @@ function validateBooking(data) {
   const errors = {};
 
   if (data.bookingType === 'fd') {
+    if (!hasTulambenPackage(data.dives)) {
+      errors.package = 'Select a Tulamben dive package.';
+    }
     const dateError = fdDateRangeError(data);
     if (dateError) errors.dates = dateError;
-  } else if (!data.start || !data.end) {
-    errors.dates = 'Select a start and end date.';
+  } else {
+    if (!COURSES[data.courseId]) {
+      errors.course = 'Select a course.';
+    }
+    if (!data.start || !data.end) {
+      errors.dates = 'Select a start and end date.';
+    }
   }
   if (!data.name?.trim()) {
     errors.name = 'Enter your full name.';
@@ -1685,11 +1711,11 @@ const todayISO = [
 
 const state = {
   bookingType: 'fd',
-  courseId: 'ow',
+  courseId: null,
   viewYear: now.getFullYear(),
   viewMonth: now.getMonth(),
   range: { start: null, end: null },
-  dives: 2,
+  dives: null,
   includePenida: false,
   guests: 1,
   addOns: Object.fromEntries(Object.keys(ADD_ONS).map((key) => [key, 0])),
@@ -1779,11 +1805,27 @@ function syncDateError() {
   else delete state.errors.dates;
 }
 
+function hasSelectedExperience() {
+  return state.bookingType === 'course'
+    ? Boolean(COURSES[state.courseId])
+    : hasTulambenPackage(state.dives);
+}
+
 function renderCalendar() {
+  if (!els.calendar) return;
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const cells = buildMonth(state.viewYear, state.viewMonth);
   const selectedCourse = COURSES[state.courseId];
   const isCourse = state.bookingType === 'course';
+  if (isCourse && !selectedCourse) {
+    els.calendar.innerHTML = `
+      <div class="calendar-mode">
+        <span>COURSE INSTRUCTOR CAPACITY</span>
+        <strong>Select a course to see your estimate</strong>
+      </div>
+    `;
+    return;
+  }
 
   const dayMarkup = cells.map((cell) => {
     const status = isCourse
@@ -1818,7 +1860,7 @@ function renderCalendar() {
   els.calendar.innerHTML = `
     <div class="calendar-mode">
       <span>${isCourse ? 'COURSE INSTRUCTOR CAPACITY' : 'CERTIFIED FD CAPACITY'}</span>
-      <strong>${isCourse ? `${selectedCourse.shortLabel} · ${durationLabel(selectedCourse)}` : 'Select a flexible date range · minimum ' + minimumFDTripDays(state.dives, state.includePenida) + ' days'}</strong>
+      <strong>${isCourse ? `${selectedCourse.shortLabel} · ${durationLabel(selectedCourse)}` : (hasTulambenPackage(state.dives) ? 'Select a flexible date range · minimum ' + minimumFDTripDays(state.dives, state.includePenida) + ' days' : 'Select a Tulamben dive package to see your estimate')}</strong>
     </div>
     <div class="calendar-toolbar">
       <button type="button" data-calendar="previous" aria-label="Previous month">‹ Previous</button>
@@ -1885,8 +1927,9 @@ function renderFDControls() {
     </div>
   `).join('');
 
-  const tulambenDays = Math.ceil(state.dives / MAX_TULAMBEN_DIVES_PER_DAY);
-  const requiredDays = minimumFDTripDays(state.dives, state.includePenida);
+  const hasPackage = hasTulambenPackage(state.dives);
+  const tulambenDays = hasPackage ? Math.ceil(state.dives / MAX_TULAMBEN_DIVES_PER_DAY) : 0;
+  const requiredDays = hasPackage ? minimumFDTripDays(state.dives, state.includePenida) : 0;
 
   return `
     <div class='control-section'>
@@ -1896,8 +1939,12 @@ function renderFDControls() {
     <div class='control-section'>
       <span class='field-label'>Tulamben dive package</span>
       <div class='package-grid'>${packageMarkup}</div>
-      <p class='form-hint' data-minimum-days>Minimum trip: ${requiredDays} ${requiredDays === 1 ? 'day' : 'days'} (${tulambenDays} Tulamben${state.includePenida ? ' + 1 Nusa Penida' : ''})</p>
+      <p class='form-hint' data-minimum-days>${hasPackage
+        ? `Minimum trip: ${requiredDays} ${requiredDays === 1 ? 'day' : 'days'} (${tulambenDays} Tulamben${state.includePenida ? ' + 1 Nusa Penida' : ''})`
+        : 'Select a package. Click the same option again to cancel.'}</p>
+      ${hasPackage ? '<p class="form-hint">Click the same option again to cancel.</p>' : ''}
     </div>
+    ${hasPackage ? `
     <div class='control-section'>
       <span class='field-label'>Optional Nusa Penida day trip</span>
       <div class='choice-grid'>
@@ -1917,29 +1964,35 @@ function renderFDControls() {
       <div class='addons'>${addOnMarkup}</div>
       <p class='boat-note'>Boat Dive uses ${Math.ceil(state.guests / 2)} ${Math.ceil(state.guests / 2) === 1 ? 'boat' : 'boats'} per selected unit for ${state.guests} ${state.guests === 1 ? 'guest' : 'guests'}.</p>
     </div>
+    ` : ''}
   `;
 }
 
 function renderCourseControls() {
   const cards = Object.entries(COURSES).map(([id, course]) => `
     <button type="button" class="course-card ${state.courseId === id ? 'active' : ''}" data-course="${id}" aria-pressed="${state.courseId === id}">
-      <span class="course-check" aria-hidden="true">${state.courseId === id ? '✓' : ''}</span>
+      ${state.courseId === id ? '<span class="course-check" aria-hidden="true">✓</span>' : ''}
       <strong>${course.label}</strong>
       <small>${durationLabel(course)}</small>
       <b>${formatIDR(course.price)} <span>/ guest</span></b>
     </button>
   `).join('');
 
+  const selectedCourse = COURSES[state.courseId];
+
   return `
     <div class="control-section course-section">
       <span class="field-label">Choose your course</span>
       <div class="course-grid">${cards}</div>
+      <p class="form-hint">${selectedCourse ? 'Click the same option again to cancel.' : 'Select a course. Click the same option again to cancel.'}</p>
     </div>
+    ${selectedCourse ? `
     <div class="control-section quantity-row">
       <div><span class="field-label">Number of students</span><p class="form-hint">Course price × student count</p></div>
       ${quantityControl({ action: 'guest', value: state.guests, min: 1, label: 'students' })}
     </div>
     <p class="course-location-note"><strong>Tulamben training base</strong><span>Course location, schedule, and instructor assignment require final confirmation.</span></p>
+    ` : ''}
   `;
 }
 
@@ -1963,8 +2016,9 @@ function renderTripControls() {
     }
 
     const courseButton = event.target.closest('[data-course]');
-    if (courseButton && courseButton.dataset.course !== state.courseId) {
-      state.courseId = courseButton.dataset.course;
+    if (courseButton) {
+      const nextCourse = courseButton.dataset.course;
+      state.courseId = state.courseId === nextCourse ? null : nextCourse;
       resetDates();
       render();
       return;
@@ -1981,7 +2035,8 @@ function renderTripControls() {
 
     const packageButton = event.target.closest('[data-dives]');
     if (packageButton) {
-      state.dives = Number(packageButton.dataset.dives);
+      const nextDives = Number(packageButton.dataset.dives);
+      state.dives = state.dives === nextDives ? null : nextDives;
       syncDateError();
       state.confirmed = false;
       render();
@@ -2005,6 +2060,21 @@ function renderTripControls() {
 function renderQuote() {
   const current = quote();
   const isCourse = state.bookingType === 'course';
+  const hasSelection = isCourse ? Boolean(current.course) : current.effectiveDives != null;
+
+  if (!hasSelection) {
+    els.quote.innerHTML = `
+      ${renderStepHeading('03', 'REVIEW INSTANT QUOTE', 'Your price estimate', 'step-three-title')}
+      <div class='quote-type-badge'>${isCourse ? 'COURSE' : 'CERTIFIED FD'}</div>
+      <div class='quote-lines'>
+        <div class='quote-row muted'><span>${isCourse ? 'Select a course to see your estimate' : 'Select a Tulamben dive package to see your estimate'}</span><strong>—</strong></div>
+      </div>
+      <p class='quote-note'>Front-end estimate only. Final availability, schedule, and price must be confirmed by UDive Bali.</p>
+      <button class="primary-button" type="button" id="quote-payment-button" disabled>Request Booking · Continue to Payment</button>
+    `;
+    return;
+  }
+
   const headline = isCourse
     ? `${current.course.label} · ${durationLabel(current.course)} × ${current.guests}`
     : `Tulamben / Amed · ${current.effectiveDives} dives × ${current.guests}`;
@@ -2040,6 +2110,7 @@ function fieldError(name) {
 
 
 function openQuotePaymentModal() {
+  if (!hasSelectedExperience()) return;
   const paymentDocument = window.document;
   const modal = paymentDocument.getElementById('booking-modal');
   const itemsContainer = paymentDocument.getElementById('bm-items');
@@ -2084,10 +2155,12 @@ function openQuotePaymentModal() {
 }
 
 function renderGuestForm() {
-  const canRequest = isDateSelectionValid();
-  const dateInstruction = state.bookingType === 'course'
-    ? 'Select a valid course start date to continue.'
-    : 'Select at least ' + minimumFDTripDays(state.dives, state.includePenida) + ' days to continue.';
+  const canRequest = isDateSelectionValid() && hasSelectedExperience();
+  const dateInstruction = !hasSelectedExperience()
+    ? (state.bookingType === 'course' ? 'Select a course to see your estimate' : 'Select a Tulamben dive package to see your estimate')
+    : (state.bookingType === 'course'
+      ? 'Select a valid course start date to continue.'
+      : 'Select at least ' + minimumFDTripDays(state.dives, state.includePenida) + ' days to continue.');
   els.form.innerHTML = `
     ${renderStepHeading('04', 'GUEST DETAILS', 'Prepare your request', 'step-four-title')}
     <form id="booking-form" novalidate>
