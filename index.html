@@ -1348,7 +1348,12 @@
     'guests quantity': '客人人数',
     'Decrease students': '减少学员人数',
     'Increase students': '增加学员人数',
-    'students quantity': '学员人数'
+    'students quantity': '学员人数',
+    'Class language': '授课语言',
+    'English class': '英文班',
+    'Chinese class': '中文班',
+    'No extra charge': '不加价',
+    'English class · included': '英文班 · 不加价'
   });
 
   let quoteLanguage = 'en';
@@ -1373,6 +1378,8 @@
       .replace(/One day/g, '一天')
       .replace(/Discover Scuba/g, '体验潜水')
       .replace(/Try Scuba Diving/g, '无证体验潜水')
+      .replace(/Chinese class/g, '中文班')
+      .replace(/English class/g, '英文班')
       .replace(/No certification needed/g, '无需潜水证')
       .replace(/PADI Advanced Open Water/g, 'PADI 进阶开放水域潜水员')
       .replace(/PADI Open Water/g, 'PADI 开放水域潜水员')
@@ -1531,6 +1538,16 @@ const COURSES = Object.freeze({
   }),
 });
 
+// Chinese-language class surcharge (IDR per student). English class has no surcharge.
+const CHINESE_CLASS_SURCHARGE = Object.freeze({
+  ow: 1_000_000,
+  aow: 1_000_000,
+  owaow: 2_000_000,
+  rescue: 1_000_000,
+});
+
+const hasClassLanguageChoice = (courseId) => Object.prototype.hasOwnProperty.call(CHINESE_CLASS_SURCHARGE, courseId);
+
 const ADD_ONS = Object.freeze({
   macro: { label: 'Macro Dive Site', unit: '2 dives', price: 50_000 },
   night: { label: 'Night Dive', unit: 'dive', price: 100_000 },
@@ -1631,6 +1648,7 @@ const formatIDR = (value) => `IDR ${Math.round(value).toLocaleString('en-US')}`;
 function calculateQuote({
   bookingType = 'fd',
   courseId = null,
+  classLanguage = 'en',
   dives = null,
   guests,
   includePenida = false,
@@ -1644,6 +1662,10 @@ function calculateQuote({
   const effectiveDives = !isCourse && hasTulambenPackage(dives) ? Number(dives) : null;
   const perGuest = isCourse ? (course ? course.price : 0) : (PACKAGES[effectiveDives] ?? 0);
   const base = perGuest * safeGuests;
+  const hasClassChoice = isCourse && !isTryDive && Boolean(course) && hasClassLanguageChoice(courseId);
+  const effectiveClassLanguage = hasClassChoice && classLanguage === 'zh' ? 'zh' : 'en';
+  const classSurchargePerGuest = effectiveClassLanguage === 'zh' ? CHINESE_CLASS_SURCHARGE[courseId] : 0;
+  const classSurcharge = classSurchargePerGuest * safeGuests;
   const penidaBase = !isCourse && includePenida ? PENIDA.pricePerGuest * safeGuests : 0;
   const amedBase = !isCourse && includeAmed ? AMED.pricePerGuest * safeGuests : 0;
 
@@ -1665,7 +1687,7 @@ function calculateQuote({
     .filter((line) => line.quantity > 0);
 
   const addOnsTotal = lines.reduce((sum, line) => sum + line.amount, 0);
-  const subtotal = base + penidaBase + amedBase + addOnsTotal;
+  const subtotal = base + classSurcharge + penidaBase + amedBase + addOnsTotal;
   const tax = Math.round(subtotal * TAX_RATE);
 
   return {
@@ -1676,6 +1698,10 @@ function calculateQuote({
     guests: safeGuests,
     perGuest,
     base,
+    hasClassChoice,
+    classLanguage: effectiveClassLanguage,
+    classSurchargePerGuest,
+    classSurcharge,
     includePenida: !isCourse && includePenida,
     includeAmed: !isCourse && includeAmed,
     amedBase,
@@ -1733,6 +1759,7 @@ const todayISO = [
 const state = {
   bookingType: 'fd',
   courseId: null,
+  classLanguage: 'en',
   viewYear: now.getFullYear(),
   viewMonth: now.getMonth(),
   range: { start: null, end: null },
@@ -1758,6 +1785,7 @@ const els = {
 const quote = () => calculateQuote({
   bookingType: state.bookingType,
   courseId: state.courseId,
+  classLanguage: state.classLanguage,
   dives: state.dives,
   guests: state.guests,
   includePenida: state.includePenida, includeAmed: state.includeAmed,
@@ -2007,6 +2035,21 @@ function renderCourseControls() {
   `).join('');
 
   const selectedCourse = COURSES[state.courseId];
+  const classLanguageMarkup = selectedCourse && hasClassLanguageChoice(state.courseId) ? `
+    <div class="control-section class-language-section">
+      <span class="field-label">Class language</span>
+      <div class="choice-grid" role="group" aria-label="Class language" style="grid-template-columns:1fr 1fr">
+        <button type="button" class="choice-button ${state.classLanguage !== 'zh' ? 'active' : ''}" data-class-language="en" aria-pressed="${state.classLanguage !== 'zh'}">
+          <strong>English class</strong>
+          <small>No extra charge</small>
+        </button>
+        <button type="button" class="choice-button ${state.classLanguage === 'zh' ? 'active' : ''}" data-class-language="zh" aria-pressed="${state.classLanguage === 'zh'}">
+          <strong>Chinese class</strong>
+          <small>+${formatIDR(CHINESE_CLASS_SURCHARGE[state.courseId])} / guest</small>
+        </button>
+      </div>
+    </div>
+  ` : '';
 
   return `
     <div class="control-section course-section">
@@ -2014,6 +2057,7 @@ function renderCourseControls() {
       <div class="course-grid">${cards}</div>
       <p class="form-hint">${selectedCourse ? 'Click the same option again to cancel.' : 'Select a course. Click the same option again to cancel.'}</p>
     </div>
+    ${classLanguageMarkup}
     ${selectedCourse ? `
     <div class="control-section quantity-row">
       <div><span class="field-label">Number of students</span><p class="form-hint">Course price × student count</p></div>
@@ -2071,6 +2115,17 @@ function renderTripControls() {
       state.courseId = state.courseId === nextCourse ? null : nextCourse;
       resetDates();
       render();
+      return;
+    }
+
+    const classLanguageButton = event.target.closest('[data-class-language]');
+    if (classLanguageButton) {
+      const nextLanguage = classLanguageButton.dataset.classLanguage === 'zh' ? 'zh' : 'en';
+      if (nextLanguage !== state.classLanguage) {
+        state.classLanguage = nextLanguage;
+        state.confirmed = false;
+        render();
+      }
       return;
     }
 
@@ -2144,6 +2199,11 @@ function renderQuote() {
   const amedLine = !isCourse && current.includeAmed
     ? `<div class='quote-row'><span>Amed · fixed 2 dives × ${current.guests}</span><strong>${formatIDR(current.amedBase)}</strong></div>`
     : '';
+  const classLine = current.hasClassChoice
+    ? (current.classLanguage === 'zh'
+      ? `<div class='quote-row'><span>Chinese class · +${formatIDR(current.classSurchargePerGuest)} × ${current.guests}</span><strong>${formatIDR(current.classSurcharge)}</strong></div>`
+      : '<div class="quote-row muted"><span>English class · included</span><strong>IDR 0</strong></div>')
+    : '';
   const addOnLines = !isCourse && current.lines.length
     ? current.lines.map((line) => `<div class='quote-row'><span>${line.label} × ${line.quantity}${line.multiplier > 1 ? ` · ${line.multiplier} boats` : ''}</span><strong>${formatIDR(line.amount)}</strong></div>`).join('')
     : (!isCourse ? '<div class="quote-row muted"><span>No other add-ons selected</span><strong>IDR 0</strong></div>' : '');
@@ -2153,6 +2213,7 @@ function renderQuote() {
     <div class='quote-type-badge'>${isTryDive ? 'TRY SCUBA DIVING' : (isCourse ? 'COURSE' : 'CERTIFIED FD')}</div>
     <div class='quote-lines'>
       ${(isCourse || current.effectiveDives !== null) ? `<div class='quote-row'><span>${headline}</span><strong>${formatIDR(current.base)}</strong></div>` : ''}
+      ${classLine}
       ${penidaLine}${amedLine}
       ${addOnLines}
       <div class='quote-divider'></div>
@@ -2202,6 +2263,9 @@ function openQuotePaymentModal() {
   const items = [
     ['Booking Type', isTryDive ? 'Try Scuba Diving' : (isCourse ? 'Course' : 'Certified FD')],
     [isTryDive ? 'Experience' : (isCourse ? 'Course' : 'Tulamben Trip'), tripLabel],
+    ...(current.hasClassChoice ? [['Class language', current.classLanguage === 'zh'
+      ? 'Chinese class +' + formatIDR(current.classSurchargePerGuest) + ' × ' + current.guests + ' = ' + formatIDR(current.classSurcharge)
+      : 'English class · included']] : []),
     ['Nusa Penida', isCourse ? 'Not applicable' : penidaLabel],
     ['Amed Day Trip', isCourse ? 'Not applicable' : amedLabel],
     ['Add-ons', isCourse ? 'Not applicable' : addOnsLabel],
