@@ -534,7 +534,7 @@
     .footer-brand .brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--orange); font-weight: 700; }
     .footer-brand .sub { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; }
     .footer-brand p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 280px; }
-    .footer-col h4 { font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 14px; }
+    .footer-col h3, .footer-col h4 { font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 14px; }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 8px; }
     .footer-col ul li a { text-decoration: none; font-size: 0.85rem; color: rgba(255,255,255,0.5); transition: color .2s; }
@@ -901,6 +901,12 @@
       background:rgba(232,112,42,0.12); border:1px solid rgba(232,112,42,0.3);
       color:var(--orange); font-size:0.82rem; font-weight:600; padding:5px 14px; border-radius:20px;
     }
+    /* a11y contrast fix, scheme B (2026-10-16) */
+    .btn-book-now { color: #080f1a; }
+    .float-chat, .float-chat span { color: #080f1a; }
+    .footer-bottom p { color: #9aa0a8; }
+    .cert { color: #9aa0a8; font-size: 12px; }
+    .footer-col h3 { margin-top: 0; }
 </style>
 <script type="application/ld+json">
 {
@@ -1046,7 +1052,7 @@
   <div class="badge-item">
     <div class="badge-icon">🏆</div>
     <div class="badge-title" data-en="PADI 5 Star IDC Centre #27368" data-zh="PADI 五星级 IDC 中心 #27368">PADI 5 Star IDC Centre #27368</div>
-    <div class="badge-sub" data-en="Dual Directors · CDC Career Development Centre" data-zh="双总监制度 · CDC 职业发展中心">Dual Directors · CDC Career Development Centre</div>
+    <div class="badge-sub" data-en="Dual Directors · PADI 5 Star IDC" data-zh="双总监制度 · PADI 五星级 IDC">Dual Directors · PADI 5 Star IDC</div>
   </div>
   <div class="badge-item">
     <div class="badge-icon">🏡</div>
@@ -2708,7 +2714,7 @@ render();
       <div class="about-hero">
       <div class="about-hero-text">
     <div class="section-tag" data-en="Don't Just Get Certified — Learn to Truly Dive" data-zh="不只是考证 — 学会真正的潜水">Don't Just Get Certified — Learn to Truly Dive</div>
-    <h2 class="section-title" data-en="Meet the PADI CDC Dual-Director Dive School<br><span style='color:var(--orange)'>UDive</span>" data-zh="遇见 PADI CDC 双总监潜水学校<br><span style='color:var(--orange)'>UDive</span>">Meet the PADI CDC Dual-Director Dive School<br><span style="color:var(--orange)">UDive</span></h2>
+    <h2 class="section-title" data-en="Meet the PADI 5 Star IDC Dual-Director Dive School<br><span style='color:var(--orange)'>UDive</span>" data-zh="遇见 PADI 五星级 IDC 双总监潜水学校<br><span style='color:var(--orange)'>UDive</span>">Meet the PADI 5 Star IDC Dual-Director Dive School<br><span style="color:var(--orange)">UDive</span></h2>
     <p class="section-sub" data-en="In the deep blue, the sound of your breath is the only language that matters. Are you here to collect a card, or to open a new chapter of your life? If you're looking for a dive school that's not just professional — but truly understands the needs of divers and can take you all the way from beginner to instructor — UDive was built for you." data-zh="在深蓝的大海里，你的呼吸声是唯一重要的语言。你是为了拿一张证，还是为了开启人生的新篇章？如果你在寻找一家不仅专业，且真正了解潜水员需求、能带你从零基础一路走到教练级别的潜水学校——UDive 就是为你而建的。">
       In the deep blue, the sound of your breath is the only language that matters. Are you here to collect a card, or to open a new chapter of your life?
       If you're looking for a dive school that's not just professional — but truly understands the needs of divers and can take you all the way from beginner to instructor — UDive was built for you.
@@ -2740,7 +2746,7 @@ render();
       <!-- Card 1: Authority -->
       <div class="about-card">
         <div class="about-card-icon">🏅</div>
-        <h3 data-en="More Than Five Stars: A PADI CDC Career Development Centre" data-zh="超越五星级：PADI CDC 职业发展中心">More Than Five Stars: A PADI CDC Career Development Centre</h3>
+        <h3 data-en="More Than Five Stars: A PADI 5 Star IDC Dive Centre" data-zh="超越五星级：PADI 五星级 IDC 潜水中心">More Than Five Stars: A PADI 5 Star IDC Dive Centre</h3>
         <p data-en="UDive is not just a dive shop — it's the elite academy for divers." data-zh="UDive不仅仅是一家潜水店，它是潜水员的精英学院。">UDive is not just a dive shop — it's the elite academy for divers.</p>
         <ul style="margin-top:12px;">
           <li><strong style="color:var(--cream)" data-en="Dual Directors:" data-zh="双总监制度:">Dual Directors:</strong> <span data-en="Headquartered in Tioman Island, Malaysia — one of the industry's rare PADI CDC (Career Development Centres) and IDCC 5-Star Instructor Development Centres." data-zh="总部设于马来西亚刁曼岛——业内少有的 PADI CDC（职业发展中心）和 IDCC 五星教练发展中心。">Headquartered in Tioman Island, Malaysia — one of the industry's rare PADI CDC (Career Development Centres) and IDCC 5-Star Instructor Development Centres.</span></li>
@@ -2892,11 +2898,11 @@ render();
         </div>
       </div>
       <div>
-        <label data-en="Planned Travel Date *" data-zh="计划出行日期 *">Planned Travel Date *</label>
+        <label for="bk_date" data-en="Planned Travel Date *" data-zh="计划出行日期 *">Planned Travel Date *</label>
         <input type="date" id="bk_date" required>
       </div>
       <div>
-        <label data-en="Interest *" data-zh="意向项目 *">Interest *</label>
+        <label for="bk_interest" data-en="Interest *" data-zh="意向项目 *">Interest *</label>
         <select id="bk_interest" required>
           <option value="" data-en="Select Your Interest" data-zh="选择您的意向项目">Select Your Interest</option>
           <option data-en="PADI Open Water Diver (OW)" data-zh="PADI 开放水域潜水员 (OW)">PADI Open Water Diver (OW)</option>
@@ -3001,7 +3007,7 @@ render();
       <p data-en="Tulamben's most trusted PADI 5 Star IDC dive center and boutique resort. 7 years dedicated to creating safe, unforgettable diving experiences." data-zh="图兰奔最值得信赖的 PADI 五星级 IDC 潜水中心及精品度假村。7年致力于打造安全、难忘的潜水体验。">Tulamben's most trusted PADI 5 Star IDC dive center and boutique resort. 7 years dedicated to creating safe, unforgettable diving experiences.</p>
     </div>
     <div class="footer-col">
-      <h4 data-en="Courses" data-zh="潜水课程">Courses</h4>
+      <h3 data-en="Courses" data-zh="潜水课程">Courses</h3>
       <ul>
         <li><a href="#courses" data-en="PADI Open Water OW" data-zh="开放水域潜水员 OW">PADI Open Water OW</a></li>
         <li><a href="#courses" data-en="PADI Advanced AOW" data-zh="进阶潜水员 AOW">PADI Advanced AOW</a></li>
@@ -3011,7 +3017,7 @@ render();
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-en="Resort" data-zh="度假村">Resort</h4>
+      <h3 data-en="Resort" data-zh="度假村">Resort</h3>
       <ul>
         <li><a href="#resort" data-en="Single Room" data-zh="单人客房">Single Room</a></li>
         <li><a href="#resort" data-en="Double Room" data-zh="双人客房">Double Room</a></li>
@@ -3020,7 +3026,7 @@ render();
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-en="About Us" data-zh="关于我们">About Us</h4>
+      <h3 data-en="About Us" data-zh="关于我们">About Us</h3>
       <ul>
         <li><a href="#about" data-en="Our Team" data-zh="团队介绍">Our Team</a></li>
         <li><a href="#social" data-en="Community" data-zh="玩家社区">Community</a></li>
@@ -3033,7 +3039,7 @@ render();
     <p data-en="© 2025 Udive Bali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali" data-zh="© 2025 Udive Bali. 保留所有权利。 · 地址：Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali">© 2025 Udive Bali. All rights reserved. · Jl. Singaraja-Amlapura, Tulamben, Kubu, Karangasem Regency, Bali</p>
     <div class="footer-certs">
       <span class="cert">PADI 5 Star IDC #27368</span>
-      <span class="cert">CDC Career Dev. Center</span>
+      <span class="cert">5 Star IDC Centre</span>
       <span class="cert">IDCC 5-Star</span>
     </div>
   </div>
