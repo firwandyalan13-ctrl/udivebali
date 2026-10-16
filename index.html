@@ -1021,8 +1021,8 @@
 <!-- ===== HERO ===== -->
 <section id="hero">
   <a href="https://www.padi.com/" target="_blank">
-    <img src="PADI60.png" alt="PADI 60 Years" class="padi-60-logo hero-logo-fade" id="hero-logo-a">
-    <img src="padi5star.png" alt="PADI 5 Star Instructor Development Centre" class="padi-60-logo hero-logo-fade" id="hero-logo-b" style="opacity:0;">
+    <picture><source srcset="PADI60.webp" type="image/webp"><img src="PADI60.png" alt="PADI 60 Years" class="padi-60-logo hero-logo-fade" id="hero-logo-a"></picture>
+    <picture><source srcset="padi5star.webp" type="image/webp"><img src="padi5star-sm.png" alt="PADI 5 Star Instructor Development Centre" class="padi-60-logo hero-logo-fade" id="hero-logo-b" style="opacity:0;"></picture>
   </a>
   <div class="hero-tag" data-en="✦ Tulamben, Bali" data-zh="✦ 印度尼西亚 巴厘岛 图兰奔">✦ Tulamben, Bali</div>
   <h1 data-en="Tulamben<br><span>PADI 5 Star IDC</span><br>Dive Centre" data-zh="图兰奔<br><span>PADI 五星级 IDC</span><br>教练发展潜水中心">Tulamben<br><span>PADI 5 Star IDC</span><br>Dive Centre</h1>
@@ -1087,26 +1087,28 @@
 
 <!-- ===== COURSES ===== -->
 <section id="courses">
-  <video class="course-bg-video" autoplay muted loop playsinline webkit-playsinline preload="auto">
-    <source src="course-bg-video.mp4" type="video/mp4">
+  <video class="course-bg-video" muted loop playsinline webkit-playsinline preload="none" poster="course-bg-poster.webp">
+    <source data-src="course-bg-video-540.mp4" type="video/mp4">
   </video>
   <script>
     (function(){
       var v = document.querySelector('.course-bg-video');
       if (!v) return;
-      v.play().catch(function(){
-        // iOS fallback: play on first user interaction
-        var started = false;
-        function tryPlay() {
-          if (started) return;
-          started = true;
-          v.play().catch(function(){});
-          document.removeEventListener('touchstart', tryPlay);
-          document.removeEventListener('click', tryPlay);
-        }
-        document.addEventListener('touchstart', tryPlay, {once: false});
-        document.addEventListener('click', tryPlay, {once: false});
-      });
+      // Mobile, Save-Data and reduced-motion users only get the poster image
+      var c = navigator.connection || {};
+      if (window.matchMedia('(max-width: 767px)').matches || c.saveData ||
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      function start(){
+        var s = v.querySelector('source[data-src]');
+        if (s) { s.src = s.getAttribute('data-src'); s.removeAttribute('data-src'); v.load(); }
+        v.play().catch(function(){});
+      }
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(es){
+          if (es[0].isIntersecting) { io.disconnect(); start(); }
+        }, {rootMargin: '200px'});
+        io.observe(v);
+      } else { start(); }
     })();
   </script>
   <div class="courses-header">
@@ -2628,9 +2630,9 @@ render();
     <div class="location-map"><iframe title="Udive Bali Tulamben location" src="https://www.google.com/maps?q=Udive+Bali+Tulamben&output=embed" width="100%" height="560" style="border:0;" allowfullscreen loading="lazy"></iframe></div>
     <div class="dive-sites-scroll">
       <p class="group-label" data-en="🤿 WALK-IN SHORE DIVES" data-zh="🤿 步行可达潜点">🤿 WALK-IN SHORE DIVES</p>
-      <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16s1.5 2 4.5 2 4.5-2 4.5-2 1.5 2 4.5 2 4.5-2 4.5-2"/><path d="M5 16V9l7-2 7 4v5"/><path d="M12 7V4"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="USAT Liberty Wreck" data-zh="USAT Liberty 沉船">USAT Liberty Wreck</h3><small data-en="WWII shipwreck" data-zh="二战沉船">WWII shipwreck</small></span><span class="site-dist"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5bc0de" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><circle cx="13" cy="4" r="1.6"/><path d="M11 21l1.5-6-2.5-2 1-5 3 2 2 1"/><path d="M9.5 13 7 21"/></svg><span data-en="2 min walk" data-zh="步行 2 分钟">2 min walk</span></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A WWII US Army cargo ship resting just off shore, now an artificial reef teeming with life. From 5m to 30m, perfect for every level." data-zh="二战美军货轮静卧海岸边，如今已化作生机盎然的人工礁。深度 5–30 米，适合各级潜水员。">A WWII US Army cargo ship resting just off shore, now an artificial reef teeming with life. From 5m to 30m, perfect for every level.</p><img src="dive-usat-liberty.jpg" alt="USAT Liberty Wreck dive site map" loading="lazy" style="width:100%;height:auto;border-radius:8px;margin-top:8px;display:block;" /></div></div>
-      <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-7"/><path d="M12 14c-2-1-3-3-3-6a3 3 0 0 1 6 0c0 3-1 5-3 6Z"/><path d="M8 21c-2-1-3-3-2-6"/><path d="M16 21c2-1 3-3 2-6"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="Coral Garden" data-zh="珊瑚花园">Coral Garden</h3><small data-en="Beginner &amp; macro" data-zh="新手与微距">Beginner &amp; macro</small></span><span class="site-dist"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5bc0de" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><circle cx="13" cy="4" r="1.6"/><path d="M11 21l1.5-6-2.5-2 1-5 3 2 2 1"/><path d="M9.5 13 7 21"/></svg><span data-en="3 min walk" data-zh="步行 3 分钟">3 min walk</span></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A shallow, calm site bursting with soft corals, statues and macro critters. Ideal for Try Scuba Diving and Open Water students." data-zh="水浅流缓，软珊瑚、海底雕像与微距生物密集。适合无证体验潜水与 Open Water 学员。">A shallow, calm site bursting with soft corals, statues and macro critters. Ideal for Try Scuba Diving and Open Water students.</p><img src="dive-coral-garden.jpg" alt="Coral Garden dive site map" loading="lazy" style="width:100%;height:auto;border-radius:8px;margin-top:8px;display:block;" /></div></div>
-      <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 20V9l5-4 5 3v12"/><path d="M15 20v-6l4-2v8"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="Drop-off (The Wall)" data-zh="峭壁潜点">Drop-off (The Wall)</h3><small data-en="Volcanic wall dive" data-zh="火山峭壁">Volcanic wall dive</small></span><span class="site-dist"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5bc0de" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><circle cx="13" cy="4" r="1.6"/><path d="M11 21l1.5-6-2.5-2 1-5 3 2 2 1"/><path d="M9.5 13 7 21"/></svg><span data-en="5 min walk" data-zh="步行 5 分钟">5 min walk</span></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A dramatic volcanic wall plunging into the deep blue, draped with sea fans and gorgonians." data-zh="火山岩峭壁直落深蓝，海扇与柳珊瑚遍布，深潜热门之选。">A dramatic volcanic wall plunging into the deep blue, draped with sea fans and gorgonians.</p><img src="dive-dropoff.jpg" alt="Drop-off (The Wall) dive site map" loading="lazy" style="width:100%;height:auto;border-radius:8px;margin-top:8px;display:block;" /></div></div>
+      <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16s1.5 2 4.5 2 4.5-2 4.5-2 1.5 2 4.5 2 4.5-2 4.5-2"/><path d="M5 16V9l7-2 7 4v5"/><path d="M12 7V4"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="USAT Liberty Wreck" data-zh="USAT Liberty 沉船">USAT Liberty Wreck</h3><small data-en="WWII shipwreck" data-zh="二战沉船">WWII shipwreck</small></span><span class="site-dist"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5bc0de" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><circle cx="13" cy="4" r="1.6"/><path d="M11 21l1.5-6-2.5-2 1-5 3 2 2 1"/><path d="M9.5 13 7 21"/></svg><span data-en="2 min walk" data-zh="步行 2 分钟">2 min walk</span></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A WWII US Army cargo ship resting just off shore, now an artificial reef teeming with life. From 5m to 30m, perfect for every level." data-zh="二战美军货轮静卧海岸边，如今已化作生机盎然的人工礁。深度 5–30 米，适合各级潜水员。">A WWII US Army cargo ship resting just off shore, now an artificial reef teeming with life. From 5m to 30m, perfect for every level.</p><picture><source srcset="dive-usat-liberty.webp" type="image/webp"><img src="dive-usat-liberty.jpg" alt="USAT Liberty Wreck dive site map" loading="lazy" width="1600" height="874" style="width:100%;height:auto;border-radius:8px;margin-top:8px;display:block;" /></picture></div></div>
+      <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-7"/><path d="M12 14c-2-1-3-3-3-6a3 3 0 0 1 6 0c0 3-1 5-3 6Z"/><path d="M8 21c-2-1-3-3-2-6"/><path d="M16 21c2-1 3-3 2-6"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="Coral Garden" data-zh="珊瑚花园">Coral Garden</h3><small data-en="Beginner &amp; macro" data-zh="新手与微距">Beginner &amp; macro</small></span><span class="site-dist"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5bc0de" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><circle cx="13" cy="4" r="1.6"/><path d="M11 21l1.5-6-2.5-2 1-5 3 2 2 1"/><path d="M9.5 13 7 21"/></svg><span data-en="3 min walk" data-zh="步行 3 分钟">3 min walk</span></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A shallow, calm site bursting with soft corals, statues and macro critters. Ideal for Try Scuba Diving and Open Water students." data-zh="水浅流缓，软珊瑚、海底雕像与微距生物密集。适合无证体验潜水与 Open Water 学员。">A shallow, calm site bursting with soft corals, statues and macro critters. Ideal for Try Scuba Diving and Open Water students.</p><picture><source srcset="dive-coral-garden.webp" type="image/webp"><img src="dive-coral-garden.jpg" alt="Coral Garden dive site map" loading="lazy" width="1600" height="874" style="width:100%;height:auto;border-radius:8px;margin-top:8px;display:block;" /></picture></div></div>
+      <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 20V9l5-4 5 3v12"/><path d="M15 20v-6l4-2v8"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="Drop-off (The Wall)" data-zh="峭壁潜点">Drop-off (The Wall)</h3><small data-en="Volcanic wall dive" data-zh="火山峭壁">Volcanic wall dive</small></span><span class="site-dist"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#5bc0de" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px"><circle cx="13" cy="4" r="1.6"/><path d="M11 21l1.5-6-2.5-2 1-5 3 2 2 1"/><path d="M9.5 13 7 21"/></svg><span data-en="5 min walk" data-zh="步行 5 分钟">5 min walk</span></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A dramatic volcanic wall plunging into the deep blue, draped with sea fans and gorgonians." data-zh="火山岩峭壁直落深蓝，海扇与柳珊瑚遍布，深潜热门之选。">A dramatic volcanic wall plunging into the deep blue, draped with sea fans and gorgonians.</p><picture><source srcset="dive-dropoff.webp" type="image/webp"><img src="dive-dropoff.jpg" alt="Drop-off (The Wall) dive site map" loading="lazy" width="1600" height="874" style="width:100%;height:auto;border-radius:8px;margin-top:8px;display:block;" /></picture></div></div>
       <p class="group-label" data-en="🚗 NEARBY DRIVES" data-zh="🚗 周边车程潜点">🚗 NEARBY DRIVES</p>
       <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16s1.5 2 4.5 2 4.5-2 4.5-2 1.5 2 4.5 2 4.5-2 4.5-2"/><path d="M5 16V9l7-2 7 4v5"/><path d="M12 7V4"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="Kubu Wreck" data-zh="Kubu 沉船">Kubu Wreck</h3><small data-en="Wreck &amp; reef" data-zh="沉船与珊瑚">Wreck &amp; reef</small></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A purpose-sunk wreck surrounded by healthy reef, rich in schooling fish and macro subjects." data-zh="人工沉放的沉船，四周珊瑚健康、鱼群密集，微距题材丰富。">A purpose-sunk wreck surrounded by healthy reef, rich in schooling fish and macro subjects.</p></div></div>
       <div class="site-card"><button class="site-head" aria-expanded="false"><span class="site-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5bc0de" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-7"/><path d="M12 14c-2-1-3-3-3-6a3 3 0 0 1 6 0c0 3-1 5-3 6Z"/><path d="M8 21c-2-1-3-3-2-6"/><path d="M16 21c2-1 3-3 2-6"/></svg></span><span class="site-name"><h3 class="site-h3" data-en="Kubu Reef" data-zh="Kubu 珊瑚礁">Kubu Reef</h3><small data-en="Coral slope" data-zh="珊瑚缓坡">Coral slope</small></span><span class="site-toggle">+</span></button><div class="site-body"><p data-en="A gentle coral slope teeming with reef fish and critters, ideal for training and photography." data-zh="平缓的珊瑚斜坡，礁鱼与小生物众多，适合训练潜水与水下摄影。">A gentle coral slope teeming with reef fish and critters, ideal for training and photography.</p></div></div>
@@ -2667,7 +2669,7 @@ render();
   <div class="rooms-grid">
     <div class="room-card">
       <div class="room-icon">🛏️</div>
-      <img class="room-card-img" src="room photo/Single1.jpg" alt="Single Deluxe Room" loading="lazy">
+      <picture><source srcset="room photo/Single1.webp" type="image/webp"><img class="room-card-img" src="room photo/Single1-900.jpg" alt="Single Deluxe Room" loading="lazy" width="900" height="1200"></picture>
       <div class="room-cap" data-en="Max 1 Person" data-zh="最多 1 人">Max 1 Person</div>
       <h3 data-en="Single Deluxe" data-zh="豪华单人间">Single Deluxe</h3>
       <p class="room-desc" data-en="Private bathroom, sea breeze, perfect for solo divers" data-zh="独立卫浴，享受海风，独行潜水员的完美之选">Private bathroom, sea breeze, perfect for solo divers</p>
@@ -2682,7 +2684,7 @@ render();
     </div>
     <div class="room-card">
       <div class="room-icon">🛌</div>
-      <img class="room-card-img" src="room photo/double1.jpg" alt="Double Standard Room" loading="lazy">
+      <picture><source srcset="room photo/double1.webp" type="image/webp"><img class="room-card-img" src="room photo/double1-900.jpg" alt="Double Standard Room" loading="lazy" width="900" height="1200"></picture>
       <div class="room-cap" data-en="Max 2 People" data-zh="最多 2 人">Max 2 People</div>
       <h3 data-en="Double Standard" data-zh="标准双人间">Double Standard</h3>
       <p class="room-desc" data-en="Spacious and comfortable, ideal for couples or friends" data-zh="宽敞舒适，情侣或朋友出行的理想选择">Spacious and comfortable, ideal for couples or friends</p>
